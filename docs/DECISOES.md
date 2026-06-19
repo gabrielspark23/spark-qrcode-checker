@@ -23,18 +23,25 @@ revistas antes da Etapa 3/4.
 
 ## Infraestrutura
 
-- **Banco**: projeto Supabase **Sparkleads OS** (`nsqwgjbgcdqyzozyaltz`), confirmado pelo Time.
-  Como o banco é compartilhado com outros domínios, todas as tabelas do
-  Spark Check-in usam o prefixo `checkin_` (ex.: `checkin_events`,
-  `checkin_tickets`). Migration `init_spark_checkin` aplicada em 13/06/2026,
-  com RLS habilitado (acesso do app é server-side via Prisma).
-- **Hospedagem**: Vercel (a provisionar pelo Time — Etapa 5).
+- **Banco**: projeto Supabase **spark-referral-hub** (`mumdhdiliejulkblwhuw`, região
+  us-east-1). Tabelas com prefixo `checkin_` (9 tabelas, FKs e RLS), aplicadas em
+  19/06/2026. Acesso do app é server-side via Prisma (usuário `postgres`).
+  - Pooler (Supavisor) deste projeto: host **`aws-1-us-east-1.pooler.supabase.com`**
+    (atenção: projetos mais novos usam `aws-1`, não `aws-0`). `DATABASE_URL` usa o
+    transaction pooler (6543, `pgbouncer=true`); `DIRECT_URL` usa o session pooler (5432).
+  - Histórico: o schema chegou a ser aplicado no Sparkleads OS, mas foi **removido**
+    de lá (tabelas e role dedicada) ao migrar para o banco dedicado.
+- **Hospedagem**: Vercel — projeto **spark-qrcode-checker**
+  (https://spark-qrcode-checker.vercel.app), deploy de produção ativo.
+- **Autenticação**: o app roda **embutido como iframe no CRM** (sem tela de login);
+  CSP `frame-ancestors` liberado. Escopo de organização resolvido por uma org padrão
+  (multi-tenant futuro via location/SSO do CRM).
 
 ## Pendências 👤 Time (bloqueadores das próximas etapas)
 
-- [ ] Gerar `JWT_SIGNING_KEY` e `TICKET_TOKEN_SECRET` de produção (32+ bytes) e adicionar na Vercel.
-- [ ] Adicionar `DATABASE_URL` de produção (connection string do Sparkleads OS com senha) na Vercel.
-- [ ] Definir `APP_BASE_URL` (domínio do app).
-- [ ] Confirmar D1 (estratégia de e-mail) antes da Etapa 3.
+- [x] Banco de produção provisionado (spark-referral-hub) e `DATABASE_URL`/`DIRECT_URL` na Vercel.
+- [x] `JWT_SIGNING_KEY`, `TICKET_TOKEN_SECRET`, `APP_BASE_URL` configurados na Vercel.
+- [ ] Rotacionar as chaves `service_role`/`sb_secret` do spark-referral-hub (foram expostas no chat; o app não as usa).
+- [ ] Confirmar D1 (já definido: automação Spark/GHL) e montar o workflow no HighLevel — Etapa 4.
 - [ ] Criar app no GHL Developer Portal (`GHL_CLIENT_ID`/`SECRET`) e registrar a redirect URI — Etapa 4.
 - [ ] Criar os custom fields D3 no HighLevel — Etapa 4.

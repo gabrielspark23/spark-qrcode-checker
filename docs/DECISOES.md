@@ -42,6 +42,15 @@ revistas antes da Etapa 3/4.
 - [x] Banco de produção provisionado (spark-referral-hub) e `DATABASE_URL`/`DIRECT_URL` na Vercel.
 - [x] `JWT_SIGNING_KEY`, `TICKET_TOKEN_SECRET`, `APP_BASE_URL` configurados na Vercel.
 - [ ] Rotacionar as chaves `service_role`/`sb_secret` do spark-referral-hub (foram expostas no chat; o app não as usa).
-- [ ] Confirmar D1 (já definido: automação Spark/GHL) e montar o workflow no HighLevel — Etapa 4.
-- [ ] Criar app no GHL Developer Portal (`GHL_CLIENT_ID`/`SECRET`) e registrar a redirect URI — Etapa 4.
-- [ ] Criar os custom fields D3 no HighLevel — Etapa 4.
+- [x] Token de acesso à location configurado (`GHL_LOCATION_TOKEN` = Private Integration Token; `GHL_LOCATION_ID`).
+- [ ] **Criar os custom fields D3 no HighLevel** (`event_name`, `event_date`, `event_location`, `event_qr_link`, `event_qr_image`, `event_checkin_status`, `event_checked_in_at`). Enquanto não existirem, o worker aplica tags/notas normalmente e registra os campos como "ausentes" sem travar a fila.
+- [ ] **Montar o workflow no HighLevel** com gatilho na tag `qrcode-enviado-{slug}` para o e-mail do QR sair de verdade (ver `GHL_EMAIL_WORKFLOW.md`).
+- [ ] OAuth completo (`GHL_CLIENT_ID`/`SECRET` + redirect URI) — substitui o Private Integration Token quando houver multi-location/refresh.
+
+## Etapa 4 — estado (19/06/2026)
+
+- ✅ Busca de contatos e tags da location (`/api/ghl/contacts`), filtro por tag e "selecionar todos com a tag X" na tela Add Guests.
+- ✅ Worker da fila `checkin_ghl_sync_jobs` (`/api/ghl/sync/process` + cron `*/10`) com retry/backoff; aplica `add_tag`, `add_note` e `update_fields` (idempotente).
+- ✅ Validado ao vivo: contato adicionado → tags `convidado-{slug}` e `qrcode-enviado-{slug}` aplicadas no contato real do GHL.
+- ⏳ Disparo do e-mail depende do workflow no HighLevel (👤 Time) e os valores de custom field dependem dos campos D3 criados (👤 Time).
+- Auth via Private Integration Token (interim); OAuth/`GHLConnection` fica para quando o app do Developer Portal existir.

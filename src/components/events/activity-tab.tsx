@@ -27,7 +27,7 @@ const LOG_VARIANT: Record<string, "default" | "secondary" | "destructive" | "out
 
 export function ActivityTab({ logs }: { logs: LogRow[] }) {
   return (
-    <div className="rounded-lg border bg-white">
+    <div className="glass overflow-hidden rounded-2xl">
       <Table>
         <TableHeader>
           <TableRow>

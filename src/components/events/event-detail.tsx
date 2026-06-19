@@ -2,7 +2,6 @@
 
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { GuestsTab } from "@/components/events/guests-tab";
 import { QrDeliveryTab } from "@/components/events/qr-delivery-tab";
@@ -92,39 +91,46 @@ export function EventDetail({
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center gap-3">
-        <h1 className="text-2xl font-bold">{event.name}</h1>
-        <Badge variant={EVENT_STATUS_VARIANT[event.status] ?? "secondary"}>
-          {EVENT_STATUS_LABEL[event.status] ?? event.status}
-        </Badge>
-        <span className="text-sm text-neutral-500">
-          {event.date}
-          {event.startTime ? ` · ${event.startTime}` : ""}
-          {event.locationName ? ` · ${event.locationName}` : ""}
+        <span className="bg-brand-gradient flex h-11 w-11 items-center justify-center rounded-2xl text-lg font-black text-white shadow-lg shadow-indigo-500/30">
+          {event.name.charAt(0).toUpperCase()}
         </span>
+        <div>
+          <div className="flex flex-wrap items-center gap-2.5">
+            <h1 className="text-2xl font-bold tracking-tight">{event.name}</h1>
+            <Badge variant={EVENT_STATUS_VARIANT[event.status] ?? "secondary"}>
+              {EVENT_STATUS_LABEL[event.status] ?? event.status}
+            </Badge>
+          </div>
+          <span className="text-sm text-muted-foreground">
+            {event.date}
+            {event.startTime ? ` · ${event.startTime}` : ""}
+            {event.locationName ? ` · ${event.locationName}` : ""}
+          </span>
+        </div>
       </div>
 
       <div className="grid grid-cols-3 gap-3 md:grid-cols-6">
-        {metrics.map((m) => (
-          <Card key={m.label}>
-            <CardHeader className="pb-1">
-              <CardTitle className="text-xs font-medium text-neutral-500">
-                {m.label}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-2xl font-bold">{m.value}</p>
-            </CardContent>
-          </Card>
+        {metrics.map((m, i) => (
+          <div
+            key={m.label}
+            className="glass fluid fluid-lift animate-rise rounded-2xl p-4"
+            style={{ animationDelay: `${i * 40}ms` }}
+          >
+            <p className="text-2xl font-bold tabular-nums">{m.value}</p>
+            <p className="mt-0.5 text-xs font-medium text-muted-foreground">
+              {m.label}
+            </p>
+          </div>
         ))}
       </div>
 
       <Tabs defaultValue="guests">
-        <TabsList>
-          <TabsTrigger value="guests">Convidados</TabsTrigger>
-          <TabsTrigger value="qr">QR Delivery</TabsTrigger>
-          <TabsTrigger value="checker">Checker</TabsTrigger>
-          <TabsTrigger value="settings">Configurações</TabsTrigger>
-          <TabsTrigger value="activity">Atividade</TabsTrigger>
+        <TabsList className="glass h-auto flex-wrap gap-1 rounded-full p-1.5">
+          <TabsTrigger value="guests" className="rounded-full px-4 py-1.5 data-[state=active]:bg-brand-gradient data-[state=active]:text-white data-[state=active]:shadow-md">Convidados</TabsTrigger>
+          <TabsTrigger value="qr" className="rounded-full px-4 py-1.5 data-[state=active]:bg-brand-gradient data-[state=active]:text-white data-[state=active]:shadow-md">QR Delivery</TabsTrigger>
+          <TabsTrigger value="checker" className="rounded-full px-4 py-1.5 data-[state=active]:bg-brand-gradient data-[state=active]:text-white data-[state=active]:shadow-md">Checker</TabsTrigger>
+          <TabsTrigger value="settings" className="rounded-full px-4 py-1.5 data-[state=active]:bg-brand-gradient data-[state=active]:text-white data-[state=active]:shadow-md">Configurações</TabsTrigger>
+          <TabsTrigger value="activity" className="rounded-full px-4 py-1.5 data-[state=active]:bg-brand-gradient data-[state=active]:text-white data-[state=active]:shadow-md">Atividade</TabsTrigger>
         </TabsList>
         <TabsContent value="guests">
           <GuestsTab event={event} guests={guests} onChange={refresh} />

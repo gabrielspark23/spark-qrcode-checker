@@ -48,7 +48,7 @@ export function SparkSync() {
   }
 
   return (
-    <div className="flex items-center gap-3 rounded-lg border bg-white px-4 py-3">
+    <div className="glass flex items-center gap-3 rounded-2xl px-4 py-3">
       <div className="flex-1 text-sm">
         <p className="font-medium">Sincronização com o Spark</p>
         <p className="text-neutral-500">

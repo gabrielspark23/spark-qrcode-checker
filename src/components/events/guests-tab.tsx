@@ -192,7 +192,7 @@ export function GuestsTab({
         </div>
       )}
 
-      <div className="rounded-lg border bg-white">
+      <div className="glass overflow-hidden rounded-2xl">
         <Table>
           <TableHeader>
             <TableRow>

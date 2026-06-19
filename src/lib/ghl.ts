@@ -105,6 +105,78 @@ export async function listContacts(
   return contacts;
 }
 
+// --- Escrita no contato (worker da fila — Etapa 4) ---
+
+// Idempotente: o GHL ignora tag já existente no contato.
+export async function addContactTags(
+  access: GhlAccess,
+  contactId: string,
+  tags: string[]
+) {
+  await ghlFetch(access, `/contacts/${contactId}/tags`, {
+    method: "POST",
+    body: JSON.stringify({ tags }),
+  });
+}
+
+export async function addContactNote(
+  access: GhlAccess,
+  contactId: string,
+  body: string
+) {
+  await ghlFetch(access, `/contacts/${contactId}/notes`, {
+    method: "POST",
+    body: JSON.stringify({ body }),
+  });
+}
+
+// Resolve os custom fields da location: mapa chave/nome -> id. Usado para
+// traduzir os campos lógicos (event_checkin_status, etc.) nos IDs do GHL.
+export async function getCustomFieldMap(
+  access: GhlAccess
+): Promise<Record<string, string>> {
+  const data = await ghlFetch(access, `/locations/${access.locationId}/customFields`);
+  const map: Record<string, string> = {};
+  for (const f of (data.customFields as Record<string, unknown>[]) ?? []) {
+    const id = String(f.id);
+    const fieldKey = String(f.fieldKey ?? ""); // ex.: "contact.event_checkin_status"
+    const name = String(f.name ?? "");
+    const short = fieldKey.includes(".") ? fieldKey.split(".").pop()! : fieldKey;
+    if (short) map[short.toLowerCase()] = id;
+    if (name) map[name.toLowerCase()] = id;
+  }
+  return map;
+}
+
+// Atualiza custom fields do contato. Retorna quais chaves não existiam na
+// location (para o worker registrar sem travar a fila).
+export async function updateContactCustomFields(
+  access: GhlAccess,
+  contactId: string,
+  values: Record<string, string>
+): Promise<{ applied: string[]; missing: string[] }> {
+  const map = await getCustomFieldMap(access);
+  const customFields: { id: string; value: string }[] = [];
+  const applied: string[] = [];
+  const missing: string[] = [];
+  for (const [key, value] of Object.entries(values)) {
+    const id = map[key.toLowerCase()];
+    if (id) {
+      customFields.push({ id, value });
+      applied.push(key);
+    } else {
+      missing.push(key);
+    }
+  }
+  if (customFields.length > 0) {
+    await ghlFetch(access, `/contacts/${contactId}`, {
+      method: "PUT",
+      body: JSON.stringify({ customFields }),
+    });
+  }
+  return { applied, missing };
+}
+
 // Tags cadastradas na location (para o filtro "selecionar todos com a tag X").
 export async function listTags(access: GhlAccess): Promise<string[]> {
   try {

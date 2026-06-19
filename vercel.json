@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/ghl/sync/process",
+      "schedule": "*/10 * * * *"
+    }
+  ]
+}

@@ -13,6 +13,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
+import { SparkSync } from "@/components/events/spark-sync";
 import type { EventData, GuestRow } from "@/components/events/event-detail";
 
 export function QrDeliveryTab({
@@ -171,6 +172,10 @@ export function QrDeliveryTab({
                   : "Convites enviados ✓"}
             </Button>
             <PreviewDialog event={event} appBaseUrl={appBaseUrl} />
+          </div>
+
+          <div className="mt-4">
+            <SparkSync />
           </div>
         </CardContent>
       </Card>

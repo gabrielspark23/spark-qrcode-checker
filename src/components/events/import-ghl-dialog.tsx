@@ -69,6 +69,8 @@ export function ImportGhlDialog({
   }, [search, tag]);
 
   useEffect(() => {
+    // Busca contatos ao abrir o diálogo; setState ocorre após o fetch (assíncrono).
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (open) fetchContacts();
   }, [open, fetchContacts]);
 

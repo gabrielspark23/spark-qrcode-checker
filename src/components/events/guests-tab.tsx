@@ -22,6 +22,8 @@ import {
 import { toast } from "sonner";
 import type { EventData, GuestRow } from "@/components/events/event-detail";
 import { GUEST_STATUS_LABEL, GUEST_STATUS_VARIANT } from "@/components/events/status";
+import { ImportGhlDialog } from "@/components/events/import-ghl-dialog";
+import { QrViewDialog } from "@/components/events/qr-view-dialog";
 
 type CsvRow = Record<string, string>;
 
@@ -44,6 +46,7 @@ export function GuestsTab({
   const fileRef = useRef<HTMLInputElement>(null);
   const [importing, setImporting] = useState(false);
   const [manual, setManual] = useState({ name: "", email: "", phone: "" });
+  const [qrView, setQrView] = useState<GuestRow | null>(null);
   const closed = ["completed", "canceled"].includes(event.status);
 
   async function postGuests(
@@ -160,6 +163,7 @@ export function GuestsTab({
               {importing ? "Importando..." : "Importar CSV"}
             </Button>
           </div>
+          <ImportGhlDialog eventId={event.id} onChange={onChange} />
           <form onSubmit={addManual} className="flex flex-wrap items-end gap-2">
             <Input
               placeholder="Nome"
@@ -234,14 +238,8 @@ export function GuestsTab({
                     <DropdownMenuContent align="end">
                       {guest.ticketToken && (
                         <>
-                          <DropdownMenuItem asChild>
-                            <a
-                              href={`/q/${guest.ticketToken}`}
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              Ver QR
-                            </a>
+                          <DropdownMenuItem onClick={() => setQrView(guest)}>
+                            Ver QR
                           </DropdownMenuItem>
                           <DropdownMenuItem onClick={() => copyLink(guest)}>
                             Copiar link
@@ -271,6 +269,13 @@ export function GuestsTab({
           </TableBody>
         </Table>
       </div>
+
+      <QrViewDialog
+        open={!!qrView}
+        onOpenChange={(v) => !v && setQrView(null)}
+        guestName={qrView?.name ?? ""}
+        token={qrView?.ticketToken ?? null}
+      />
     </div>
   );
 }

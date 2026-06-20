@@ -161,7 +161,7 @@ export function ImportGhlDialog({
         </div>
 
         {error ? (
-          <div className="rounded-md bg-amber-50 p-4 text-sm text-amber-700">
+          <div className="rounded-md border border-amber-500/30 bg-amber-500/10 p-4 text-sm text-amber-700 dark:text-amber-400">
             {error}
           </div>
         ) : (
@@ -170,25 +170,25 @@ export function ImportGhlDialog({
               <button
                 type="button"
                 onClick={toggleAllShown}
-                className="text-neutral-600 underline-offset-2 hover:underline"
+                className="text-foreground underline-offset-2 hover:underline"
                 disabled={contacts.length === 0}
               >
                 {allShownSelected ? "Limpar seleção" : "Selecionar todos os exibidos"}
                 {tag !== ALL_TAGS ? ` (tag: ${tag})` : ""}
               </button>
-              <span className="text-neutral-500">{selectedIds.length} selecionado(s)</span>
+              <span className="text-muted-foreground">{selectedIds.length} selecionado(s)</span>
             </div>
 
             <div className="max-h-80 overflow-y-auto rounded-lg border">
               {contacts.length === 0 && !loading && (
-                <p className="p-6 text-center text-sm text-neutral-500">
+                <p className="p-6 text-center text-sm text-muted-foreground">
                   Nenhum contato encontrado.
                 </p>
               )}
               {contacts.map((c) => (
                 <label
                   key={c.id}
-                  className="flex cursor-pointer items-center gap-3 border-b px-3 py-2 last:border-b-0 hover:bg-neutral-50"
+                  className="flex cursor-pointer items-center gap-3 border-b px-3 py-2 last:border-b-0 hover:bg-muted"
                 >
                   <input
                     type="checkbox"
@@ -198,7 +198,7 @@ export function ImportGhlDialog({
                   />
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-medium">{c.name}</p>
-                    <p className="truncate text-xs text-neutral-500">
+                    <p className="truncate text-xs text-muted-foreground">
                       {c.email ?? "sem e-mail"}
                       {c.phone ? ` · ${c.phone}` : ""}
                     </p>

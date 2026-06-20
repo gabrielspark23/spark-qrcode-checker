@@ -62,7 +62,7 @@ export function QrViewDialog({
             </div>
           </div>
         ) : (
-          <p className="py-6 text-center text-sm text-neutral-500">
+          <p className="py-6 text-center text-sm text-muted-foreground">
             QR ainda não gerado para este convidado. Gere os QR Codes na aba
             QR Delivery.
           </p>

@@ -10,7 +10,7 @@ export default function AppLayout({
   return (
     <div className="flex min-h-screen flex-col">
       <TopNav />
-      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 sm:px-6 sm:py-8">
+      <main className="mx-auto w-full max-w-[1600px] flex-1 px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
         <div className="animate-rise">{children}</div>
       </main>
     </div>

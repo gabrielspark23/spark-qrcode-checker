@@ -27,6 +27,8 @@
   --color-input: var(--input);
   --color-border: var(--border);
   --color-destructive: var(--destructive);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
@@ -39,82 +41,114 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
+  --radius-sm: calc(var(--radius) * 0.65);
+  --radius-md: calc(var(--radius) * 0.85);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-xl: calc(var(--radius) * 1.35);
+  --radius-2xl: calc(var(--radius) * 1.7);
   --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* ===== Design tokens — tema CRM/SaaS (padrão GHL white label) ===== */
 :root {
-  --background: oklch(0.985 0.004 264);
-  --foreground: oklch(0.21 0.03 264);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.21 0.03 264);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.21 0.03 264);
-  --primary: oklch(0.54 0.22 277);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.967 0.01 277);
-  --secondary-foreground: oklch(0.3 0.05 277);
-  --muted: oklch(0.967 0.005 277);
-  --muted-foreground: oklch(0.55 0.02 277);
-  --accent: oklch(0.95 0.03 277);
-  --accent-foreground: oklch(0.4 0.12 277);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.92 0.01 277);
-  --input: oklch(0.92 0.01 277);
-  --ring: oklch(0.54 0.22 277);
-  --chart-1: oklch(0.62 0.21 277);
-  --chart-2: oklch(0.65 0.18 200);
-  --chart-3: oklch(0.7 0.17 150);
-  --chart-4: oklch(0.75 0.18 80);
-  --chart-5: oklch(0.65 0.22 20);
-  --radius: 0.85rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --bg: #f7f8fa;
+  --surface: #ffffff;
+  --surface-muted: #f2f4f7;
+  --text: #101828;
+  --text-muted: #667085;
+  --border-color: #eaecf0;
+  --primary-color: #2563eb;
+  --primary-hover: #1d4ed8;
+  --success-color: #16a34a;
+  --warning-color: #f59e0b;
+  --danger-color: #dc2626;
+
+  --shadow-sm: 0 1px 2px 0 rgba(16, 24, 40, 0.06), 0 1px 3px 0 rgba(16, 24, 40, 0.05);
+  --shadow-md: 0 4px 8px -2px rgba(16, 24, 40, 0.08), 0 2px 4px -2px rgba(16, 24, 40, 0.05);
+  --shadow-lg: 0 12px 28px -6px rgba(16, 24, 40, 0.14), 0 4px 10px -4px rgba(16, 24, 40, 0.08);
+
+  /* Mapeamento para os tokens do shadcn/ui */
+  --background: var(--bg);
+  --foreground: var(--text);
+  --card: var(--surface);
+  --card-foreground: var(--text);
+  --popover: var(--surface);
+  --popover-foreground: var(--text);
+  --primary: var(--primary-color);
+  --primary-foreground: #ffffff;
+  --secondary: var(--surface-muted);
+  --secondary-foreground: var(--text);
+  --muted: var(--surface-muted);
+  --muted-foreground: var(--text-muted);
+  --accent: #eff4ff;
+  --accent-foreground: var(--primary-color);
+  --destructive: var(--danger-color);
+  --success: var(--success-color);
+  --warning: var(--warning-color);
+  --border: var(--border-color);
+  --input: var(--border-color);
+  --ring: var(--primary-color);
+  --chart-1: #2563eb;
+  --chart-2: #0ea5e9;
+  --chart-3: #16a34a;
+  --chart-4: #f59e0b;
+  --chart-5: #db2777;
+  --radius: 0.75rem;
+  --sidebar: var(--surface);
+  --sidebar-foreground: var(--text);
+  --sidebar-primary: var(--primary-color);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--surface-muted);
+  --sidebar-accent-foreground: var(--text);
+  --sidebar-border: var(--border-color);
+  --sidebar-ring: var(--primary-color);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --bg: #0b0f17;
+  --surface: #121826;
+  --surface-muted: #1f2937;
+  --text: #f9fafb;
+  --text-muted: #9ca3af;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --primary-color: #3b82f6;
+  --primary-hover: #2563eb;
+  --success-color: #22c55e;
+  --warning-color: #f59e0b;
+  --danger-color: #ef4444;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 10px -2px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 16px 40px -8px rgba(0, 0, 0, 0.6);
+
+  --background: var(--bg);
+  --foreground: var(--text);
+  --card: var(--surface);
+  --card-foreground: var(--text);
+  --popover: var(--surface);
+  --popover-foreground: var(--text);
+  --primary: var(--primary-color);
+  --primary-foreground: #0b0f17;
+  --secondary: var(--surface-muted);
+  --secondary-foreground: var(--text);
+  --muted: var(--surface-muted);
+  --muted-foreground: var(--text-muted);
+  --accent: #1e293b;
+  --accent-foreground: #93c5fd;
+  --destructive: var(--danger-color);
+  --success: var(--success-color);
+  --warning: var(--warning-color);
+  --border: var(--border-color);
+  --input: rgba(255, 255, 255, 0.12);
+  --ring: var(--primary-color);
+  --sidebar: var(--surface);
+  --sidebar-foreground: var(--text);
+  --sidebar-primary: var(--primary-color);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--surface-muted);
+  --sidebar-accent-foreground: var(--text);
+  --sidebar-border: var(--border-color);
+  --sidebar-ring: var(--primary-color);
 }
 
 @layer base {
@@ -122,14 +156,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply text-foreground;
-    /* Fundo com gradiente sutil + halos de cor (padrão Spark/FORGE) */
-    background-color: oklch(0.985 0.004 264);
-    background-image:
-      radial-gradient(60rem 60rem at 110% -10%, oklch(0.6 0.2 277 / 0.12), transparent 60%),
-      radial-gradient(50rem 50rem at -10% 10%, oklch(0.65 0.18 320 / 0.1), transparent 55%),
-      radial-gradient(40rem 40rem at 50% 120%, oklch(0.7 0.16 230 / 0.08), transparent 60%);
-    background-attachment: fixed;
+    @apply bg-background text-foreground;
   }
   html {
     @apply font-sans;
@@ -138,54 +165,45 @@
 }
 
 @layer utilities {
-  /* Glassmorphism — cards e superfícies principais */
+  /* Superfície de card padrão CRM: sólida, borda leve, sombra suave */
+  .surface {
+    background-color: var(--surface);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+  }
+  /* Compat: classes .glass continuam válidas, agora como superfície CRM limpa */
   .glass {
-    background-color: color-mix(in oklch, var(--card) 65%, transparent);
-    backdrop-filter: blur(16px) saturate(160%);
-    -webkit-backdrop-filter: blur(16px) saturate(160%);
-    border: 1px solid color-mix(in oklch, white 55%, transparent);
-    box-shadow:
-      0 1px 0 0 color-mix(in oklch, white 60%, transparent) inset,
-      0 10px 30px -12px oklch(0.4 0.15 277 / 0.25);
+    background-color: var(--surface);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
   }
   .glass-strong {
-    background-color: color-mix(in oklch, var(--card) 82%, transparent);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid color-mix(in oklch, white 60%, transparent);
+    background-color: color-mix(in srgb, var(--surface) 88%, transparent);
+    backdrop-filter: blur(10px) saturate(140%);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    border-bottom: 1px solid var(--border-color);
   }
-  /* Acento de marca */
   .text-brand {
-    background-image: linear-gradient(
-      100deg,
-      oklch(0.55 0.22 277),
-      oklch(0.6 0.2 320)
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    color: var(--primary-color);
   }
   .bg-brand-gradient {
-    background-image: linear-gradient(
-      100deg,
-      oklch(0.55 0.22 277),
-      oklch(0.6 0.2 320)
-    );
+    background-image: linear-gradient(135deg, var(--primary-color), #6366f1);
   }
-  /* Transições fluidas padrão para superfícies interativas */
   .fluid {
     transition:
-      transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 0.25s ease,
-      background-color 0.2s ease,
-      border-color 0.2s ease;
+      transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.2s ease,
+      background-color 0.15s ease,
+      border-color 0.15s ease,
+      color 0.15s ease;
   }
   .fluid-lift:hover {
     transform: translateY(-2px);
-    box-shadow: 0 18px 40px -16px oklch(0.4 0.15 277 / 0.35);
+    box-shadow: var(--shadow-md);
+    border-color: color-mix(in srgb, var(--primary-color) 35%, var(--border-color));
   }
   .animate-rise {
-    animation: rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: rise 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 }
 
@@ -200,18 +218,17 @@
   }
 }
 
-/* Scrollbar discreta */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 }
 ::-webkit-scrollbar-thumb {
-  background: oklch(0.7 0.03 277 / 0.4);
+  background: color-mix(in srgb, var(--text-muted) 35%, transparent);
   border-radius: 9999px;
   border: 2px solid transparent;
   background-clip: content-box;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: oklch(0.6 0.05 277 / 0.6);
+  background: color-mix(in srgb, var(--text-muted) 55%, transparent);
   background-clip: content-box;
 }

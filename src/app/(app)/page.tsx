@@ -2,8 +2,28 @@ import Link from "next/link";
 import { getCurrentOrgId } from "@/lib/api";
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
+import { PageHeader } from "@/components/ui/page-header";
+import { MetricCard } from "@/components/ui/metric-card";
 
 export const dynamic = "force-dynamic";
+
+const I = {
+  calendar: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" /></svg>
+  ),
+  activity: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2" /></svg>
+  ),
+  users: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" /></svg>
+  ),
+  qr: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><path d="M14 14h3v3h-3zM21 14v7M14 21h7" /></svg>
+  ),
+  check: (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><path d="m9 11 3 3L22 4" /></svg>
+  ),
+};
 
 export default async function DashboardPage() {
   const organizationId = await getCurrentOrgId();
@@ -18,41 +38,36 @@ export default async function DashboardPage() {
   ]);
 
   const metrics = [
-    { label: "Eventos", value: events, hint: "no total", accent: "from-indigo-500 to-violet-500" },
-    { label: "Eventos ativos", value: activeEvents, hint: "recebendo check-in", accent: "from-emerald-500 to-teal-500" },
-    { label: "Convidados", value: guests, hint: "na lista", accent: "from-sky-500 to-cyan-500" },
-    { label: "QR Codes", value: qrGenerated, hint: "gerados", accent: "from-fuchsia-500 to-pink-500" },
-    { label: "Check-ins", value: checkedIn, hint: "confirmados", accent: "from-amber-500 to-orange-500" },
+    { label: "Eventos", value: events, hint: "no total", tone: "primary" as const, icon: I.calendar },
+    { label: "Eventos ativos", value: activeEvents, hint: "recebendo check-in", tone: "success" as const, icon: I.activity },
+    { label: "Convidados", value: guests, hint: "na lista", tone: "sky" as const, icon: I.users },
+    { label: "QR Codes", value: qrGenerated, hint: "gerados", tone: "violet" as const, icon: I.qr },
+    { label: "Check-ins", value: checkedIn, hint: "confirmados", tone: "amber" as const, icon: I.check },
   ];
 
   return (
     <div className="space-y-8">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Visão geral do credenciamento dos seus eventos.
-          </p>
-        </div>
-        <Button asChild size="lg" className="rounded-full shadow-lg shadow-indigo-500/20">
-          <Link href="/events">Ver eventos</Link>
-        </Button>
-      </div>
+      <PageHeader
+        title="Dashboard"
+        subtitle="Visão geral do credenciamento dos seus eventos."
+        actions={
+          <Button asChild>
+            <Link href="/events">Ver eventos</Link>
+          </Button>
+        }
+      />
 
-      <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-5">
         {metrics.map((m, i) => (
-          <div
+          <MetricCard
             key={m.label}
-            className="glass fluid fluid-lift animate-rise overflow-hidden rounded-2xl p-5"
-            style={{ animationDelay: `${i * 60}ms` }}
-          >
-            <span
-              className={`mb-4 block h-1.5 w-10 rounded-full bg-gradient-to-r ${m.accent}`}
-            />
-            <p className="text-4xl font-bold tracking-tight tabular-nums">{m.value}</p>
-            <p className="mt-1 text-sm font-medium">{m.label}</p>
-            <p className="text-xs text-muted-foreground">{m.hint}</p>
-          </div>
+            label={m.label}
+            value={m.value}
+            hint={m.hint}
+            tone={m.tone}
+            icon={m.icon}
+            delay={i * 60}
+          />
         ))}
       </div>
     </div>

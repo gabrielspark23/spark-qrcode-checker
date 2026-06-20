@@ -207,7 +207,7 @@ export function GuestsTab({
           <TableBody>
             {guests.length === 0 && (
               <TableRow>
-                <TableCell colSpan={6} className="py-8 text-center text-neutral-500">
+                <TableCell colSpan={6} className="py-8 text-center text-muted-foreground">
                   Nenhum convidado. Importe um CSV (colunas: nome, email, telefone)
                   ou adicione manualmente.
                 </TableCell>
@@ -218,7 +218,7 @@ export function GuestsTab({
                 <TableCell className="font-medium">{guest.name}</TableCell>
                 <TableCell>{guest.email ?? "—"}</TableCell>
                 <TableCell>{guest.phone ?? "—"}</TableCell>
-                <TableCell className="text-xs text-neutral-500">
+                <TableCell className="text-xs text-muted-foreground">
                   {guest.source === "ghl"
                     ? "Spark"
                     : guest.source.toUpperCase()}

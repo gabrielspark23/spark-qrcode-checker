@@ -119,7 +119,7 @@ export function QrDeliveryTab({
           <div className="mb-4 flex items-center justify-between gap-3">
             <div>
               <h3 className="font-semibold">Disparo do convite</h3>
-              <p className="text-sm text-neutral-500">
+              <p className="text-sm text-muted-foreground">
                 Em 3 passos o convidado recebe o ingresso por e-mail, com o QR
                 Code de entrada.
               </p>
@@ -132,7 +132,7 @@ export function QrDeliveryTab({
               <li
                 key={s.n}
                 className={`rounded-lg border p-3 ${
-                  s.done ? "border-green-200 bg-green-50" : "border-neutral-200 bg-white"
+                  s.done ? "border-green-200 bg-green-50" : "border-border bg-white"
                 }`}
               >
                 <div className="flex items-center gap-2">
@@ -147,7 +147,7 @@ export function QrDeliveryTab({
                   </span>
                   <span className="text-sm font-medium">{s.title}</span>
                 </div>
-                <p className="mt-1 text-xs text-neutral-500">{s.detail}</p>
+                <p className="mt-1 text-xs text-muted-foreground">{s.detail}</p>
               </li>
             ))}
           </ol>
@@ -183,7 +183,7 @@ export function QrDeliveryTab({
       {/* Visualização dos QR Codes gerados */}
       {withTicket.length > 0 && (
         <div>
-          <h3 className="mb-3 text-sm font-medium text-neutral-500">
+          <h3 className="mb-3 text-sm font-medium text-muted-foreground">
             QR Codes do evento ({withTicket.length})
           </h3>
           <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
@@ -232,7 +232,7 @@ export function QrDeliveryTab({
         </div>
       )}
       {withTicket.length === 0 && (
-        <p className="py-8 text-center text-sm text-neutral-500">
+        <p className="py-8 text-center text-sm text-muted-foreground">
           Nenhum QR gerado ainda. Adicione convidados na aba Convidados e clique
           em Gerar QR Codes.
         </p>
@@ -288,7 +288,7 @@ function HowItWorksDialog() {
             </p>
           </li>
         </ol>
-        <p className="rounded-md bg-neutral-50 p-3 text-xs text-neutral-500">
+        <p className="rounded-md bg-muted p-3 text-xs text-muted-foreground">
           Cada etapa do convidado também marca o contato no Spark
           (convidado → convite enviado → presente / não compareceu), permitindo
           disparar follow-ups automáticos por evento.
@@ -321,7 +321,7 @@ function PreviewDialog({
         </DialogHeader>
         <div className="rounded-lg border bg-white p-5 text-center text-sm">
           <p className="text-lg font-bold">{event.name}</p>
-          <p className="text-neutral-500">
+          <p className="text-muted-foreground">
             {event.date}
             {event.locationName ? ` · ${event.locationName}` : ""}
           </p>
@@ -330,16 +330,16 @@ function PreviewDialog({
             está o seu ingresso:
           </p>
           <div className="my-4 flex justify-center">
-            <div className="flex h-36 w-36 items-center justify-center rounded border-2 border-dashed text-xs text-neutral-400">
+            <div className="flex h-36 w-36 items-center justify-center rounded border-2 border-dashed text-xs text-muted-foreground">
               imagem do QR
             </div>
           </div>
           <span className="inline-block rounded-md bg-neutral-900 px-4 py-2 text-white">
             Ver meu ingresso
           </span>
-          <p className="mt-2 break-all text-xs text-neutral-400">{sampleLink}</p>
+          <p className="mt-2 break-all text-xs text-muted-foreground">{sampleLink}</p>
         </div>
-        <p className="text-xs text-neutral-500">
+        <p className="text-xs text-muted-foreground">
           O modelo e o disparo são executados pela automação Spark do evento
           (gatilho: convite enviado · <code>{event.slug}</code>).
         </p>

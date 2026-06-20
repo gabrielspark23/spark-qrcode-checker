@@ -41,7 +41,7 @@ export function ActivityTab({ logs }: { logs: LogRow[] }) {
         <TableBody>
           {logs.length === 0 && (
             <TableRow>
-              <TableCell colSpan={5} className="py-8 text-center text-neutral-500">
+              <TableCell colSpan={5} className="py-8 text-center text-muted-foreground">
                 Nenhum scan registrado ainda.
               </TableCell>
             </TableRow>
@@ -58,7 +58,7 @@ export function ActivityTab({ logs }: { logs: LogRow[] }) {
               </TableCell>
               <TableCell>{log.guestName ?? "—"}</TableCell>
               <TableCell>{log.message ?? "—"}</TableCell>
-              <TableCell className="max-w-48 truncate text-xs text-neutral-500">
+              <TableCell className="max-w-48 truncate text-xs text-muted-foreground">
                 {log.deviceInfo ?? "—"}
               </TableCell>
             </TableRow>

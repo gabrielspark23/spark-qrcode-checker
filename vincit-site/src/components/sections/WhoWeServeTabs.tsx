@@ -25,12 +25,15 @@ export function WhoWeServeTabs({ locale, t }: { locale: Locale; t: Dict }) {
   const tabs = useRef<Array<HTMLButtonElement | null>>([]);
   const section = useRef<HTMLElement>(null);
   const darkLayer = useRef<HTMLDivElement>(null);
+  const hairline = useRef<SVGSVGElement>(null);
 
   // C-Reveal vinculado ao scroll (amortecido, sem fixar a página)
   useEffect(() => {
     const el = section.current;
     const dk = darkLayer.current;
-    if (!el || !dk) return;
+    const hl = hairline.current;
+    const hlPath = hl?.querySelector("path");
+    if (!el || !dk || !hl || !hlPath) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     let raf = 0;
     const target = () => {
@@ -44,8 +47,13 @@ export function WhoWeServeTabs({ locale, t }: { locale: Locale; t: Dict }) {
       const W = el.clientWidth;
       const H = el.clientHeight;
       const s = cShapeAt(e, W, H, W < 640);
+      const d = cPath(s);
       dk.style.display = e <= 0.001 ? "none" : "block";
-      dk.style.clipPath = s.full ? "none" : `path(evenodd, "${cPath(s)}")`;
+      dk.style.clipPath = s.full ? "none" : `path(evenodd, "${d}")`;
+      // filete de latão acompanhando o contorno; some quando o grafite cobre tudo
+      hl.setAttribute("viewBox", `0 0 ${W} ${H}`);
+      hlPath.setAttribute("d", d);
+      hl.style.opacity = String(e <= 0.001 ? 0 : clamp((0.86 - e) / 0.12));
     };
     // Progresso preso à posição de rolagem (sem atraso): o C acompanha o conteúdo exatamente.
     const tick = () => {
@@ -189,6 +197,9 @@ export function WhoWeServeTabs({ locale, t }: { locale: Locale; t: Dict }) {
       >
         {content(true)}
       </div>
+      <svg ref={hairline} className="pointer-events-none absolute inset-0 z-10 h-full w-full" preserveAspectRatio="none" style={{ opacity: 0 }} aria-hidden>
+        <path fill="none" stroke="var(--color-gold)" strokeOpacity="0.7" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+      </svg>
     </section>
   );
 }

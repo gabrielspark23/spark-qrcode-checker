@@ -16,24 +16,26 @@ export type CShape = { cx: number; cy: number; R: number; ix: number; iy: number
  * 0–0,7: o C entra pela direita (80%→100% da escala) e fica inteiro; 0,7–1: cobre a seção.
  */
 export function cShapeAt(e: number, W: number, H: number, mobile: boolean): CShape {
-  const Rc = mobile ? 0.7 * W : Math.min(0.46 * W, 0.42 * H);
+  // C de grande escala: o raio acompanha a altura da seção (encosta no topo e na base)
+  const Rc = mobile ? Math.min(0.95 * W, 0.6 * H) : Math.max(0.62 * H, 0.42 * W);
   const f = easeInOut(clamp(e / 0.7));
   const g = easeInOut(clamp((e - 0.7) / 0.3));
-  const ax = lerp((mobile ? 1.4 : 1.25) * W, (mobile ? 0.6 : 0.64) * W, f);
-  const ay = (mobile ? 0.5 : 0.48) * H; // linha horizontal fixa: o C segue a sua linha
+  const ax = lerp((mobile ? 1.45 : 1.12) * W, (mobile ? 0.5 : 0.55) * W, f); // abertura dentro da tela
+  const ay = 0.5 * H; // linha horizontal fixa: o C segue a sua linha
   const aR = lerp(0.8 * Rc, Rc, f);
   const ex = 0.58 * W;
-  const ey = 0.48 * H;
+  const ey = 0.5 * H;
   const cover = Math.hypot(Math.max(ex, W - ex), Math.max(ey, H - ey)) * 1.06;
   return {
     cx: lerp(ax, ex, g),
     cy: lerp(ay, ey, g),
     R: lerp(aR, cover, g),
-    ix: ax + aR * 0.14,
-    iy: ay - aR * 0.03,
-    r: aR * lerp(0.58, 0.46, f) * (1 - g),
-    // a abertura fecha primeiro (sem virar uma lasca comprida); a contraforma some por último
-    half: lerp(SHIELD_BASE, 30, f) * (1 - easeInOut(clamp((e - 0.7) / 0.05))),
+    // contraforma grande e deslocada à direita: haste grossa à esquerda, afinando em cima e embaixo
+    ix: ax + aR * 0.09,
+    iy: ay,
+    r: aR * lerp(0.76, 0.72, f) * (1 - g),
+    // abertura no ângulo da base do escudo; fecha primeiro, a contraforma some por último
+    half: lerp(SHIELD_BASE, 34, f) * (1 - easeInOut(clamp((e - 0.7) / 0.05))),
     full: e >= 0.995,
   };
 }

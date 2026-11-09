@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useId, useRef, useState } from "react";
 import { CircleAlert, RotateCcw } from "lucide-react";
 import { SendMark } from "./SendMark";
+import { BrandSelect } from "./BrandSelect";
 import { SuccessTakeover } from "./SuccessTakeover";
 import { Button } from "@/components/ui/Button";
 import { track } from "@/components/layout/EventDelegate";
@@ -193,11 +194,8 @@ export function LeadForm({ locale, t }: { locale: Locale; t: Dict }) {
 
         <div>
           <label htmlFor={id("country")} className={label}>{f.country}</label>
-          <select id={id("country")} name="country" className="field" defaultValue="US">
-            {(Object.keys(f.countries) as Array<keyof typeof f.countries>).map((c) => (
-              <option key={c} value={c}>{f.countries[c]}</option>
-            ))}
-          </select>
+          <BrandSelect id={id("country")} name="country" defaultValue="US"
+            options={(Object.keys(f.countries) as Array<keyof typeof f.countries>).map((c) => ({ value: c, label: f.countries[c] }))} />
         </div>
 
         <div>
@@ -207,33 +205,21 @@ export function LeadForm({ locale, t }: { locale: Locale; t: Dict }) {
 
         <div className="sm:col-span-2">
           <label htmlFor={id("topic")} className={label}>{f.topic}{req}</label>
-          <select id={id("topic")} name="topic" required className="field" defaultValue=""
-            aria-invalid={errors.topic || undefined} aria-describedby={describe("topic")}>
-            <option value="" disabled>—</option>
-            {TOPICS.map((k) => (
-              <option key={k} value={k}>{f.topics[k]}</option>
-            ))}
-          </select>
+          <BrandSelect id={id("topic")} name="topic" required invalid={!!errors.topic} describedBy={describe("topic")}
+            options={TOPICS.map((k) => ({ value: k, label: f.topics[k] }))} />
           {errorText("topic")}
         </div>
 
         <div>
           <label htmlFor={id("assets")} className={label}>{f.assets}</label>
-          <select id={id("assets")} name="assets" className="field" defaultValue="">
-            <option value="">—</option>
-            {ASSETS.map((k) => (
-              <option key={k} value={k}>{f.assetsOptions[k]}</option>
-            ))}
-          </select>
+          <BrandSelect id={id("assets")} name="assets"
+            options={[{ value: "", label: "—" }, ...ASSETS.map((k) => ({ value: k, label: f.assetsOptions[k] }))]} />
         </div>
 
         <div>
           <label htmlFor={id("language")} className={label}>{f.language}</label>
-          <select id={id("language")} name="language" className="field" defaultValue={locale}>
-            {(["pt", "en", "es"] as const).map((k) => (
-              <option key={k} value={k}>{f.languages[k]}</option>
-            ))}
-          </select>
+          <BrandSelect id={id("language")} name="language" defaultValue={locale}
+            options={(["pt", "en", "es"] as const).map((k) => ({ value: k, label: f.languages[k] }))} />
         </div>
 
         <div className="sm:col-span-2">
@@ -259,7 +245,7 @@ export function LeadForm({ locale, t }: { locale: Locale; t: Dict }) {
         <fieldset className="space-y-4 border-t border-line pt-6 sm:col-span-2">
           <legend className="sr-only">Consent</legend>
           <label className="flex cursor-pointer gap-3 text-sm leading-relaxed text-ink-2">
-            <input type="checkbox" name="consent" className="mt-1 h-4 w-4 shrink-0 accent-[var(--primary)]"
+            <input type="checkbox" name="consent" className="bcheck mt-0.5 shrink-0"
               aria-invalid={errors.consent || undefined} aria-describedby={describe("consent")} />
             <span>
               {f.consent.replace(/(Privacy Policy|Política de Privacidade)\.$/, "")}
@@ -271,7 +257,7 @@ export function LeadForm({ locale, t }: { locale: Locale; t: Dict }) {
           </label>
           {errorText("consent")}
           <label className="flex cursor-pointer gap-3 text-sm text-ink-2">
-            <input type="checkbox" name="consentWhatsapp" className="mt-1 h-4 w-4 shrink-0 accent-[var(--primary)]" />
+            <input type="checkbox" name="consentWhatsapp" className="bcheck mt-0.5 shrink-0" />
             <span>{f.consentWhatsapp}</span>
           </label>
         </fieldset>

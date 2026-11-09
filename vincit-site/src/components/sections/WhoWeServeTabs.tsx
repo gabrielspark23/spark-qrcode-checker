@@ -1,9 +1,9 @@
 "use client";
 
-import { useRef, useState, useSyncExternalStore, type KeyboardEvent } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore, type KeyboardEvent } from "react";
 import { ModuleButton } from "@/components/ui/Button";
-import { Container, Eyebrow } from "@/components/ui/Layout";
-import { CReveal } from "@/components/motion/CReveal";
+import { Container } from "@/components/ui/Layout";
+import { clamp, cPath, cShapeAt } from "@/lib/c-geometry";
 import { href, type Locale } from "@/lib/i18n";
 import type { Dict } from "@/content";
 import { cn } from "@/lib/cn";
@@ -11,15 +11,62 @@ import { cn } from "@/lib/cn";
 const noop = () => () => {};
 
 /**
- * Painéis editoriais (padrão ARIA de abas): clique e teclado (setas, Home, End).
- * Sem JS, os quatro públicos aparecem em sequência, completos.
+ * Who we serve — painéis editoriais (abas ARIA) com o C-Reveal como FUNDO da própria seção.
+ * Duas camadas com o mesmo layout: a clara (real, interativa) e a grafite por cima, recortada
+ * no formato do C (clip-path com o contorno do C) e transparente a cliques. Na borda do C o
+ * texto inverte de cor — nunca fica ilegível. Ao fim da seção o grafite cobre tudo e continua
+ * no "How we work". Sem JS / movimento reduzido: só a camada clara.
  */
 export function WhoWeServeTabs({ locale, t }: { locale: Locale; t: Dict }) {
   const segs = t.segments;
-  // false no servidor e na hidratação; true depois — sem JS, todos os públicos ficam visíveis
   const enhanced = useSyncExternalStore(noop, () => true, () => false);
   const [active, setActive] = useState(0);
   const tabs = useRef<Array<HTMLButtonElement | null>>([]);
+  const section = useRef<HTMLElement>(null);
+  const darkLayer = useRef<HTMLDivElement>(null);
+
+  // C-Reveal vinculado ao scroll (amortecido, sem fixar a página)
+  useEffect(() => {
+    const el = section.current;
+    const dk = darkLayer.current;
+    if (!el || !dk) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let raf = 0;
+    let cur = -1;
+    const target = () => {
+      const r = el.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // começa quando o título está na tela; termina quando a base da seção chega à base da tela
+      return clamp((0.3 * vh - r.top) / Math.max(1, r.height - 0.7 * vh));
+    };
+    const paint = (e: number) => {
+      const r = el.getBoundingClientRect();
+      const W = el.clientWidth;
+      const vh = window.innerHeight;
+      const s = cShapeAt(e, W, vh, W < 640);
+      dk.style.display = e <= 0.001 ? "none" : "block";
+      dk.style.clipPath = s.full ? "none" : `path(evenodd, "${cPath(s, r.top)}")`;
+    };
+    const tick = () => {
+      raf = 0;
+      const tg = target();
+      cur = cur < 0 ? tg : cur + (tg - cur) * 0.12; // mais suave
+      if (Math.abs(tg - cur) < 0.0008) cur = tg;
+      paint(cur);
+      if (cur !== tg) raf = requestAnimationFrame(tick);
+    };
+    const req = () => {
+      if (!raf) raf = requestAnimationFrame(tick);
+    };
+    window.addEventListener("scroll", req, { passive: true });
+    window.addEventListener("resize", req);
+    req();
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", req);
+      window.removeEventListener("resize", req);
+    };
+  }, []);
 
   const select = (i: number, focus = false) => {
     const n = (i + segs.length) % segs.length;
@@ -34,65 +81,85 @@ export function WhoWeServeTabs({ locale, t }: { locale: Locale; t: Dict }) {
     }
   };
 
-  return (
-    <section className="border-t border-line bg-surface-muted pt-24 sm:pt-32" aria-labelledby="serve-title">
+  /** Conteúdo da seção — idêntico nas duas camadas; só a clara é interativa. */
+  const content = (dark: boolean) => {
+    const real = !dark;
+    return (
       <Container>
         <div className="mb-14 grid gap-6 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-6">
-            <Eyebrow>{t.home.serve.eyebrow}</Eyebrow>
-            <h2 id="serve-title" className="h1 mt-6 max-w-[16ch]">{t.home.serve.title}</h2>
+            <p className={cn("eyebrow flex items-center gap-3", dark ? "text-brass" : "text-ink-2")}>
+              <span className={cn("h-px w-6", dark ? "bg-brass" : "bg-line-rule")} aria-hidden />
+              {t.home.serve.eyebrow}
+            </p>
+            <h2 id={real ? "serve-title" : undefined} className="h1 mt-6 max-w-[16ch]">{t.home.serve.title}</h2>
           </div>
         </div>
 
         <div className="grid gap-10 lg:grid-cols-12">
-          {/* Abas: tipografia grande */}
           {enhanced ? (
-            <div role="tablist" aria-orientation="vertical" aria-label={t.home.serve.eyebrow} className="border-t border-line-soft lg:col-span-5">
-              {segs.map((s, i) => (
-                <button
-                  key={s.id}
-                  ref={(el) => {
-                    tabs.current[i] = el;
-                  }}
-                  role="tab"
-                  id={`seg-tab-${s.id}`}
-                  aria-selected={active === i}
-                  aria-controls={`seg-panel-${s.id}`}
-                  tabIndex={active === i ? 0 : -1}
-                  onClick={() => select(i)}
-                  onKeyDown={(e) => onKey(e, i)}
-                  className={cn(
-                    "group flex w-full items-baseline gap-5 border-b border-line-soft py-5 text-left outline-none transition-colors duration-150 focus-visible:bg-surface",
-                    active === i ? "text-ink" : "text-ink-3 hover:text-ink",
-                  )}
-                >
-                  <span className="w-7 text-xs tabular-nums">{String(i + 1).padStart(2, "0")}</span>
-                  <span className="font-serif text-[clamp(1.375rem,1.1rem+1vw,2rem)] leading-tight">{s.title}</span>
-                  <span
-                    className={cn("ml-auto h-0.5 bg-brass transition-[width] duration-200", active === i ? "w-8" : "w-0 group-hover:w-4")}
-                    aria-hidden
-                  />
-                </button>
-              ))}
+            <div
+              role={real ? "tablist" : undefined}
+              aria-orientation={real ? "vertical" : undefined}
+              aria-label={real ? t.home.serve.eyebrow : undefined}
+              className={cn("border-t lg:col-span-5", dark ? "border-navy-line" : "border-line-soft")}
+            >
+              {segs.map((s, i) => {
+                const on = active === i;
+                const cls = cn(
+                  "group flex w-full items-baseline gap-5 border-b py-5 text-left outline-none transition-colors duration-150",
+                  dark ? "border-navy-line" : "border-line-soft focus-visible:bg-surface",
+                  on ? (dark ? "text-on-dark" : "text-ink") : dark ? "text-on-dark-3" : "text-ink-3 hover:text-ink",
+                );
+                const inner = (
+                  <>
+                    <span className="w-7 text-xs tabular-nums">{String(i + 1).padStart(2, "0")}</span>
+                    <span className="font-serif text-[clamp(1.375rem,1.1rem+1vw,2rem)] leading-tight">{s.title}</span>
+                    <span className={cn("ml-auto h-0.5 bg-brass transition-[width] duration-200", on ? "w-8" : "w-0 group-hover:w-4")} aria-hidden />
+                  </>
+                );
+                return real ? (
+                  <button
+                    key={s.id}
+                    ref={(el) => {
+                      tabs.current[i] = el;
+                    }}
+                    role="tab"
+                    id={`seg-tab-${s.id}`}
+                    aria-selected={on}
+                    aria-controls={`seg-panel-${s.id}`}
+                    tabIndex={on ? 0 : -1}
+                    onClick={() => select(i)}
+                    onKeyDown={(e) => onKey(e, i)}
+                    className={cls}
+                  >
+                    {inner}
+                  </button>
+                ) : (
+                  <div key={s.id} className={cls}>
+                    {inner}
+                  </div>
+                );
+              })}
             </div>
           ) : null}
 
-          <div className={cn("relative", enhanced ? "lg:col-span-7" : "lg:col-span-12", !enhanced && "space-y-16")}>
+          <div className={cn(enhanced ? "lg:col-span-7" : "lg:col-span-12", !enhanced && "space-y-16")}>
             {segs.map((s, i) => (
               <div
                 key={s.id}
-                id={`seg-panel-${s.id}`}
-                role={enhanced ? "tabpanel" : undefined}
-                aria-labelledby={enhanced ? `seg-tab-${s.id}` : undefined}
+                id={real ? `seg-panel-${s.id}` : undefined}
+                role={real && enhanced ? "tabpanel" : undefined}
+                aria-labelledby={real && enhanced ? `seg-tab-${s.id}` : undefined}
                 hidden={enhanced && active !== i}
                 data-active={enhanced && active === i ? "" : undefined}
-                className="seg-panel grid gap-8 border border-line-soft bg-surface p-8  sm:p-10"
+                className={cn("seg-panel grid gap-8 border p-8 sm:p-10", dark ? "border-navy-line bg-navy-soft" : "border-line-soft bg-surface")}
               >
                 <div className="seg-copy flex flex-col">
-                  {!enhanced ? <h3 className="h2">{s.title}</h3> : <p className="eyebrow text-ink-3">{String(i + 1).padStart(2, "0")} / 04</p>}
-                  <p className="mt-6 max-w-[22ch] font-serif text-[clamp(1.5rem,1.1rem+1.4vw,2.25rem)] leading-snug text-ink">{s.short}</p>
+                  {!enhanced ? <h3 className="h2">{s.title}</h3> : <p className={cn("eyebrow", dark ? "text-on-dark-3" : "text-ink-3")}>{String(i + 1).padStart(2, "0")} / 04</p>}
+                  <p className="mt-6 max-w-[26ch] font-serif text-[clamp(1.5rem,1.1rem+1.4vw,2.25rem)] leading-snug">{s.short}</p>
                   <div className="mt-auto pt-10">
-                    <ModuleButton href={href("whoWeServe", locale, s.id)} ariaLabel={`${t.common.howWeHelp}: ${s.title}`}>
+                    <ModuleButton href={href("whoWeServe", locale, s.id)} tone={dark ? "dark" : "light"} ariaLabel={`${t.common.howWeHelp}: ${s.title}`}>
                       {t.common.howWeHelp}
                     </ModuleButton>
                   </div>
@@ -101,10 +168,23 @@ export function WhoWeServeTabs({ locale, t }: { locale: Locale; t: Dict }) {
             ))}
           </div>
         </div>
-
       </Container>
-      {/* Passagem para o grafite: C em contraforma (o texto acima nunca é coberto) */}
-      <CReveal />
+    );
+  };
+
+  return (
+    <section ref={section} className="relative overflow-hidden border-t border-line bg-surface-muted" aria-labelledby="serve-title">
+      <div className="pb-48 pt-24 sm:pb-64 sm:pt-32">
+        {content(false)}
+      </div>
+      <div
+        ref={darkLayer}
+        className="on-dark pointer-events-none absolute inset-0 hidden bg-navy pb-48 pt-24 text-on-dark sm:pb-64 sm:pt-32"
+        aria-hidden
+        inert
+      >
+        {content(true)}
+      </div>
     </section>
   );
 }

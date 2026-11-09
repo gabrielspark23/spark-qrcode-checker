@@ -226,8 +226,8 @@ export default function StyleguidePage() {
             </div>
             <div className="border border-line bg-surface p-8 text-[0.9375rem] text-ink-2">
               <p className="font-semibold text-ink">Offset Circular Reveal</p>
-              <p className="mt-2">Transição pedra → grafite vinculada ao scroll (Home: “Our geometry” e chamada final). Raio inicial ≈ 5% do final, centro em 68% × 65%, sobe para 60% × 42% enquanto cobre. Duas camadas com o mesmo layout: o texto inverte de cor na borda da máscara e nunca fica ilegível.</p>
-              <Spec>&lt;CircleReveal light=&#123;…&#125; dark=&#123;…&#125; /&gt; · estático sem JS, com movimento reduzido ou se o conteúdo não couber na tela</Spec>
+              <p className="mt-2">Home, “Our geometry”: a seção grafite chega com a rolagem, sem fixar a página. Raio inicial ≈ 5% do final, centro em 68% × 65%, sobe para 60% × 42%. Propósito: marcar a mudança de capítulo e conduzir a leitura — cada marco se desenha quando o seu item chega à zona de leitura. Chamada final: Convergência — linhas BR e US se encontram num ponto de latão acima da ação.</p>
+              <Spec>&lt;CircleReveal light=&#123;…&#125; dark=&#123;…&#125; /&gt; · sem sticky, amortecimento leve · estático sem JS ou com movimento reduzido</Spec>
             </div>
           </div>
         </Container>

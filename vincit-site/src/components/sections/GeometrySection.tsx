@@ -27,6 +27,8 @@ function GeometryContent({ t, dark }: { t: Dict; dark: boolean }) {
             return (
               <li
                 key={item.title}
+                data-step={dark ? i : undefined}
+                style={{ ["--draw" as string]: `var(--d${i}, 1)` }}
                 className={cn("geo-item grid grid-cols-[3.5rem_1fr] gap-6 border-b py-6 sm:grid-cols-[4.5rem_1fr] sm:py-7", dark ? "border-navy-line" : "border-line-soft")}
               >
                 <Mark className="h-14 w-14 sm:h-[4.5rem] sm:w-[4.5rem]" tone={dark ? "brass" : "ink"} />

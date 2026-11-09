@@ -5,7 +5,7 @@ import { ProcessSteps } from "@/components/sections/ProcessSteps";
 import { SegmentCards } from "@/components/sections/SegmentCards";
 import { CustodyBand } from "@/components/sections/CustodyBand";
 import { TechBlock } from "@/components/sections/TechBlock";
-import { FinalCtaReveal } from "@/components/sections/FinalCtaReveal";
+import { FinalCtaConverge } from "@/components/sections/FinalCtaConverge";
 import { GeometrySection } from "@/components/sections/GeometrySection";
 import { Container, Section, SectionHeader } from "@/components/ui/Layout";
 import { LinkArrow } from "@/components/ui/Button";
@@ -44,7 +44,7 @@ export function HomeView({ locale }: { locale: Locale }) {
       </Section>
       <CustodyBand t={t} />
       <TechBlock t={t} />
-      <FinalCtaReveal locale={locale} t={t} />
+      <FinalCtaConverge locale={locale} t={t} />
     </>
   );
 }

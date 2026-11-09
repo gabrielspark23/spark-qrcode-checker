@@ -623,10 +623,7 @@ details[open] .faq-icon {
    Architectural Motion — círculo, V e escudo
    ================================================================== */
 
-/* ---- Offset Circular Reveal ------------------------------------- */
-.reveal {
-  position: relative;
-}
+/* ---- Offset Circular Reveal (sem fixar a página) ---------------- */
 .reveal-stage {
   position: relative;
 }
@@ -639,38 +636,28 @@ details[open] .faq-icon {
 }
 @media (min-width: 640px) {
   .reveal-layer {
-    padding-block: 7rem;
+    padding-block: 8rem;
   }
 }
-
-.reveal[data-enhanced] {
-  height: var(--reveal-length, 240svh);
-}
-.reveal[data-enhanced] .reveal-stage {
-  position: sticky;
-  top: 0;
-  height: 100svh;
-  overflow: hidden;
-}
-.reveal[data-enhanced] .reveal-layer {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  padding-block: 4.5rem 0;
+.reveal-dark {
+  position: relative;
+  z-index: 1;
 }
 .reveal[data-enhanced] .reveal-light {
-  display: flex;
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
 }
 .reveal[data-enhanced] .reveal-dark {
   clip-path: circle(var(--r, 0px) at var(--cx, 68%) var(--cy, 65%));
-  will-change: clip-path;
 }
 /* Anéis de latão no limite da máscara, deslocados (offset) e discretos */
 .reveal[data-enhanced] .reveal-ring {
   display: block;
   position: absolute;
   inset: 0;
+  z-index: 2;
   width: 100%;
   height: 100%;
   pointer-events: none;
@@ -805,4 +792,60 @@ details[open] .faq-icon {
 }
 .footer-social:hover::before {
   transform: scale(1);
+}
+
+/* ---- Convergência (chamada final) -------------------------------- */
+.converge {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: none;
+}
+.converge[data-ready] {
+  display: block;
+}
+.converge-line {
+  position: absolute;
+  top: 0;
+  height: 1px;
+  background: var(--border-rule);
+}
+.converge-l {
+  left: var(--inset);
+  width: var(--l-len);
+  transform-origin: left center;
+  transform: rotate(var(--l-ang)) scaleX(var(--p, 0));
+}
+.converge-r {
+  right: var(--inset);
+  width: var(--r-len);
+  transform-origin: right center;
+  transform: rotate(var(--r-ang)) scaleX(var(--p, 0));
+}
+.converge-label {
+  position: absolute;
+  top: 1.25rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+  opacity: min(1, calc(var(--p, 0) * 4));
+}
+.converge-label-l {
+  left: var(--inset);
+}
+.converge-label-r {
+  right: var(--inset);
+}
+.converge-node {
+  position: absolute;
+  left: var(--ax);
+  top: var(--ay);
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  border-radius: 9999px;
+  background: var(--color-gold);
+  /* surge só quando as linhas se encontram */
+  transform: scale(clamp(0, calc((var(--p, 0) - 0.94) * 16.7), 1));
 }

@@ -85,3 +85,13 @@ Editorial Luxury + Geometric Brand Language + Scroll-Driven Storytelling".
 - Marca em estilhaços: escudo, V e círculo separados do `escudo-vincit.svg` oficial (`MARK_PARTS`).
 - Header muda de tom conforme a seção por baixo (clara/grafite).
 - Globo gira continuamente (4°/s), inclusive no celular e na página de Contato.
+
+## 8. Rodada de ajustes (liderança, globo, manifesto)
+
+- Cartões da liderança: no hover/foco do LinkedIn, um círculo claro nasce do link e cobre o cartão; o texto
+  troca de cor acompanhando a borda.
+- Globo: enquadramento e zoom mantidos. Porto Alegre e Caxias do Sul (~95 km) ganham rótulos com filete e,
+  no foco, uma lente ampliada com as duas cidades e a distância.
+- Sobre: seção "Nosso manifesto" com o vídeo oficial do YouTube (`wVIGLRQBq4U`, canal Vincit Capital).
+  Capa servida pelo site; o player (youtube-nocookie) só carrega no clique. **Confirmar com o Ricardo** o
+  uso no site americano.

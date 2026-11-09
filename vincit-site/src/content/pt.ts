@@ -376,6 +376,15 @@ export const pt: Dict = {
       { city: "San Diego, Califórnia", body: "Sede e equipe nos EUA." },
       { city: "Brasil", body: "Equipe local para clientes e patrimônio no Brasil." },
     ],
+    manifesto: {
+      eyebrow: "Nosso manifesto",
+      lines: ["Mais do que superar obstáculos.", "Muito além do que superar alguém."],
+      closing: "Para a Vincit Capital, vencer tem outro significado.",
+      title: "Nosso manifesto — Vincit Capital",
+      play: "Assista ao manifesto",
+      duration: "0:53",
+      note: "",
+    },
     quote: "Uma curadoria financeira que sabe que cada pessoa é única. A forma de investir também deve ser.",
   },
   serve: {

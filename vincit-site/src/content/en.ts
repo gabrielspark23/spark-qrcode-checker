@@ -379,6 +379,15 @@ export const en = {
       { city: "San Diego, California", body: "Headquarters and U.S. team." },
       { city: "Brazil", body: "Local team for clients and assets in Brazil." },
     ],
+    manifesto: {
+      eyebrow: "Our manifesto",
+      lines: ["More than overcoming obstacles.", "Far beyond outdoing someone."],
+      closing: "For Vincit Capital, winning means something else.",
+      title: "Our manifesto — Vincit Capital",
+      play: "Watch the manifesto",
+      duration: "0:53",
+      note: "In Portuguese",
+    },
     quote: "A financial curation that knows each person is unique. The way to invest should be too.",
   },
   serve: {

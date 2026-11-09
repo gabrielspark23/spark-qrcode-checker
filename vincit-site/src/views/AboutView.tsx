@@ -1,5 +1,6 @@
 import { PageHero } from "@/components/sections/PageHero";
 import { ProcessSteps } from "@/components/sections/ProcessSteps";
+import { ManifestoVideo } from "@/components/sections/ManifestoVideo";
 import { LogoMark } from "@/components/brand/Logo";
 import { Container } from "@/components/ui/Layout";
 import { getDict } from "@/content";
@@ -9,6 +10,7 @@ import type { Locale } from "@/lib/i18n";
 export function AboutView({ locale }: { locale: Locale }) {
   const t = getDict(locale);
   const a = t.about;
+  const m = a.manifesto;
   return (
     <>
       <PageHero eyebrow={a.eyebrow} title={a.title} motif="orbit" size="statement" />
@@ -30,10 +32,28 @@ export function AboutView({ locale }: { locale: Locale }) {
         </Container>
       </section>
 
-      {/* Missão e visão */}
-      <section className="on-dark bg-navy py-20 text-on-dark sm:py-28">
+      {/* Manifesto (vídeo oficial) + missão e visão, no mesmo capítulo grafite */}
+      <section className="on-dark bg-navy py-20 text-on-dark sm:py-28" aria-labelledby="manifesto-title">
         <Container>
-          <div className="grid gap-14 lg:grid-cols-12">
+          <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
+            <div className="lg:col-span-4">
+              <h2 id="manifesto-title" className="eyebrow flex items-center gap-3 text-brass">
+                <span className="h-px w-6 bg-brass" aria-hidden />
+                {m.eyebrow}
+              </h2>
+              <p className="mt-8 font-serif text-[clamp(1.625rem,1.2rem+1.4vw,2.25rem)] leading-snug">
+                {m.lines.map((l) => (
+                  <span key={l} className="block text-on-dark-2">{l}</span>
+                ))}
+                <span className="mt-3 block text-on-dark">{m.closing}</span>
+              </p>
+            </div>
+            <div className="lg:col-span-8">
+              <ManifestoVideo title={m.title} playLabel={m.play} duration={m.duration} note={m.note || undefined} captions={locale === "en"} />
+            </div>
+          </div>
+
+          <div className="mt-20 grid gap-14 border-t border-navy-line pt-16 sm:mt-28 lg:grid-cols-12">
             <div className="flex lg:col-span-2">
               <LogoMark className="h-16 w-auto" />
             </div>

@@ -1669,29 +1669,66 @@ html[data-loader="leaving"] .route-loader {
   transition: background-color var(--dur-base) var(--ease-out);
 }
 
-/* ---- Liderança: o cartão se inverte quando o LinkedIn recebe o mouse/foco ---- */
-.leader-card,
+/* ---- Liderança: o cartão se inverte quando o LinkedIn recebe o mouse/foco ----
+   Um círculo claro nasce do próprio link (canto inferior esquerdo) e cresce até cobrir o cartão;
+   o texto troca de cor quando a borda do círculo passa por ele: link → cargo → nome → número.
+   Na saída o círculo recolhe mais rápido e o texto volta na ordem inversa. */
+.leader-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  --lc-o: 2.6rem calc(100% - 2.6rem); /* origem: sobre a seta do LinkedIn */
+}
+.leader-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--bg-surface);
+  clip-path: circle(0% at var(--lc-o));
+  transition: clip-path 520ms var(--ease-in-out);
+}
+.leader-card > * { position: relative; }
 .leader-card :is(.lc-num, .lc-name, .lc-role, .lc-link) {
-  transition:
-    background-color var(--dur-base) var(--ease-out),
-    color var(--dur-base) var(--ease-out);
+  transition: color 220ms var(--ease-out);
 }
-.leader-card:has(.lc-link:hover, .lc-link:focus-visible) {
-  background-color: var(--bg-surface);
-  color: var(--text-primary);
+/* saída: volta de cima para baixo, enquanto o círculo recolhe */
+.leader-card .lc-num { transition-delay: 0ms; }
+.leader-card .lc-name { transition-delay: 60ms; }
+.leader-card .lc-role { transition-delay: 120ms; }
+.leader-card .lc-link { transition-delay: 180ms; }
+
+.leader-card:has(.lc-link:hover, .lc-link:focus-visible)::before {
+  clip-path: circle(150% at var(--lc-o));
+  transition: clip-path 900ms var(--ease-in-out);
 }
-.leader-card:has(.lc-link:hover, .lc-link:focus-visible) .lc-num {
-  color: var(--text-muted);
-}
-.leader-card:has(.lc-link:hover, .lc-link:focus-visible) .lc-name {
-  color: var(--text-primary);
-}
-.leader-card:has(.lc-link:hover, .lc-link:focus-visible) .lc-role {
-  color: var(--text-secondary); /* latão sobre branco não tem contraste: vira tinta */
-}
-.leader-card:has(.lc-link:hover, .lc-link:focus-visible) .lc-link {
-  color: var(--text-primary);
-}
+/* entrada: acompanha a borda do círculo, de baixo para cima */
+.leader-card:has(.lc-link:hover, .lc-link:focus-visible) .lc-link { color: var(--text-primary); transition-delay: 150ms; }
+.leader-card:has(.lc-link:hover, .lc-link:focus-visible) .lc-role { color: var(--text-secondary); transition-delay: 260ms; } /* latão sobre branco não tem contraste */
+.leader-card:has(.lc-link:hover, .lc-link:focus-visible) .lc-name { color: var(--text-primary); transition-delay: 330ms; }
+.leader-card:has(.lc-link:hover, .lc-link:focus-visible) .lc-num { color: var(--text-muted); transition-delay: 420ms; }
 .leader-card .lc-link:focus-visible {
   outline-color: var(--primary);
+}
+@media (prefers-reduced-motion: reduce) {
+  .leader-card::before,
+  .leader-card:has(.lc-link:hover, .lc-link:focus-visible)::before {
+    clip-path: none;
+    opacity: 0;
+    transition: opacity 200ms linear;
+  }
+  .leader-card:has(.lc-link:hover, .lc-link:focus-visible)::before { opacity: 1; }
+  .leader-card :is(.lc-num, .lc-name, .lc-role, .lc-link) { transition-delay: 0ms !important; }
+}
+
+/* ---- Manifesto: botão de play (círculo da marca + anel deslocado que encaixa no hover) ---- */
+.manifesto-btn { transition: transform 500ms var(--ease-out), background-color 300ms var(--ease-out); }
+.manifesto-ring { transform: translate(6px, -5px); transition: transform 600ms var(--ease-out), opacity 300ms var(--ease-out); }
+.manifesto-play:hover .manifesto-btn,
+.manifesto-play:focus-visible .manifesto-btn { transform: scale(1.06); background-color: rgb(194 162 99 / 0.18); }
+.manifesto-play:hover .manifesto-ring,
+.manifesto-play:focus-visible .manifesto-ring { transform: translate(0, 0); opacity: 0; }
+.manifesto-play:focus-visible { outline: 2px solid var(--color-gold, #c2a263); outline-offset: -4px; }
+@media (prefers-reduced-motion: reduce) {
+  .manifesto-btn, .manifesto-ring, .manifesto-play img { transition: none !important; }
 }

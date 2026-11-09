@@ -33,7 +33,7 @@ export default function GlobeInteractive({
     let cleanup = () => {};
 
     (async () => {
-      const [{ geoOrthographic, geoPath, geoInterpolate }, dotsMod] = await Promise.all([import("d3-geo"), import("./dots.json")]);
+      const [{ geoOrthographic, geoPath, geoInterpolate, geoDistance }, dotsMod] = await Promise.all([import("d3-geo"), import("./dots.json")]);
       if (disposed) return;
       const raw = ((dotsMod as { default?: number[] }).default ?? dotsMod) as number[];
       const n = raw.length / 3;
@@ -71,11 +71,6 @@ export default function GlobeInteractive({
         canvas.height = Math.round(w * dpr);
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         proj.translate([w / 2, w / 2]);
-      };
-
-      const front = (lonlat: [number, number]) => {
-        const [l0, p0] = [-rot[0] * R, -rot[1] * R];
-        return Math.sin(p0) * Math.sin(lonlat[1] * R) + Math.cos(p0) * Math.cos(lonlat[1] * R) * Math.cos(lonlat[0] * R - l0) > 0;
       };
 
       const draw = (now: number) => {
@@ -121,20 +116,102 @@ export default function GlobeInteractive({
           ctx.strokeStyle = "#d4bc8b"; ctx.lineWidth = 2; ctx.stroke();
         }
 
-        // escritórios: ponto + anel que respira
+        // escritórios: ponto + anel que respira + rótulo com filete (leque para não se sobreporem)
         const breathe = reduced ? 0.5 : (Math.sin(now / 700) + 1) / 2;
-        const city = (ll: [number, number], main: boolean, on: boolean) => {
-          if (!front(ll)) return;
+        const font = getComputedStyle(canvas).fontFamily || "sans-serif";
+        // no Sul do Brasil os dois escritórios ficam a ~95 km: anéis enxutos para não se fundirem
+        let cityLabels = 1;
+        const ring = (on: boolean, main: boolean) => (on ? 9 : main ? 6 : 5);
+        const city = (ll: [number, number], name: string, main: boolean, on: boolean, dir: [number, number]) => {
+          const cosc = sp0 * Math.sin(ll[1] * R) + cp0 * Math.cos(ll[1] * R) * Math.cos(ll[0] * R - l0);
+          if (cosc <= 0) return;
           const p = proj(ll);
           if (!p) return;
-          ctx.beginPath(); ctx.arc(p[0], p[1], (on ? 13 : 9) + breathe * 3, 0, Math.PI * 2);
-          ctx.strokeStyle = `rgba(194,162,99,${on ? 0.85 : 0.35 + 0.25 * (1 - breathe)})`; ctx.lineWidth = 1; ctx.stroke();
-          ctx.beginPath(); ctx.arc(p[0], p[1], main ? 3.5 : 2.6, 0, Math.PI * 2);
+          const fade = Math.min(1, cosc / 0.35); // some suave perto da borda
+          ctx.globalAlpha = fade;
+          ctx.beginPath(); ctx.arc(p[0], p[1], ring(on, main) + breathe * 2, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(194,162,99,${on ? 0.9 : 0.3 + 0.25 * (1 - breathe)})`; ctx.lineWidth = 1; ctx.stroke();
+          ctx.beginPath(); ctx.arc(p[0], p[1], main ? 3.5 : 3, 0, Math.PI * 2);
           ctx.fillStyle = main ? "#c2a263" : "#f5f5f4"; ctx.fill();
+
+          if (cityLabels <= 0.01) { ctx.globalAlpha = 1; return; }
+          ctx.globalAlpha = fade * cityLabels;
+          // filete diagonal + horizontal até o nome
+          const reach = 18 + 10 * Math.min(1, zoom - 1);
+          const ex = p[0] + dir[0] * reach, ey = p[1] + dir[1] * reach;
+          const hx = ex + 14;
+          const r0 = ring(on, main) + 3;
+          ctx.beginPath();
+          ctx.moveTo(p[0] + dir[0] * r0, p[1] + dir[1] * r0); ctx.lineTo(ex, ey); ctx.lineTo(hx, ey);
+          ctx.strokeStyle = on ? "rgba(212,188,139,0.9)" : "rgba(194,162,99,0.55)"; ctx.stroke();
+          ctx.font = `${on ? 600 : 500} ${on ? 13 : 12}px ${font}`;
+          ctx.textBaseline = "middle";
+          ctx.fillStyle = on ? "#f5f5f4" : "rgba(232,228,221,0.78)";
+          ctx.fillText(name, hx + 6, ey);
+          ctx.globalAlpha = 1;
         };
-        city(SAN_DIEGO, true, active === "us");
-        city(CAXIAS_DO_SUL, false, active === "cxs");
-        city(PORTO_ALEGRE, true, active === "poa");
+        const d = Math.SQRT1_2;
+        city(SAN_DIEGO, "San Diego", true, active === "us", [d, -d]);
+        const pa = proj(PORTO_ALEGRE), cx = proj(CAXIAS_DO_SUL);
+        const cosS = sp0 * Math.sin(PORTO_ALEGRE[1] * R) + cp0 * Math.cos(PORTO_ALEGRE[1] * R) * Math.cos(PORTO_ALEGRE[0] * R - l0);
+        // lente: aparece com o foco no Sul do Brasil (zoom) e mostra os dois escritórios ampliados
+        const lens = decorative ? 0 : Math.min(1, Math.max(0, (zoom - 1.5) / 0.6)) * Math.min(1, Math.max(0, cosS / 0.35));
+        cityLabels = 1 - lens; // na lente os nomes aparecem ampliados
+        city(CAXIAS_DO_SUL, "Caxias do Sul", false, active === "cxs", [d, -d]);
+        city(PORTO_ALEGRE, "Porto Alegre", true, active === "poa", [d, d]);
+        cityLabels = 1;
+
+        if (lens > 0 && pa && cx) {
+          const mx = (pa[0] + cx[0]) / 2, my = (pa[1] + cx[1]) / 2;
+          const LR = Math.max(62, Math.min(86, w * 0.11)); // raio da lente
+          const MAG = 5.5;
+          let lx = mx + LR + 56, ly = my + LR * 0.55 + 30;
+          lx = Math.min(lx, w - LR - 12); ly = Math.min(ly, w - LR - 12);
+          ctx.globalAlpha = lens;
+          // anel de captura em volta das cidades + filete até a lente
+          const cap = Math.hypot(pa[0] - cx[0], pa[1] - cx[1]) / 2 + 9;
+          ctx.beginPath(); ctx.arc(mx, my, cap, 0, Math.PI * 2);
+          ctx.strokeStyle = "rgba(194,162,99,0.6)"; ctx.lineWidth = 1; ctx.stroke();
+          const ang = Math.atan2(ly - my, lx - mx);
+          ctx.beginPath();
+          ctx.moveTo(mx + Math.cos(ang) * cap, my + Math.sin(ang) * cap);
+          ctx.lineTo(lx - Math.cos(ang) * LR, ly - Math.sin(ang) * LR);
+          ctx.stroke();
+          // corpo da lente
+          ctx.beginPath(); ctx.arc(lx, ly, LR, 0, Math.PI * 2);
+          ctx.fillStyle = "rgba(16,18,23,0.92)"; ctx.fill();
+          ctx.strokeStyle = "rgba(194,162,99,0.75)"; ctx.stroke();
+          ctx.beginPath(); ctx.arc(lx + LR * 0.06, ly - LR * 0.05, LR, 0, Math.PI * 2);
+          ctx.strokeStyle = "rgba(194,162,99,0.2)"; ctx.stroke();
+          // cidades ampliadas, mesma orientação do globo
+          const P = (q: [number, number]) => [lx + (q[0] - mx) * MAG, ly + (q[1] - my) * MAG] as const;
+          const A = P(pa as [number, number]), C = P(cx as [number, number]);
+          ctx.beginPath(); ctx.setLineDash([2, 4]);
+          ctx.moveTo(A[0], A[1]); ctx.lineTo(C[0], C[1]);
+          ctx.strokeStyle = "rgba(194,162,99,0.7)"; ctx.stroke(); ctx.setLineDash([]);
+          const dot = (q: readonly [number, number], main: boolean, on: boolean) => {
+            ctx.beginPath(); ctx.arc(q[0], q[1], (on ? 8 : 6) + breathe * 2, 0, Math.PI * 2);
+            ctx.strokeStyle = `rgba(194,162,99,${on ? 0.9 : 0.45})`; ctx.stroke();
+            ctx.beginPath(); ctx.arc(q[0], q[1], main ? 3.5 : 3, 0, Math.PI * 2);
+            ctx.fillStyle = main ? "#c2a263" : "#f5f5f4"; ctx.fill();
+          };
+          dot(C, false, active === "cxs");
+          dot(A, true, active === "poa");
+          ctx.textBaseline = "middle";
+          const lab = (q: readonly [number, number], name: string, on: boolean, dy: number) => {
+            ctx.font = `${on ? 600 : 500} 12px ${font}`;
+            ctx.fillStyle = on ? "#f5f5f4" : "rgba(232,228,221,0.8)";
+            ctx.textAlign = "left";
+            ctx.fillText(name, q[0] + 14, q[1] + dy);
+          };
+          lab(C, "Caxias do Sul", active === "cxs", -4);
+          lab(A, "Porto Alegre", active === "poa", 4);
+          const km = Math.round((geoDistance(PORTO_ALEGRE, CAXIAS_DO_SUL) * 6371) / 5) * 5;
+          ctx.font = `500 11px ${font}`; ctx.textAlign = "right";
+          ctx.fillStyle = "rgba(194,162,99,0.95)";
+          ctx.fillText(`≈ ${km} km`, (A[0] + C[0]) / 2 - 10, (A[1] + C[1]) / 2);
+          ctx.textAlign = "left"; ctx.globalAlpha = 1;
+        }
         ctx.restore();
 
         // esfera: traço fino + anel deslocado (o círculo "offset" da marca)

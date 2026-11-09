@@ -451,6 +451,7 @@ export const pt: Dict = {
     required: "Obrigatório",
     submit: "Enviar mensagem",
     sending: "Enviando…",
+    sent: "Enviado",
     errors: {
       name: "Informe o seu nome completo.",
       email: "Informe um e-mail válido.",

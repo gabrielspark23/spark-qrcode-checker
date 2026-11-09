@@ -454,6 +454,7 @@ export const en = {
     required: "Required",
     submit: "Send message",
     sending: "Sending…",
+    sent: "Sent",
     errors: {
       name: "Please enter your full name.",
       email: "Please enter a valid email address.",

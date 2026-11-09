@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useId, useRef, useState } from "react";
-import { CircleAlert, Check, LoaderCircle, RotateCcw } from "lucide-react";
+import { useEffect, useId, useRef, useState } from "react";
+import { CircleAlert, RotateCcw } from "lucide-react";
+import { SendMark } from "./SendMark";
 import { Button } from "@/components/ui/Button";
 import { track } from "@/components/layout/EventDelegate";
 import { ASSETS, CONSENT_TEXT_VERSION, TOPICS, validateLead, type FieldErrors, type LeadPayload } from "@/lib/lead";
@@ -10,7 +11,9 @@ import { href, type Locale } from "@/lib/i18n";
 import type { Dict } from "@/content";
 import { cn } from "@/lib/cn";
 
-type Status = "idle" | "submitting" | "success" | "error";
+type Status = "idle" | "submitting" | "done" | "success" | "error";
+
+const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 function utm(): LeadPayload["source"]["utm"] {
   const q = new URLSearchParams(window.location.search);
@@ -28,6 +31,16 @@ export function LeadForm({ locale, t }: { locale: Locale; t: Dict }) {
   const id = (n: string) => `${uid}-${n}`;
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<FieldErrors>({});
+  const successRef = useRef<HTMLDivElement>(null);
+  // a confirmação ocupa o lugar do formulário: leva a leitura até ela
+  useEffect(() => {
+    if (status !== "success") return;
+    const el = successRef.current;
+    if (!el) return;
+    el.focus({ preventScroll: true });
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    el.scrollIntoView({ block: "center", behavior: reduce ? "auto" : "smooth" });
+  }, [status]);
   const [started, setStarted] = useState(false);
   const [messageLen, setMessageLen] = useState(0);
   const summaryRef = useRef<HTMLDivElement>(null);
@@ -73,11 +86,15 @@ export function LeadForm({ locale, t }: { locale: Locale; t: Dict }) {
 
     setStatus("submitting");
     try {
-      const res = await fetch("/api/leads", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      // tempo mínimo de envio: a animação precisa ser percebida, mesmo com resposta instantânea
+      const [res] = await Promise.all([
+        fetch("/api/leads", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }),
+        wait(900),
+      ]);
       if (res.status === 400) {
         const data = (await res.json().catch(() => ({}))) as { errors?: FieldErrors };
         setErrors(data.errors ?? {});
@@ -86,8 +103,11 @@ export function LeadForm({ locale, t }: { locale: Locale; t: Dict }) {
         return;
       }
       if (!res.ok) throw new Error(String(res.status));
-      setStatus("success");
+      setStatus("done"); // escudo se preenche: confirmação visual
       track("form_submit", { topic: payload.topic ?? "" });
+      await wait(950);
+      setStatus("success");
+      return;
     } catch {
       setStatus("error");
       track("form_error", { reason: "network" });
@@ -97,9 +117,9 @@ export function LeadForm({ locale, t }: { locale: Locale; t: Dict }) {
 
   if (status === "success") {
     return (
-      <div className="border border-line bg-surface p-8 sm:p-10" role="status" aria-live="polite">
-        <span className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-success text-success">
-          <Check className="h-5 w-5" strokeWidth={1.75} aria-hidden />
+      <div ref={successRef} tabIndex={-1} className="border border-line bg-surface p-8 outline-none sm:p-10" role="status" aria-live="polite">
+        <span className="success-mark inline-flex h-14 w-14 items-center justify-center rounded-full border border-brass/50 text-ink">
+          <SendMark state="done" />
         </span>
         <h3 className="h3 mt-6">{f.success.title}</h3>
         <p className="mt-3 text-ink-2">{f.success.body}</p>
@@ -115,6 +135,7 @@ export function LeadForm({ locale, t }: { locale: Locale; t: Dict }) {
     );
   }
 
+  const busy = status === "submitting" || status === "done";
   const errorCount = Object.keys(errors).length;
   const describe = (name: keyof FieldErrors, hint?: string) =>
     [errors[name] ? id(`${name}-error`) : null, hint ? id(`${name}-hint`) : null].filter(Boolean).join(" ") || undefined;
@@ -276,10 +297,17 @@ export function LeadForm({ locale, t }: { locale: Locale; t: Dict }) {
 
       <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <p id={id("required-note")} className="text-xs text-ink-3">* {f.required}</p>
-        <Button type="submit" size="lg" disabled={status === "submitting"} icon={status === "submitting" ? "none" : "arrow"}
-          leading={status === "submitting" ? <LoaderCircle className="h-4 w-4 animate-spin" strokeWidth={1.75} /> : undefined}>
-          {status === "submitting" ? f.sending : f.submit}
+        <Button
+          type="submit"
+          size="lg"
+          disabled={busy}
+          className={cn("lead-submit", busy && "btn-sending", status === "done" && "btn-sent")}
+          icon={busy ? "none" : "arrow"}
+          leading={busy ? <SendMark state={status === "done" ? "done" : "sending"} /> : undefined}
+        >
+          {status === "done" ? f.sent : busy ? f.sending : f.submit}
         </Button>
+        <span className="sr-only" role="status" aria-live="polite">{busy ? (status === "done" ? f.sent : f.sending) : ""}</span>
       </div>
     </form>
   );

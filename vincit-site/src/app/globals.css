@@ -2213,27 +2213,70 @@ form ::selection { background: rgb(194 162 99 / 0.35); color: var(--text-primary
 }
 
 
-/* ---- Serviços: índice das seis disciplinas (varredura em latão, fundo e texto juntos) ---- */
-.disc-row { color: var(--text-primary); }
-.disc-base .disc-num { color: var(--text-muted); }
-.disc-base .disc-short { color: var(--text-secondary); }
-.disc-gold .disc-num, .disc-gold .disc-short { color: rgb(22 24 29 / 0.78); }
-.disc-gold {
+/* ---- Serviços: capítulos em grade (faixa grafite fixa, filetes, títulos por máscara, expansão) ---- */
+.sc-band { position: relative; z-index: 30; }
+@media (min-width: 1024px) { .sc-band { position: sticky; top: 4.5rem; } }
+.sc-cell { position: relative; border-left: 1px solid var(--color-navy-line, #2a2e37); transition: background-color 400ms var(--ease-out); }
+.sc-cell:last-child { border-right: 1px solid var(--color-navy-line, #2a2e37); }
+.sc-cell a { color: rgb(245 245 244 / 0.62); transition: color 300ms var(--ease-out); }
+.sc-cell:hover, .sc-cell:focus-within, .sc-cell[data-active] { background: var(--color-navy-soft, #23262e); }
+.sc-cell:hover a, .sc-cell:focus-within a, .sc-cell[data-active] a { color: var(--text-on-dark); }
+.sc-cell[data-active] .sc-cell-num { color: var(--color-gold); }
+.sc-cell-arrow { transition: translate 300ms var(--ease-out), opacity 300ms var(--ease-out); opacity: 0.5; }
+.sc-cell:hover .sc-cell-arrow, .sc-cell:focus-within .sc-cell-arrow { translate: 2px 2px; opacity: 1; }
+.sc-cell a:focus-visible { outline: 2px solid var(--color-gold); outline-offset: -4px; }
+.sc-cell-bar {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
   background: var(--color-gold);
-  color: #16181d;
-  clip-path: inset(0 100% 0 0);
-  transition: clip-path 620ms var(--ease-in-out);
-  pointer-events: none;
+  transform-origin: left;
+  transform: scaleX(var(--sp, 0));
+  opacity: 0.35;
+  transition: opacity 300ms var(--ease-out);
 }
-.disc-row:hover .disc-gold,
-.disc-row:focus-visible .disc-gold { clip-path: inset(0 0 0 0); }
-.disc-row:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 2px; }
-@media (prefers-reduced-motion: reduce) {
-  .disc-gold { transition: none; }
-}
+.sc-cell[data-active] .sc-cell-bar { opacity: 1; }
 
-/* ---- Serviços: lâmina dos capítulos (Offset Lens) ---- */
-.svc-plate { border-radius: 2.5rem 0.5rem 2.5rem 0.5rem; }
-@media (min-width: 1024px) { .svc-plate { border-radius: 4rem 0.75rem 4rem 0.75rem; } }
-.svc-plate-light { background: #efebe4; }
-.svc-plate-dark { background: var(--color-navy-soft, #23262e); }
+/* capítulo: superfície muda quando está em leitura */
+.sc-chapter { background: var(--bg-app); transition: background-color 700ms var(--ease-out); }
+.sc-chapter[data-active] { background: #f4f1eb; }
+.sc-rule { position: absolute; left: 0; right: 0; top: 0; height: 1px; background: var(--border-soft); transform-origin: left; }
+.sc-from-right .sc-rule { transform-origin: right; }
+.sc-chapter[data-active] .sc-rule { background: var(--color-gold); }
+.sc-title { overflow: hidden; padding-bottom: 0.12em; }
+
+/* "o que fazemos": expansão controlada (sem JS fica aberto) */
+.sc-panel { display: grid; grid-template-rows: 1fr; }
+.sc-panel-inner { overflow: hidden; min-height: 0; }
+.sc-root[data-js] .sc-panel { grid-template-rows: 0fr; transition: grid-template-rows 560ms var(--ease-in-out); }
+.sc-root[data-js] .sc-panel[data-open] { grid-template-rows: 1fr; }
+.sc-root:not([data-js]) .sc-toggle { display: none; }
+.sc-toggle { color: var(--text-primary); }
+.sc-toggle-icon { position: relative; width: 1.75rem; height: 1.75rem; border-radius: 9999px; border: 1px solid var(--border-rule); transition: background-color 300ms var(--ease-out), border-color 300ms var(--ease-out); }
+.sc-toggle-icon::before, .sc-toggle-icon::after { content: ""; position: absolute; left: 50%; top: 50%; width: 0.7rem; height: 1px; background: currentColor; translate: -50% -50%; transition: rotate 360ms var(--ease-out); }
+.sc-toggle-icon::after { rotate: 90deg; }
+.sc-toggle[aria-expanded="true"] .sc-toggle-icon::after { rotate: 0deg; }
+.sc-toggle:hover .sc-toggle-icon, .sc-toggle:focus-visible .sc-toggle-icon { background: var(--color-navy); border-color: var(--color-navy); color: var(--text-on-dark); }
+.sc-toggle:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 4px; border-radius: 2px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* filete se desenha (esquerda→direita ou direita→esquerda, alternando) */
+  .sc-root[data-motion] .sc-rule { transform: scaleX(0); transition: transform 1100ms var(--ease-in-out), background-color 400ms var(--ease-out); }
+  .sc-root[data-motion] .sc-chapter[data-in] .sc-rule { transform: scaleX(1); }
+  /* título: capítulos ímpares sobem por máscara; pares entram por varredura lateral */
+  .sc-root[data-motion] .sc-from-left .sc-title-in { translate: 0 105%; transition: translate 900ms var(--ease-out) 150ms; }
+  .sc-root[data-motion] .sc-from-right .sc-title-in { clip-path: inset(0 100% 0 0); transition: clip-path 1000ms var(--ease-in-out) 150ms; }
+  .sc-root[data-motion] .sc-chapter[data-in] .sc-title-in { translate: 0 0; clip-path: inset(0 0 0 0); }
+  /* plano tipográfico: o resumo desliza levemente; a coluna direita entra em cascata */
+  .sc-root[data-motion] .sc-short,
+  .sc-root[data-motion] .sc-item { opacity: 0; translate: 0 14px; transition: opacity 700ms var(--ease-out), translate 700ms var(--ease-out); }
+  .sc-root[data-motion] .sc-chapter[data-in] .sc-short { opacity: 1; translate: 0 0; transition-delay: 450ms; }
+  .sc-root[data-motion] .sc-chapter[data-in] .sc-item { opacity: 1; translate: 0 0; }
+  .sc-root[data-motion] .sc-chapter[data-in] .sc-item:nth-child(2) { transition-delay: 120ms; }
+  .sc-root[data-motion] .sc-chapter[data-in] .sc-item:nth-child(3) { transition-delay: 240ms; }
+  .sc-root[data-motion] .sc-chapter[data-in] .sc-item:nth-child(4) { transition-delay: 360ms; }
+  /* itens do painel entram em cascata ao abrir */
+  .sc-root[data-motion] .sc-panel li { opacity: 0; translate: 0 8px; transition: opacity 400ms var(--ease-out), translate 400ms var(--ease-out); }
+  .sc-root[data-motion] .sc-panel[data-open] li { opacity: 1; translate: 0 0; }
+  .sc-root[data-motion] .sc-panel[data-open] li:nth-child(2) { transition-delay: 70ms; }
+  .sc-root[data-motion] .sc-panel[data-open] li:nth-child(3) { transition-delay: 140ms; }
+  .sc-root[data-motion] .sc-panel[data-open] li:nth-child(4) { transition-delay: 210ms; }
+}

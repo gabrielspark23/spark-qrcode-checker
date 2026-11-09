@@ -400,6 +400,10 @@ export const en = {
     eyebrow: "Our services",
     title: "Six disciplines, one plan.",
     intro: "Every service connects to your financial plan. Start with the one that worries you most; we take care of how it fits with the rest.",
+    serviceLabel: "Service",
+    overviewLabel: "Overview",
+    expand: "See what we do",
+    collapse: "Show less",
     indexLabel: "On this page",
   },
   contact: {

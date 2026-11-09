@@ -397,6 +397,10 @@ export const pt: Dict = {
     eyebrow: "Nossos serviços",
     title: "Seis frentes, um plano.",
     intro: "Todo serviço se conecta ao seu plano financeiro. Comece pelo que mais preocupa você; nós cuidamos de como ele se encaixa no resto.",
+    serviceLabel: "Serviço",
+    overviewLabel: "Visão geral",
+    expand: "Ver o que fazemos",
+    collapse: "Mostrar menos",
     indexLabel: "Nesta página",
   },
   contact: {

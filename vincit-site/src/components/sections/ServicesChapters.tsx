@@ -19,9 +19,12 @@ type Labels = {
 
 const num = (i: number) => String(i + 1).padStart(2, "0");
 
-/** Superfícies em sequência: pedra clara → grafite → latão (o dourado escuro da marca, com texto grafite). */
-const TONES = ["light", "dark", "gold"] as const;
-type Tone = (typeof TONES)[number];
+/**
+ * Superfícies por capítulo: claro → latão → claro → grafite → claro → grafite.
+ * O latão aparece uma vez, entre dois claros (nunca saindo do escuro); o último é grafite para emendar com o rodapé.
+ */
+type Tone = "light" | "dark" | "gold";
+const TONES: Tone[] = ["light", "gold", "light", "dark", "light", "dark"];
 
 /**
  * Serviços como capítulos de uma mesma estrutura (inspiração editorial em grade, adaptada à Vincit).
@@ -29,7 +32,7 @@ type Tone = (typeof TONES)[number];
  *   acende e um filete de latão mostra o progresso daquele capítulo.
  * - Cada capítulo: linha de metadados, título serifado enorme (fixo à esquerda) e, à direita, visão geral,
  *   situações típicas e "o que fazemos" com expansão controlada.
- * - Superfícies alternadas (pedra clara, grafite, latão) para ritmo e leitura; as escuras e douradas sobem
+ * - Superfícies alternadas (claro, latão, claro, grafite, claro, grafite) para ritmo e leitura; cada capítulo sobe
  *   sobre o capítulo anterior com cantos arredondados (mesma transição do Manifesto na Home).
  * - Rolagem: o filete do capítulo se desenha, o título se revela por máscara (direção alterna entre capítulos)
  *   e a superfície do capítulo ativo muda de leve. Sem JS ou com movimento reduzido: tudo visível e aberto.
@@ -111,7 +114,7 @@ export function ServicesChapters({ services, labels }: { services: Service[]; la
 
 function Chapter({ s, i, active, labels }: { s: Service; i: number; active: boolean; labels: Labels }) {
   const [open, setOpen] = useState(false);
-  const tone: Tone = TONES[i % TONES.length];
+  const tone: Tone = TONES[i] ?? "light";
   const panel = useId();
   return (
     <section

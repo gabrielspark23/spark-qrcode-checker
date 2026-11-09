@@ -23,7 +23,7 @@ export function ServicesView({ locale }: { locale: Locale }) {
         art={
           <ServicesOrbit
             items={t.services.map((s) => ({ id: s.id, title: s.title }))}
-            className="absolute top-[6.5rem] hidden h-[27rem] w-[27rem] xl:right-[max(1rem,calc((100vw-80rem)/2+1rem))] xl:block"
+            className="absolute right-[-22rem] top-[-12rem] hidden h-[50rem] w-[50rem] xl:block"
           />
         }
       />

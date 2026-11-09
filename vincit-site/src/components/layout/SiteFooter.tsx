@@ -1,81 +1,122 @@
 import Link from "next/link";
 import { Logo } from "@/components/brand/Logo";
+import { Button } from "@/components/ui/Button";
 import { DraftNote } from "@/components/ui/Layout";
 import { href, type Locale } from "@/lib/i18n";
 import { site } from "@/lib/site";
 import type { Dict } from "@/content";
 
+function LinkedInIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden>
+      <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4V21H3V9.75Zm6.5 0h3.83v1.54h.05c.53-1 1.84-2.06 3.79-2.06 4.05 0 4.8 2.67 4.8 6.13V21h-4v-4.98c0-1.19-.02-2.72-1.66-2.72-1.66 0-1.91 1.3-1.91 2.63V21h-4V9.75Z" />
+    </svg>
+  );
+}
+
+function InstagramIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden>
+      <rect x="3.5" y="3.5" width="17" height="17" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+/**
+ * Rodapé: cartão grafite recuado sobre pedra. Logo e redes à esquerda, filete vertical de latão,
+ * convite em pílula à direita; filete horizontal, navegação grande e linha legal.
+ */
 export function SiteFooter({ locale, t }: { locale: Locale; t: Dict }) {
   const f = t.footer;
-  const linkCls = "text-on-dark-2 transition-colors duration-150 hover:text-on-dark";
+  const muted = "text-on-dark-3 transition-colors duration-150 hover:text-on-dark";
+  const social = [
+    { href: site.linkedin, label: "LinkedIn", Icon: LinkedInIcon },
+    { href: site.instagram, label: "Instagram", Icon: InstagramIcon },
+  ];
+
   return (
-    <footer className="on-dark border-t border-navy-line bg-navy text-on-dark">
-      <div className="mx-auto max-w-7xl px-5 pb-10 pt-16 sm:px-8 sm:pt-20">
-        <div className="grid gap-12 lg:grid-cols-12">
-          <div className="lg:col-span-4">
-            <Link href={href("home", locale)} className="inline-block rounded-[2px]" aria-label="Vincit Capital — Home">
-              <Logo onDark />
-            </Link>
-            <p className="mt-6 max-w-xs text-sm leading-relaxed text-on-dark-2">{f.tagline}</p>
-            <span className="rule-brass mt-8" aria-hidden />
-          </div>
+    <footer className="bg-app px-3 pb-3 pt-3 sm:px-5 sm:pb-5 sm:pt-5">
+      <div className="on-dark relative overflow-hidden rounded-[10px] bg-navy text-on-dark">
+        <div className="mx-auto max-w-7xl px-6 pb-8 pt-12 sm:px-12 sm:pt-16 lg:px-16">
+          {/* Topo: marca | convite */}
+          <div className="grid gap-12 lg:grid-cols-[1fr_1px_1fr] lg:gap-16">
+            <div className="flex flex-col justify-between gap-12">
+              <div>
+                <Link href={href("home", locale)} className="inline-block rounded-[2px]" aria-label="Vincit Capital — Home">
+                  <Logo onDark />
+                </Link>
+              </div>
+              <ul className="flex gap-3" aria-label={f.social}>
+                {social.map(({ href: h, label, Icon }) => (
+                  <li key={label}>
+                    <a
+                      href={h}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={label}
+                      className="footer-social inline-flex h-12 w-12 items-center justify-center rounded-full border border-[#4a4e58] text-on-dark-2"
+                    >
+                      <Icon />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          <nav aria-label={f.navigation} className="lg:col-span-2">
-            <h2 className="eyebrow mb-5 font-sans text-on-dark-3">{f.navigation}</h2>
-            <ul className="space-y-3 text-sm">
-              {(["services", "whoWeServe", "team", "about", "contact"] as const).map((k) => (
-                <li key={k}>
-                  <Link href={href(k, locale)} className={linkCls}>
-                    {t.nav[k]}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+            <span className="hidden bg-brass/60 lg:block" aria-hidden />
 
-          <nav aria-label={f.services} className="lg:col-span-3">
-            <h2 className="eyebrow mb-5 font-sans text-on-dark-3">{f.services}</h2>
-            <ul className="space-y-3 text-sm">
-              {t.services.map((s) => (
-                <li key={s.id}>
-                  <Link href={href("services", locale, s.id)} className={linkCls}>
-                    {s.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          <div className="lg:col-span-3">
-            <h2 className="eyebrow mb-5 font-sans text-on-dark-3">{f.contact}</h2>
-            <address className="space-y-3 text-sm not-italic text-on-dark-2">
-              <p>
-                {site.address.line1 ? <>{site.address.line1}<br /></> : null}
-                {site.address.city}, {site.address.region}
+            <div>
+              <p className="max-w-[24ch] font-serif text-[clamp(1.5rem,1.2rem+1vw,2rem)] leading-snug text-on-dark">
+                {f.statement}
               </p>
-              {site.phone ? <p><a className={linkCls} href={`tel:${site.phone}`}>{site.phoneDisplay}</a></p> : null}
-              {site.email ? <p><a className={linkCls} href={`mailto:${site.email}`}>{site.email}</a></p> : null}
-              {!site.phone || !site.email ? <DraftNote onDark code="D8">{t.contact.pendingAddress}</DraftNote> : null}
-            </address>
-            <h2 className="eyebrow mb-4 mt-8 font-sans text-on-dark-3">{f.social}</h2>
-            <ul className="flex gap-5 text-sm">
-              <li><a className={linkCls} href={site.instagram} target="_blank" rel="noopener noreferrer">Instagram</a></li>
-              <li><a className={linkCls} href={site.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-            </ul>
+              <div className="mt-8 flex max-w-lg flex-col gap-3 rounded-[28px] border border-[#4a4e58] p-2 sm:flex-row sm:items-center sm:rounded-full sm:pl-6">
+                <span className="px-4 pt-2 text-sm text-on-dark-2 sm:flex-1 sm:p-0">
+                  {f.pill}
+                </span>
+                <Button href={href("contact", locale)} variant="brass-invert" event="cta_schedule_click" className="rounded-full">
+                  {t.nav.schedule}
+                </Button>
+              </div>
+              <address className="mt-8 space-y-1 text-sm not-italic text-on-dark-2">
+                <p>
+                  {site.address.line1 ? <>{site.address.line1}, </> : null}
+                  {site.address.city}, {site.address.region}
+                </p>
+                {site.phone ? <p><a className={muted} href={`tel:${site.phone}`}>{site.phoneDisplay}</a></p> : null}
+                {site.email ? <p><a className={muted} href={`mailto:${site.email}`}>{site.email}</a></p> : null}
+              </address>
+              {!site.phone || !site.email ? <DraftNote onDark className="mt-4" code="D8">{t.contact.pendingAddress}</DraftNote> : null}
+            </div>
           </div>
-        </div>
 
-        <div className="mt-16 border-t border-navy-line pt-8">
-          <p className="max-w-3xl text-xs leading-relaxed text-on-dark-3">{f.legal}</p>
-          <div className="mt-6 flex flex-col gap-4 text-xs text-on-dark-3 sm:flex-row sm:items-center sm:justify-between">
-            <p>© {new Date().getFullYear()} {site.name}. {f.rights}</p>
-            <ul className="flex gap-6">
-              <li><Link className={linkCls} href={href("disclosures", locale)}>{f.disclosures}</Link></li>
-              <li><Link className={linkCls} href={href("privacy", locale)}>{f.privacy}</Link></li>
-              <li>
-                <a className={linkCls} href={site.osLoginUrl} data-event="login_click">{t.nav.clientLogin}</a>
-              </li>
-            </ul>
+          {/* Filete + navegação grande */}
+          <div className="mt-14 border-t border-brass/60 pt-8 sm:mt-16">
+            <nav aria-label={f.navigation}>
+              <ul className="flex flex-wrap gap-x-10 gap-y-4">
+                {(["home", "services", "whoWeServe", "team", "about", "contact"] as const).map((k) => (
+                  <li key={k}>
+                    <Link href={href(k, locale)} className="nav-link text-[1.375rem] text-on-dark sm:text-2xl">
+                      {k === "home" ? (locale === "pt" ? "Início" : "Home") : t.nav[k]}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+
+          {/* Linha legal */}
+          <div className="mt-14 flex flex-col gap-5 border-t border-navy-line pt-6 text-xs text-on-dark-3 lg:flex-row lg:items-start lg:justify-between">
+            <p className="max-w-2xl leading-relaxed">{f.legal}</p>
+            <div className="flex flex-col gap-3 lg:items-end">
+              <ul className="flex flex-wrap gap-x-6 gap-y-2">
+                <li><Link className={muted} href={href("disclosures", locale)}>{f.disclosures}</Link></li>
+                <li><Link className={muted} href={href("privacy", locale)}>{f.privacy}</Link></li>
+                <li><a className={muted} href={site.osLoginUrl} data-event="login_click">{t.nav.clientLogin}</a></li>
+              </ul>
+              <p>© {new Date().getFullYear()} {site.name}. {f.rights}</p>
+            </div>
           </div>
         </div>
       </div>

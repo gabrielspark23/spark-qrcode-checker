@@ -62,6 +62,16 @@ export const en = {
       title: "One plan. Every part of your financial life.",
       intro: "Each line of service connects to the same plan, so decisions about protection, investments and taxes pull in the same direction.",
     },
+    geometry: {
+      eyebrow: "Our geometry",
+      title: "Three shapes, one way of working.",
+      intro: "Every plan we build rests on the same three ideas.",
+      items: [
+        { shape: "circle", title: "Continuity", body: "A plan is never finished. We review it as your life changes, year after year." },
+        { shape: "v", title: "Convergence", body: "Brazil and the United States: two systems meeting in a single plan." },
+        { shape: "shield", title: "Protection", body: "What you built stays protected, for you and for the people who depend on you." },
+      ],
+    },
     process: {
       eyebrow: "How it works",
       title: "From first meeting to lasting partnership.",
@@ -436,6 +446,8 @@ export const en = {
     englishPrevails: "",
   },
   footer: {
+    statement: "One plan for your life between Brazil and the United States.",
+    pill: "30 minutes · no commitment · English or Portuguese",
     tagline: "Independent, bilingual financial planning between Brazil and the United States.",
     navigation: "Navigation",
     services: "Services",

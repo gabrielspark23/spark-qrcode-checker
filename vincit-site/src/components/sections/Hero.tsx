@@ -1,7 +1,7 @@
 import { MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Layout";
-import { BrandMark } from "@/components/brand/BrandMark";
+import { HeroGeometry } from "@/components/motion/HeroGeometry";
 import { href, type Locale } from "@/lib/i18n";
 import { whatsappHref } from "@/lib/site";
 import type { Dict } from "@/content";
@@ -13,10 +13,9 @@ export function Hero({ locale, t }: { locale: Locale; t: Dict }) {
   return (
     <section className="on-dark relative overflow-hidden bg-navy text-on-dark" aria-labelledby="hero-title">
       <div className="texture-lines absolute inset-0" aria-hidden />
-      <BrandMark
-        className="pointer-events-none absolute -right-24 top-1/2 hidden h-[34rem] w-[34rem] -translate-y-1/2 opacity-[0.05] lg:block"
-        tone="brass"
-      />
+      <div className="hidden lg:block" aria-hidden>
+        <HeroGeometry />
+      </div>
       <Container className="relative pb-16 pt-36 sm:pb-20 sm:pt-44 lg:pb-24 lg:pt-48">
         <div className="grid gap-16 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-8">

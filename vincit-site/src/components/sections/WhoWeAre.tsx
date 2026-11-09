@@ -1,5 +1,7 @@
 import { Container, Eyebrow, Rich } from "@/components/ui/Layout";
 import { LinkArrow } from "@/components/ui/Button";
+import { ConvergenceDiagram } from "@/components/brand/Geometry";
+import { DrawOnView } from "@/components/motion/DrawOnView";
 import { href, type Locale } from "@/lib/i18n";
 import type { Dict } from "@/content";
 
@@ -13,6 +15,9 @@ export function WhoWeAre({ locale, t }: { locale: Locale; t: Dict }) {
             <Eyebrow onDark>
               <span id="who-title">{t.home.who.eyebrow}</span>
             </Eyebrow>
+            <DrawOnView className="mt-10 hidden lg:block">
+              <ConvergenceDiagram className="w-40" />
+            </DrawOnView>
           </div>
           <div className="lg:col-span-9">
             <p className="font-serif text-[clamp(1.5rem,1.2rem+1.3vw,2.25rem)] leading-[1.35] text-on-dark-2">

@@ -30,7 +30,12 @@ export function ServicesGrid({ locale, t }: { locale: Locale; t: Dict }) {
                 >
                   <span className="card-rule absolute inset-x-0 top-0 h-0.5 bg-brass" aria-hidden />
                   <div className="flex items-start justify-between">
-                    <Icon className="h-7 w-7 text-ink" strokeWidth={1.25} aria-hidden />
+                    <span className="relative -m-2.5 inline-flex h-12 w-12 items-center justify-center">
+                      <svg className="icon-ring absolute inset-0" viewBox="0 0 48 48" fill="none" aria-hidden>
+                        <circle cx="24" cy="24" r="23" pathLength={1} stroke="var(--color-gold)" strokeWidth="1" transform="rotate(-90 24 24)" />
+                      </svg>
+                      <Icon className="h-6 w-6 text-ink" strokeWidth={1.25} aria-hidden />
+                    </span>
                     <span className="text-xs tabular-nums text-ink-3">{String(i + 1).padStart(2, "0")}</span>
                   </div>
                   <p className="eyebrow mt-10 text-ink-3">{svc.brand}</p>

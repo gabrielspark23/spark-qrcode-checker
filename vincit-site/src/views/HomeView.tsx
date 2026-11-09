@@ -5,7 +5,8 @@ import { ProcessSteps } from "@/components/sections/ProcessSteps";
 import { SegmentCards } from "@/components/sections/SegmentCards";
 import { CustodyBand } from "@/components/sections/CustodyBand";
 import { TechBlock } from "@/components/sections/TechBlock";
-import { FinalCta } from "@/components/sections/FinalCta";
+import { FinalCtaReveal } from "@/components/sections/FinalCtaReveal";
+import { GeometrySection } from "@/components/sections/GeometrySection";
 import { Container, Section, SectionHeader } from "@/components/ui/Layout";
 import { LinkArrow } from "@/components/ui/Button";
 import { getDict } from "@/content";
@@ -18,7 +19,8 @@ export function HomeView({ locale }: { locale: Locale }) {
       <Hero locale={locale} t={t} />
       <WhoWeAre locale={locale} t={t} />
       <ServicesGrid locale={locale} t={t} />
-      <Section tone="white" bordered labelledBy="process-title">
+      <GeometrySection t={t} />
+      <Section tone="white" labelledBy="process-title">
         <Container>
           <SectionHeader
             id="process-title"
@@ -42,7 +44,7 @@ export function HomeView({ locale }: { locale: Locale }) {
       </Section>
       <CustodyBand t={t} />
       <TechBlock t={t} />
-      <FinalCta locale={locale} t={t} />
+      <FinalCtaReveal locale={locale} t={t} />
     </>
   );
 }

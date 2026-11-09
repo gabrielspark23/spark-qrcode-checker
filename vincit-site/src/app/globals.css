@@ -618,3 +618,191 @@ details[open] .faq-icon {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ==================================================================
+   Architectural Motion — círculo, V e escudo
+   ================================================================== */
+
+/* ---- Offset Circular Reveal ------------------------------------- */
+.reveal {
+  position: relative;
+}
+.reveal-stage {
+  position: relative;
+}
+.reveal-light,
+.reveal-ring {
+  display: none;
+}
+.reveal-layer {
+  padding-block: 6rem;
+}
+@media (min-width: 640px) {
+  .reveal-layer {
+    padding-block: 7rem;
+  }
+}
+
+.reveal[data-enhanced] {
+  height: var(--reveal-length, 240svh);
+}
+.reveal[data-enhanced] .reveal-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+}
+.reveal[data-enhanced] .reveal-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  padding-block: 4.5rem 0;
+}
+.reveal[data-enhanced] .reveal-light {
+  display: flex;
+}
+.reveal[data-enhanced] .reveal-dark {
+  clip-path: circle(var(--r, 0px) at var(--cx, 68%) var(--cy, 65%));
+  will-change: clip-path;
+}
+/* Anéis de latão no limite da máscara, deslocados (offset) e discretos */
+.reveal[data-enhanced] .reveal-ring {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: var(--ring, 0);
+}
+.reveal-ring circle {
+  fill: none;
+  cx: var(--cx, 0px);
+  cy: var(--cy, 0px);
+  stroke: var(--color-gold);
+  stroke-width: 1;
+}
+.reveal-ring-a {
+  r: var(--r, 0px);
+  stroke-opacity: 0.55;
+}
+.reveal-ring-b {
+  r: calc(var(--r, 0px) + 22px);
+  stroke-opacity: 0.22;
+}
+
+/* ---- Traços que se desenham ------------------------------------- */
+.geo-path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - var(--draw, 1));
+}
+.draw-on-view .geo-path {
+  transition: stroke-dashoffset 900ms var(--ease-out);
+}
+.draw-on-view[data-draw="pending"] .geo-path {
+  stroke-dashoffset: 1;
+}
+.draw-on-view .geo-node {
+  transition: opacity 300ms var(--ease-out) 600ms;
+}
+.draw-on-view[data-draw="pending"] .geo-node {
+  opacity: 0;
+}
+
+/* Hover dos marcos: órbita gira, nó de convergência pulsa uma vez, V interno do escudo se completa */
+.geo-mark .geo-orbit,
+.geo-mark .geo-node {
+  transform-box: view-box;
+  transform-origin: 50% 50%;
+  transition: transform 600ms var(--ease-out);
+}
+.geo-mark .geo-node {
+  transform-box: fill-box;
+}
+.geo-mark .geo-inner {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0.62;
+  transition: stroke-dashoffset 500ms var(--ease-out);
+}
+.geo-item:hover .geo-orbit {
+  transform: rotate(150deg);
+}
+.geo-item:hover .geo-node {
+  transform: scale(1.6);
+}
+.geo-item:hover .geo-inner {
+  stroke-dashoffset: 0;
+}
+
+/* Anel que se fecha ao redor do ícone de serviço no hover */
+.icon-ring circle {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 450ms var(--ease-out);
+}
+.group:hover .icon-ring circle,
+.group:focus-visible .icon-ring circle {
+  stroke-dashoffset: 0;
+}
+
+/* ---- Herói ------------------------------------------------------- */
+.hero-geo {
+  position: absolute;
+  right: -17rem;
+  top: 50%;
+  width: 46rem;
+  height: 46rem;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.hero-geo-rings {
+  transform-box: view-box;
+  transform-origin: 50% 50%;
+  transform: rotate(calc(var(--hp, 0) * 28deg));
+}
+.hero-geo-shield {
+  transform: translateY(calc(var(--hp, 0) * 36px));
+}
+.hero-geo-ring {
+  stroke-dasharray: 1;
+  animation: ring-draw 1400ms var(--ease-out) 150ms both;
+}
+.hero-geo-ring-2 {
+  animation-delay: 380ms;
+}
+@keyframes ring-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ---- Rodapé: redes em círculo, latão preenche do centro ---------- */
+.footer-social {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  transition-property: color, border-color;
+  transition-duration: var(--dur-base);
+  transition-timing-function: var(--ease-out);
+}
+.footer-social::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 9999px;
+  background: var(--color-gold);
+  transform: scale(0);
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.footer-social:hover {
+  color: var(--color-navy);
+  border-color: var(--color-gold);
+}
+.footer-social:hover::before {
+  transform: scale(1);
+}

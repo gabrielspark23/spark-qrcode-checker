@@ -59,6 +59,16 @@ export const pt: Dict = {
       title: "Um plano. Toda a sua vida financeira.",
       intro: "Cada linha de serviço se conecta ao mesmo plano, para que proteção, investimentos e impostos andem na mesma direção.",
     },
+    geometry: {
+      eyebrow: "Nossa geometria",
+      title: "Três formas, um jeito de trabalhar.",
+      intro: "Todo plano que construímos se apoia nas mesmas três ideias.",
+      items: [
+        { shape: "circle", title: "Continuidade", body: "Um plano nunca está pronto. Revisamos conforme a sua vida muda, ano após ano." },
+        { shape: "v", title: "Convergência", body: "Brasil e Estados Unidos: dois sistemas que se encontram em um só plano." },
+        { shape: "shield", title: "Proteção", body: "O que você construiu fica protegido, para você e para quem depende de você." },
+      ],
+    },
     process: {
       eyebrow: "Como funciona",
       title: "Da primeira conversa a uma parceria duradoura.",
@@ -433,6 +443,8 @@ export const pt: Dict = {
     englishPrevails: "Em caso de divergência entre as versões, prevalece o texto em inglês.",
   },
   footer: {
+    statement: "Um plano para a sua vida entre o Brasil e os Estados Unidos.",
+    pill: "30 minutos · sem compromisso · português ou inglês",
     tagline: "Planejamento financeiro independente e bilíngue entre o Brasil e os Estados Unidos.",
     navigation: "Navegação",
     services: "Serviços",

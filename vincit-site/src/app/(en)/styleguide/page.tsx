@@ -8,6 +8,7 @@ import { BrandMark } from "@/components/brand/BrandMark";
 import { PageHero } from "@/components/sections/PageHero";
 import { ProcessSteps } from "@/components/sections/ProcessSteps";
 import { serviceIcons } from "@/components/sections/icons";
+import { CircleMark, VMark, ShieldMark, ConvergenceDiagram } from "@/components/brand/Geometry";
 import { getDict } from "@/content";
 
 export const metadata: Metadata = { title: "Design system", robots: { index: false, follow: false } };
@@ -46,7 +47,7 @@ export default function StyleguidePage() {
       <nav aria-label="Seções" className="sticky top-[4.5rem] z-40 border-b border-line bg-app/95 backdrop-blur-sm">
         <Container>
           <ul className="flex gap-6 overflow-x-auto py-3 text-sm text-ink-2">
-            {["cores", "tipografia", "botoes", "links", "marca", "cartoes", "formulario", "conteudo"].map((s) => (
+            {["cores", "tipografia", "botoes", "links", "marca", "movimento", "cartoes", "formulario", "conteudo"].map((s) => (
               <li key={s}><a href={`#${s}`} className="nav-link whitespace-nowrap capitalize hover:text-ink">{s.replace("botoes", "botões").replace("formulario", "formulário").replace("cartoes", "cartões").replace("conteudo", "conteúdo")}</a></li>
             ))}
           </ul>
@@ -193,6 +194,42 @@ export default function StyleguidePage() {
               );
             })}
           </ul>
+        </Container>
+      </Section>
+
+      {/* Movimento */}
+      <Section id="movimento" tone="white" bordered labelledBy="sg-motion">
+        <Container>
+          <SectionHeader
+            id="sg-motion"
+            eyebrow="05b · Movimento"
+            title="Geometria de marca"
+            intro="Círculo = continuidade · V = convergência Brasil–EUA · escudo = proteção. Traços finos, latão discreto, nunca no lugar do logotipo. Passe o mouse em cada marco."
+          />
+          <ul className="grid gap-px border border-line bg-line sm:grid-cols-3">
+            {[
+              { M: CircleMark, t: "Círculo · continuidade", d: "Hover: o ponto orbita 150°." },
+              { M: VMark, t: "V · convergência", d: "Hover: o nó de encontro cresce." },
+              { M: ShieldMark, t: "Escudo · proteção", d: "Hover: o V interno se completa." },
+            ].map(({ M, t: title, d }) => (
+              <li key={title} className="geo-item bg-surface p-8">
+                <M className="h-16 w-16" />
+                <p className="mt-6 font-serif text-xl">{title}</p>
+                <p className="mt-2 text-sm text-ink-2">{d}</p>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-6 grid gap-6 md:grid-cols-2">
+            <div className="on-dark border border-navy-line bg-navy p-8">
+              <ConvergenceDiagram className="w-40" />
+              <Spec><span className="text-on-dark-3">ConvergenceDiagram · desenha ao entrar na tela (DrawOnView)</span></Spec>
+            </div>
+            <div className="border border-line bg-surface p-8 text-[0.9375rem] text-ink-2">
+              <p className="font-semibold text-ink">Offset Circular Reveal</p>
+              <p className="mt-2">Transição pedra → grafite vinculada ao scroll (Home: “Our geometry” e chamada final). Raio inicial ≈ 5% do final, centro em 68% × 65%, sobe para 60% × 42% enquanto cobre. Duas camadas com o mesmo layout: o texto inverte de cor na borda da máscara e nunca fica ilegível.</p>
+              <Spec>&lt;CircleReveal light=&#123;…&#125; dark=&#123;…&#125; /&gt; · estático sem JS, com movimento reduzido ou se o conteúdo não couber na tela</Spec>
+            </div>
+          </div>
         </Container>
       </Section>
 

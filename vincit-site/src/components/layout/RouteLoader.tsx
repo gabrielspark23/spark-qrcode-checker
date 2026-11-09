@@ -10,7 +10,7 @@ import { MARK_PATH, MARK_VIEWBOX, SHIELD_OUTLINE_PATH } from "@/lib/brand-geomet
  * nova página está pronta — com um mínimo curto para a animação ser lida, nunca bloqueando.
  * Com prefers-reduced-motion não aparece.
  */
-const MIN_MS = 520;
+const MIN_MS = 1050; // tempo para o escudo terminar de se desenhar e encher (pedido do cliente)
 type Phase = "idle" | "in" | "out";
 
 export function RouteLoader() {

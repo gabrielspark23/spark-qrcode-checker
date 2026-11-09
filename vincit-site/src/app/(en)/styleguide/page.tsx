@@ -3,7 +3,8 @@ import { Button, LinkArrow, ModuleButton } from "@/components/ui/Button";
 import { Container, DraftNote, Section, SectionHeader } from "@/components/ui/Layout";
 import { Logo, LogoMark } from "@/components/brand/Logo";
 import { ShieldLine, VLines } from "@/components/brand/Shapes";
-import { SegmentComposition } from "@/components/sections/SegmentComposition";
+import { MarkShards } from "@/components/brand/MarkShards";
+import { getDict } from "@/content";
 import { PageHero } from "@/components/sections/PageHero";
 import { BRAND_GEOMETRY } from "@/lib/brand-geometry";
 
@@ -107,12 +108,11 @@ export default function StyleguidePage() {
               ))}
             </dl>
           </div>
-          <p className="eyebrow mb-4 mt-12 text-ink-3">Composições por público (Who We Serve)</p>
+          <p className="eyebrow mb-4 mt-12 text-ink-3">Marca em estilhaços (Who We Serve): as três peças oficiais</p>
           <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
-            {(["families", "business", "crossborder", "retirement"] as const).map((s) => (
-              <div key={s} className="border border-line bg-surface p-4">
-                <SegmentComposition segment={s} className="aspect-square w-full" />
-                <p className="mt-2 text-center text-xs text-ink-3">{s}</p>
+            {(["shield", "v", "circle", "all"] as const).map((f) => (
+              <div key={f} className="border border-line bg-surface p-6">
+                <MarkShards focus={f} labels={getDict("en").home.parts} className="w-full" />
               </div>
             ))}
           </div>

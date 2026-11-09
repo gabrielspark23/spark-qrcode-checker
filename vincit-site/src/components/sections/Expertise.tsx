@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { ModuleButton } from "@/components/ui/Button";
 import { Container, Eyebrow } from "@/components/ui/Layout";
-import { serviceIcons } from "./icons";
+import { ServiceIcon } from "@/components/brand/ServiceIcon";
 import { href, type Locale } from "@/lib/i18n";
 import type { Dict } from "@/content";
 import { cn } from "@/lib/cn";
@@ -25,7 +25,6 @@ const AREA: Record<string, string> = {
 export function Expertise({ locale, t }: { locale: Locale; t: Dict }) {
   const e = t.home.expertise;
   const [core, ...rest] = t.services;
-  const CoreIcon = serviceIcons[core.id];
   return (
     <section className="bg-app py-24 sm:py-32" aria-labelledby="expertise-title">
       <Container>
@@ -39,10 +38,10 @@ export function Expertise({ locale, t }: { locale: Locale; t: Dict }) {
         {/* linhas estruturais = o gap de 1 px sobre a cor da régua */}
         <div className="grid gap-px border border-line-soft bg-line-soft sm:grid-cols-2 lg:grid-cols-12">
           {/* Módulo-âncora */}
-          <article className={cn("relative flex flex-col bg-surface p-8 sm:col-span-2 sm:p-12", AREA.planning)} aria-labelledby="mod-planning">
+          <article className={cn("svc-trigger relative flex flex-col bg-surface p-8 sm:col-span-2 sm:p-12", AREA.planning)} aria-labelledby="mod-planning">
             <div className="flex items-start justify-between">
               <p className="eyebrow text-ink-3">{e.core} · {core.brand}</p>
-              <CoreIcon className="h-7 w-7 text-ink" strokeWidth={1.25} aria-hidden />
+              <ServiceIcon id={core.id} className="-m-2.5" />
             </div>
             <h3 id="mod-planning" className="h1 mt-16 max-w-[12ch]">{core.title}</h3>
             <p className="lead mt-6 max-w-[46ch] text-ink-2">{core.short}</p>
@@ -55,18 +54,17 @@ export function Expertise({ locale, t }: { locale: Locale; t: Dict }) {
           </article>
 
           {rest.map((s, i) => {
-            const Icon = serviceIcons[s.id];
             return (
               <Link
                 key={s.id}
                 href={href("services", locale, s.id)}
-                className={cn("mod group relative flex min-h-56 flex-col overflow-hidden bg-surface p-8 outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary sm:p-10", AREA[s.id])}
+                className={cn("mod svc-trigger group relative flex min-h-56 flex-col overflow-hidden bg-surface p-8 outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary sm:p-10", AREA[s.id])}
               >
                 {/* marcação de canto em latão */}
                 <span className="mod-tick absolute left-0 top-0 h-3 w-3 border-l-2 border-t-2 border-brass" aria-hidden />
                 <div className="flex items-start justify-between">
                   <span className="text-xs tabular-nums text-ink-3">{String(i + 2).padStart(2, "0")}</span>
-                  <Icon className="h-6 w-6 text-ink" strokeWidth={1.25} aria-hidden />
+                  <ServiceIcon id={s.id} className="-m-2.5" />
                 </div>
                 <p className="eyebrow mt-10 text-ink-3">{s.brand}</p>
                 <h3 className="mt-2 font-serif text-[1.75rem] leading-tight">{s.title}</h3>
@@ -75,7 +73,7 @@ export function Expertise({ locale, t }: { locale: Locale; t: Dict }) {
                 {/* informação adicional revelada por máscara (hover/foco) */}
                 <div className="mod-reveal on-dark absolute inset-0 flex flex-col bg-navy p-8 text-on-dark sm:p-10" aria-hidden>
                   <p className="eyebrow text-brass">{s.brand}</p>
-                  <p className="h3 mt-2">{s.title}</p>
+                  <p className="h3 mt-2 font-serif">{s.title}</p>
                   <p className="mt-4 max-w-[36ch] text-[0.9375rem] leading-relaxed text-on-dark-2">{s.short}</p>
                   <span className="mt-auto inline-flex items-center gap-2 pt-6 text-sm font-semibold">
                     {t.common.learnMore}

@@ -77,3 +77,11 @@ Editorial Luxury + Geometric Brand Language + Scroll-Driven Storytelling".
 - Aproveitado: escudo SVG oficial, lockup "VINCIT CAPITAL", escritórios de Porto Alegre e Caxias do Sul
   (padrão "seletor de escritório" → foco no globo).
 - Para avaliar com o Ricardo: o manifesto "Vencer é investir em você" como assinatura em PT.
+
+## 7. Rodada de ajustes (header, globo, estilhaços, equipe)
+
+- Foto da equipe: `concept-partners.webp`, publicada em vincitcapital.com.br → `public/images/team-vincit.webp`.
+  Alt sem nomes (o site não identifica quem é quem). **Confirmar com o Ricardo o uso no site americano.**
+- Marca em estilhaços: escudo, V e círculo separados do `escudo-vincit.svg` oficial (`MARK_PARTS`).
+- Header muda de tom conforme a seção por baixo (clara/grafite).
+- Globo gira continuamente (4°/s), inclusive no celular e na página de Contato.

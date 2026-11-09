@@ -3,12 +3,13 @@
 import { useRef, useState, useSyncExternalStore, type KeyboardEvent } from "react";
 import { ModuleButton } from "@/components/ui/Button";
 import { Container, Eyebrow } from "@/components/ui/Layout";
-import { SegmentComposition } from "./SegmentComposition";
+import { MarkShards, type ShardFocus } from "@/components/brand/MarkShards";
 import { href, type Locale } from "@/lib/i18n";
 import type { Dict } from "@/content";
 import { cn } from "@/lib/cn";
 
 type Seg = "families" | "business" | "crossborder" | "retirement";
+const FOCUS: Record<Seg, ShardFocus> = { families: "shield", business: "all", crossborder: "v", retirement: "circle" };
 const noop = () => () => {};
 
 /**
@@ -81,9 +82,10 @@ export function WhoWeServeTabs({ locale, t }: { locale: Locale; t: Dict }) {
           <div className={cn("relative", enhanced ? "lg:col-span-7" : "lg:col-span-12", !enhanced && "space-y-16")}>
             {/* Composição única que se reorganiza entre públicos (só no modo de abas) */}
             {enhanced ? (
-              <SegmentComposition
-                segment={segs[active].id as Seg}
-                className="pointer-events-none absolute right-8 top-1/2 z-10 hidden h-64 w-64 -translate-y-1/2 sm:block"
+              <MarkShards
+                focus={FOCUS[segs[active].id as Seg]}
+                labels={t.home.parts}
+                className="pointer-events-none absolute right-6 top-1/2 z-10 hidden w-72 -translate-y-1/2 sm:block"
               />
             ) : null}
             {segs.map((s, i) => (
@@ -94,7 +96,7 @@ export function WhoWeServeTabs({ locale, t }: { locale: Locale; t: Dict }) {
                 aria-labelledby={enhanced ? `seg-tab-${s.id}` : undefined}
                 hidden={enhanced && active !== i}
                 data-active={enhanced && active === i ? "" : undefined}
-                className="seg-panel grid min-h-[26rem] gap-8 border border-line-soft bg-surface p-8 sm:grid-cols-[1fr_16rem] sm:p-10"
+                className="seg-panel grid min-h-[26rem] gap-8 border border-line-soft bg-surface p-8 sm:grid-cols-[1fr_18rem] sm:p-10"
               >
                 <div className="seg-copy flex flex-col">
                   {!enhanced ? <h3 className="h2">{s.title}</h3> : <p className="eyebrow text-ink-3">{String(i + 1).padStart(2, "0")} / 04</p>}
@@ -105,7 +107,7 @@ export function WhoWeServeTabs({ locale, t }: { locale: Locale; t: Dict }) {
                     </ModuleButton>
                   </div>
                 </div>
-                {!enhanced ? <SegmentComposition segment={s.id as Seg} className="hidden h-64 w-64 self-center sm:block" /> : null}
+                {!enhanced ? <MarkShards focus={FOCUS[s.id as Seg]} labels={t.home.parts} className="hidden w-64 self-center sm:block" /> : null}
               </div>
             ))}
           </div>

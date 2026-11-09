@@ -1,6 +1,6 @@
-/* eslint-disable @next/next/no-img-element */
 import { CalendarDays, Clock, MessageCircle } from "lucide-react";
 import { LeadForm } from "@/components/forms/LeadForm";
+import { GlobeAmbient } from "@/components/globe/GlobeAmbient";
 import { Button, ModuleButton } from "@/components/ui/Button";
 import { Eyebrow } from "@/components/ui/Layout";
 import { getDict } from "@/content";
@@ -15,7 +15,7 @@ export function ContactView({ locale }: { locale: Locale }) {
   return (
     <section className="grid min-h-svh lg:grid-cols-2" aria-labelledby="page-title">
       <div className="on-dark relative flex flex-col overflow-hidden bg-navy px-5 pb-16 pt-32 text-on-dark sm:px-12 sm:pt-40 lg:sticky lg:top-0 lg:h-svh">
-        <img src="/globe-static.svg" alt="" aria-hidden width={640} height={640} className="pointer-events-none absolute -bottom-40 -right-40 w-[34rem] opacity-80 sm:w-[40rem]" />
+        <GlobeAmbient className="absolute -bottom-40 -right-40 w-[34rem] opacity-90 sm:w-[40rem]" />
         <div className="relative">
           <Eyebrow onDark>{c.eyebrow}</Eyebrow>
           <h1 id="page-title" className="h1 mt-6 max-w-[14ch]">{c.title}</h1>

@@ -37,6 +37,7 @@ export const pt: Dict = {
     pending: "Decisão em aberto",
   },
   home: {
+    parts: { shield: "Escudo · proteção", v: "V · convergência", circle: "Círculo · continuidade", all: "A marca inteira · estrutura" },
     chapters: [
       { id: "perspective-title", label: "Visão" },
       { id: "globe-title", label: "Dois países" },

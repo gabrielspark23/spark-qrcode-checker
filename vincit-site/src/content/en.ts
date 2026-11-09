@@ -39,6 +39,7 @@ export const en = {
     pending: "Pending decision",
   },
   home: {
+    parts: { shield: "Shield · protection", v: "V · convergence", circle: "Circle · continuity", all: "The complete mark · structure" },
     chapters: [
       { id: "perspective-title", label: "Perspective" },
       { id: "globe-title", label: "Two countries" },

@@ -1362,3 +1362,186 @@ html[data-loader="leaving"] .route-loader {
 .chapter-rail:focus-within .chapter-label {
   max-width: 10rem;
 }
+
+/* ---- Header sobre seções grafite ---------------------------------- */
+.site-header.on-dark .nav-v {
+  color: var(--text-on-dark-secondary);
+}
+.site-header.on-dark .nav-v:is(:hover, :focus-visible, [aria-current="page"]) {
+  color: var(--text-on-dark);
+}
+.site-header.on-dark .btn-shield {
+  --btn-bg: var(--color-gold);
+  --btn-fg: var(--color-navy);
+  --btn-border: var(--color-gold);
+  --btn-sweep: var(--text-on-dark);
+  --btn-fg-hover: var(--color-navy);
+  --btn-border-hover: var(--text-on-dark);
+}
+.site-header.on-dark .btn-shield:is(:hover, :focus-visible) {
+  color: var(--color-navy);
+}
+.site-header.on-dark .top-link-light {
+  color: var(--text-on-dark-muted);
+}
+.site-header.on-dark .top-link-light:hover {
+  color: var(--text-on-dark);
+}
+.site-header .btn {
+  transition-property: color, border-color, background-color, transform;
+}
+
+/* ---- Marca em estilhaços ------------------------------------------- */
+.mark-shards .shard {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    transform 640ms var(--ease-in-out),
+    opacity 320ms var(--ease-out);
+}
+.mark-shards .shard path {
+  fill: transparent;
+  stroke: var(--text-primary);
+  stroke-width: 1.4;
+  stroke-opacity: 0.5;
+  vector-effect: non-scaling-stroke;
+  transition:
+    fill 420ms var(--ease-out),
+    stroke-opacity 320ms var(--ease-out);
+}
+.mark-shards .shard[data-on] path {
+  fill: var(--color-gold);
+  stroke-opacity: 0;
+}
+/* fora de foco: placas afastadas e levemente giradas (estilhaço) */
+.mark-shards .shard-shield:not([data-on]) {
+  transform: translate(-34px, 30px) rotate(-6deg);
+}
+.mark-shards .shard-v:not([data-on]) {
+  transform: translate(26px, -40px) rotate(7deg);
+}
+.mark-shards .shard-circle:not([data-on]) {
+  transform: translate(40px, 34px) rotate(10deg);
+}
+.mark-shards-caption {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem 1rem;
+  margin-top: 1.25rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.mark-shards-caption span {
+  color: var(--text-muted);
+  transition: color 320ms var(--ease-out);
+}
+.mark-shards-caption span[data-on] {
+  color: var(--text-primary);
+}
+
+/* ---- Ícones de serviço animados ------------------------------------ */
+.svc-icon {
+  color: var(--text-primary);
+  transition: color var(--dur-base) var(--ease-out);
+}
+.svc-ring circle {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 480ms var(--ease-out);
+}
+.svc-icon .si-needle,
+.svc-icon .si-beam,
+.svc-icon .si-meridian,
+.svc-icon .si-col {
+  transform-box: fill-box;
+}
+.svc-icon .si-needle,
+.svc-icon .si-meridian {
+  transform-origin: center;
+}
+.svc-icon .si-beam {
+  transform-origin: 50% 0%;
+}
+.svc-icon .si-col {
+  transform-origin: 50% 100%;
+}
+.svc-icon .si-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+/* gatilhos: hover/foco do card ou do próprio ícone */
+:is(.svc-trigger:hover, .svc-trigger:focus-visible, .svc-trigger:focus-within) .svc-ring circle,
+.svc-icon:hover .svc-ring circle {
+  stroke-dashoffset: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  :is(.svc-trigger:hover, .svc-trigger:focus-visible, .svc-trigger:focus-within) .si-needle,
+  .svc-icon:hover .si-needle {
+    animation: si-needle 900ms var(--ease-in-out);
+  }
+  :is(.svc-trigger:hover, .svc-trigger:focus-visible, .svc-trigger:focus-within) .si-draw,
+  .svc-icon:hover .si-draw {
+    animation: line-draw 520ms var(--ease-out) both;
+  }
+  :is(.svc-trigger:hover, .svc-trigger:focus-visible, .svc-trigger:focus-within) .si-draw-2,
+  .svc-icon:hover .si-draw-2 {
+    animation-delay: 160ms;
+  }
+  :is(.svc-trigger:hover, .svc-trigger:focus-visible, .svc-trigger:focus-within) .si-col,
+  .svc-icon:hover .si-col {
+    animation: si-col 520ms var(--ease-out) both;
+  }
+  :is(.svc-trigger:hover, .svc-trigger:focus-visible, .svc-trigger:focus-within) .si-col-2,
+  .svc-icon:hover .si-col-2 { animation-delay: 70ms; }
+  :is(.svc-trigger:hover, .svc-trigger:focus-visible, .svc-trigger:focus-within) .si-col-3,
+  .svc-icon:hover .si-col-3 { animation-delay: 140ms; }
+  :is(.svc-trigger:hover, .svc-trigger:focus-visible, .svc-trigger:focus-within) .si-col-4,
+  .svc-icon:hover .si-col-4 { animation-delay: 210ms; }
+  :is(.svc-trigger:hover, .svc-trigger:focus-visible, .svc-trigger:focus-within) .si-beam,
+  .svc-icon:hover .si-beam {
+    animation: si-beam 1100ms var(--ease-in-out);
+  }
+  :is(.svc-trigger:hover, .svc-trigger:focus-visible, .svc-trigger:focus-within) .si-meridian,
+  .svc-icon:hover .si-meridian {
+    animation: si-meridian 1100ms var(--ease-in-out);
+  }
+}
+@keyframes si-needle {
+  0% { transform: rotate(0); }
+  35% { transform: rotate(150deg); }
+  65% { transform: rotate(80deg); }
+  100% { transform: rotate(0); }
+}
+@keyframes si-col {
+  from { transform: scaleY(0.25); }
+  to { transform: scaleY(1); }
+}
+@keyframes si-beam {
+  0% { transform: rotate(0); }
+  25% { transform: rotate(-9deg); }
+  55% { transform: rotate(6deg); }
+  80% { transform: rotate(-2deg); }
+  100% { transform: rotate(0); }
+}
+@keyframes si-meridian {
+  0% { transform: scaleX(1); }
+  50% { transform: scaleX(-1); }
+  100% { transform: scaleX(1); }
+}
+/* módulos da Home: no hover a máscara grafite sobe — o ícone fica por cima e vira latão */
+.mod .svc-icon {
+  z-index: 20;
+}
+.mod:is(:hover, :focus-visible, :focus-within) .svc-icon {
+  color: var(--color-gold);
+}
+
+/* ---- Equipe: escudo desgastado ao fundo ----------------------------- */
+.worn-shield {
+  color: var(--text-primary);
+  opacity: 0.06;
+  will-change: transform;
+}

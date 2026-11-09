@@ -2,7 +2,7 @@ import { Check } from "lucide-react";
 import { PageHero } from "@/components/sections/PageHero";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { ServicesIndex } from "@/components/sections/ServicesIndex";
-import { serviceIcons } from "@/components/sections/icons";
+import { ServiceIcon } from "@/components/brand/ServiceIcon";
 import { ModuleButton } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Layout";
 import { getDict } from "@/content";
@@ -24,14 +24,13 @@ export function ServicesView({ locale }: { locale: Locale }) {
             </aside>
             <div className="lg:col-span-9">
               {t.services.map((s, i) => {
-                const Icon = serviceIcons[s.id];
                 return (
-                  <article key={s.id} id={s.id} aria-labelledby={`${s.id}-title`} className="scroll-mt-28 border-t border-line-soft py-14 first:border-t-0 first:pt-0 sm:py-20">
+                  <article key={s.id} id={s.id} aria-labelledby={`${s.id}-title`} className="svc-trigger scroll-mt-28 border-t border-line-soft py-14 first:border-t-0 first:pt-0 sm:py-20">
                     <div className="flex items-center justify-between gap-6">
                       <p className="eyebrow text-ink-3">
                         {String(i + 1).padStart(2, "0")} / 06 · {s.brand}
                       </p>
-                      <Icon className="h-7 w-7 text-ink" strokeWidth={1.25} aria-hidden />
+                      <ServiceIcon id={s.id} className="-m-2.5" />
                     </div>
                     <h2 id={`${s.id}-title`} className="mt-6 font-serif text-[clamp(2.25rem,1.6rem+2.4vw,3.5rem)] leading-[1.05]">{s.title}</h2>
                     <p className="lead mt-6 max-w-[60ch] text-ink-2">{s.body}</p>

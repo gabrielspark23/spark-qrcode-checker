@@ -1,7 +1,8 @@
 import { ArrowUpRight } from "lucide-react";
-import { PageHero } from "@/components/sections/PageHero";
+import Image from "next/image";
+import { WornShield } from "@/components/brand/WornShield";
 import { FinalCta } from "@/components/sections/FinalCta";
-import { Container } from "@/components/ui/Layout";
+import { Container, Eyebrow } from "@/components/ui/Layout";
 import { getDict } from "@/content";
 import { site } from "@/lib/site";
 import type { Locale } from "@/lib/i18n";
@@ -21,7 +22,24 @@ export function TeamView({ locale }: { locale: Locale }) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personLd).replace(/</g, "\\u003c") }} />
-      <PageHero eyebrow={tm.eyebrow} title={tm.title} intro={tm.intro} tone="dark" motif="shield" />
+      {/* Topo: grafite, tela dividida com a foto da equipe (publicada em vincitcapital.com.br) */}
+      <section className="on-dark relative grid overflow-hidden bg-navy text-on-dark lg:min-h-[44rem] lg:grid-cols-2" aria-labelledby="page-title">
+        <Container className="relative flex flex-col justify-end pb-16 pt-36 sm:pt-44 lg:mr-0 lg:max-w-none lg:pl-[max(2rem,calc((100vw-80rem)/2+2rem))] lg:pr-16">
+          <Eyebrow onDark className="enter">{tm.eyebrow}</Eyebrow>
+          <h1 id="page-title" className="h1 mt-6 max-w-[14ch] text-[clamp(2.5rem,1.8rem+2.6vw,4rem)]">{tm.title}</h1>
+          <p className="lead mt-6 max-w-[46ch] text-on-dark-2">{tm.intro}</p>
+        </Container>
+        <div className="relative aspect-[4/3] lg:aspect-auto">
+          <Image
+            src="/images/team-vincit.webp"
+            alt={locale === "pt" ? "Equipe da Vincit Capital no escritório" : "The Vincit Capital team at the office"}
+            fill
+            priority
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            className="object-cover object-[30%_center]"
+          />
+        </div>
+      </section>
 
       <section className="on-dark border-t border-navy-line bg-navy-soft py-16 text-on-dark sm:py-20">
         <Container>
@@ -31,8 +49,9 @@ export function TeamView({ locale }: { locale: Locale }) {
         </Container>
       </section>
 
-      <section className="bg-app py-20 sm:py-28" aria-labelledby="leadership-title">
-        <Container>
+      <section className="relative overflow-hidden bg-app py-20 sm:py-28" aria-labelledby="leadership-title">
+        <WornShield className="absolute -right-24 top-10 h-[46rem] w-[40rem] sm:-right-10" />
+        <Container className="relative">
           <h2 id="leadership-title" className="eyebrow text-ink-3">{tm.leadership}</h2>
           <ol className="mt-8 border-t border-line-soft">
             {tm.people.map((p, i) => (

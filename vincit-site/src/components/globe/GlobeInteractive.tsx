@@ -14,7 +14,16 @@ const R = Math.PI / 180;
  * - Arco San Diego → Porto Alegre com um pulso que percorre a rota; anéis respiram nos escritórios.
  * - Arrastar e setas giram; botões externos focam (com zoom) San Diego, Porto Alegre, Caxias do Sul.
  */
-export default function GlobeInteractive({ label, onReady }: { label: string; onReady: () => void }) {
+export default function GlobeInteractive({
+  label,
+  onReady,
+  decorative = false,
+}: {
+  label: string;
+  onReady: () => void;
+  /** Só ambiente (ex.: Contato): gira sozinho, sem foco de teclado nem botões externos. */
+  decorative?: boolean;
+}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -44,7 +53,6 @@ export default function GlobeInteractive({ label, onReady }: { label: string; on
 
       let w = 0;
       let rot: Rot = [...VIEWS.reset.rotate];
-      let base: Rot = [...VIEWS.reset.rotate];
       let zoom = 1;
       let active: GlobeTarget = "reset";
       let dragging = false;
@@ -52,6 +60,8 @@ export default function GlobeInteractive({ label, onReady }: { label: string; on
       let tween: { from: Rot; to: Rot; z0: number; z1: number; t0: number; dur: number } | null = null;
       let visible = true;
       let raf = 0;
+      let lastFrame = 0;
+      const SPIN = 4; // graus por segundo
 
       const resize = () => {
         const rect = canvas.getBoundingClientRect();
@@ -141,10 +151,18 @@ export default function GlobeInteractive({ label, onReady }: { label: string; on
           const e = easeInOut(k);
           rot = tween.from.map((v, i) => v + (tween!.to[i] - v) * e) as Rot;
           zoom = tween.z0 + (tween.z1 - tween.z0) * e;
-          if (k >= 1) { base = [...tween.to]; tween = null; }
-        } else if (!dragging && !reduced && zoom < 1.05 && now - lastInteract > 3500) {
-          rot = [base[0] + Math.sin(now / 6000) * 6, base[1], 0];
+          if (k >= 1) tween = null;
+        } else if (!dragging && !reduced && now - lastInteract > 3500) {
+          // rotação contínua e lenta; depois de um foco com zoom, volta devagar à vista inicial
+          const dt = lastFrame ? Math.min(64, now - lastFrame) / 1000 : 0;
+          if (zoom > 1.01) {
+            zoom += (1 - zoom) * Math.min(1, dt * 1.2);
+            rot = [rot[0], rot[1] + (VIEWS.reset.rotate[1] - rot[1]) * Math.min(1, dt * 1.2), 0];
+            active = "reset";
+          }
+          rot = [rot[0] + SPIN * dt, rot[1], 0];
         }
+        lastFrame = now;
         draw(now);
         if (visible && !disposed && !reduced) raf = requestAnimationFrame(loop);
         else if (visible && !disposed && (tween || dragging)) raf = requestAnimationFrame(loop);
@@ -154,8 +172,11 @@ export default function GlobeInteractive({ label, onReady }: { label: string; on
       const goTo = (target: GlobeTarget) => {
         active = target;
         const v = VIEWS[target];
-        tween = { from: [...rot], to: [...v.rotate], z0: zoom, z1: v.zoom, t0: performance.now(), dur: reduced ? 1 : 1000 };
-        lastInteract = performance.now();
+        // girar pelo caminho mais curto
+        const to: Rot = [...v.rotate];
+        to[0] = rot[0] + ((((to[0] - rot[0]) % 360) + 540) % 360) - 180;
+        tween = { from: [...rot], to, z0: zoom, z1: v.zoom, t0: performance.now(), dur: reduced ? 1 : 1000 };
+        lastInteract = performance.now() + (target === "reset" ? 0 : 6000);
         kick();
       };
 
@@ -174,7 +195,7 @@ export default function GlobeInteractive({ label, onReady }: { label: string; on
         kick();
       };
       const onUp = () => {
-        dragging = false; start = null; base = [...rot]; lastInteract = performance.now();
+        dragging = false; start = null; lastInteract = performance.now();
         canvas.style.cursor = "grab";
       };
       const onKey = (e: KeyboardEvent) => {
@@ -198,7 +219,7 @@ export default function GlobeInteractive({ label, onReady }: { label: string; on
       canvas.addEventListener("pointerup", onUp);
       canvas.addEventListener("pointercancel", onUp);
       canvas.addEventListener("keydown", onKey);
-      window.addEventListener(GLOBE_EVENT, onTarget);
+      if (!decorative) window.addEventListener(GLOBE_EVENT, onTarget);
       io.observe(canvas);
       ro.observe(canvas);
       resize();
@@ -223,15 +244,16 @@ export default function GlobeInteractive({ label, onReady }: { label: string; on
       disposed = true;
       cleanup();
     };
-  }, [onReady]);
+  }, [onReady, decorative]);
 
   return (
     <canvas
       ref={canvasRef}
       className="globe-canvas absolute inset-0 h-full w-full cursor-grab touch-none rounded-full"
-      role="img"
-      aria-label={label}
-      tabIndex={0}
+      role={decorative ? undefined : "img"}
+      aria-label={decorative ? undefined : label}
+      aria-hidden={decorative || undefined}
+      tabIndex={decorative ? -1 : 0}
     />
   );
 }

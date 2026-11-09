@@ -10,11 +10,10 @@ import { cn } from "@/lib/cn";
 
 const GlobeInteractive = dynamic(() => import("./GlobeInteractive"), { ssr: false });
 
-/** Quem recebe o globo 3D: tela larga, ponteiro preciso ou tablet, sem economia de dados nem movimento reduzido. */
-function capable() {
+/** Quem recebe o globo animado: qualquer tela, desde que sem economia de dados nem movimento reduzido. */
+export function capable() {
   const nav = navigator as Navigator & { connection?: { saveData?: boolean }; deviceMemory?: number };
   return (
-    window.matchMedia("(min-width: 900px)").matches &&
     !window.matchMedia("(prefers-reduced-motion: reduce)").matches &&
     !nav.connection?.saveData &&
     (nav.hardwareConcurrency ?? 4) >= 4 &&

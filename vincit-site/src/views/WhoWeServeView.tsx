@@ -1,7 +1,7 @@
 import { Check } from "lucide-react";
 import { PageHero } from "@/components/sections/PageHero";
 import { FinalCta } from "@/components/sections/FinalCta";
-import { SegmentComposition } from "@/components/sections/SegmentComposition";
+import { MarkShards, type ShardFocus } from "@/components/brand/MarkShards";
 import { ModuleButton } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Layout";
 import { DrawOnView } from "@/components/motion/DrawOnView";
@@ -10,6 +10,7 @@ import { href, type Locale } from "@/lib/i18n";
 import { cn } from "@/lib/cn";
 
 type Seg = "families" | "business" | "crossborder" | "retirement";
+const FOCUS: Record<Seg, ShardFocus> = { families: "shield", business: "all", crossborder: "v", retirement: "circle" };
 
 /** Para quem: faixas largas alternadas, número grande e a composição de cada público em destaque. */
 export function WhoWeServeView({ locale }: { locale: Locale }) {
@@ -48,7 +49,7 @@ export function WhoWeServeView({ locale }: { locale: Locale }) {
                 </div>
               </div>
               <DrawOnView className={cn("flex justify-center lg:col-span-5", i % 2 === 1 ? "lg:order-1 lg:col-start-1" : "lg:col-start-8")}>
-                <SegmentComposition segment={s.id as Seg} className="h-72 w-72 sm:h-[26rem] sm:w-[26rem]" />
+                <MarkShards focus={FOCUS[s.id as Seg]} labels={t.home.parts} className="w-72 sm:w-[24rem]" />
               </DrawOnView>
             </div>
           </Container>

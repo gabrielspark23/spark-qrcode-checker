@@ -22,12 +22,36 @@ export function SiteHeader({ locale, nav, whatsappText }: { locale: Locale; nav:
   const menuBtn = useRef<HTMLButtonElement>(null);
   const panel = useRef<HTMLDivElement>(null);
 
+  // Tom do header segue a seção que está por baixo dele (clara ou grafite)
+  const [overDark, setOverDark] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    let raf = 0;
+    const probe = () => {
+      raf = 0;
+      setScrolled(window.scrollY > 12);
+      const header = headerRef.current;
+      const y = (header?.offsetHeight ?? 72) - 6;
+      let dark = 0;
+      for (const fx of [0.2, 0.5, 0.8]) {
+        const stack = document.elementsFromPoint(window.innerWidth * fx, y);
+        const under = stack.find((el) => !header?.contains(el));
+        if (under?.closest(".on-dark, [data-tone='dark']")) dark++;
+      }
+      setOverDark(dark >= 2);
+    };
+    const req = () => {
+      if (!raf) raf = requestAnimationFrame(probe);
+    };
+    probe();
+    window.addEventListener("scroll", req, { passive: true });
+    window.addEventListener("resize", req);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", req);
+      window.removeEventListener("resize", req);
+    };
+  }, [pathname]);
 
   // Fecha o menu ao navegar (ajuste de estado durante o render, sem efeito)
   const [prevPath, setPrevPath] = useState(pathname);
@@ -66,15 +90,20 @@ export function SiteHeader({ locale, nav, whatsappText }: { locale: Locale; nav:
     privacy: "",
   };
   const wa = whatsappHref(whatsappText);
-  // Páginas cujo topo é grafite: o header já entra com a superfície clara (legibilidade)
-  const darkTop = active === "services" || active === "team" || active === "contact";
-  const solid = scrolled || open || darkTop;
+  const dark = overDark && !open;
+  const solid = scrolled || open;
 
   return (
     <header
+      ref={headerRef}
+      data-tone={dark ? "dark" : "light"}
       className={cn(
-        "fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color] duration-200",
-        solid ? "border-line bg-app/92 backdrop-blur-md" : "border-transparent bg-transparent",
+        "site-header fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color,color] duration-300",
+        dark
+          ? cn("on-dark", solid ? "border-navy-line bg-navy/88 backdrop-blur-md" : "border-transparent bg-transparent")
+          : solid
+            ? "border-line bg-app/92 backdrop-blur-md"
+            : "border-transparent bg-transparent",
       )}
     >
       <a
@@ -85,7 +114,7 @@ export function SiteHeader({ locale, nav, whatsappText }: { locale: Locale; nav:
       </a>
       <div className="mx-auto flex h-[4.5rem] max-w-7xl items-center gap-6 px-5 sm:px-8">
         <Link href={href("home", locale)} className="rounded-[2px]" aria-label="Vincit Capital — Home">
-          <Logo />
+          <Logo onDark={dark} />
         </Link>
 
         <nav aria-label="Main" className="ml-auto hidden lg:block">
@@ -108,7 +137,7 @@ export function SiteHeader({ locale, nav, whatsappText }: { locale: Locale; nav:
         </nav>
 
         <div className="ml-auto flex items-center gap-4 lg:ml-0">
-          <LanguageSwitch label={nav.language} onDark={false} className="hidden sm:flex" />
+          <LanguageSwitch label={nav.language} onDark={dark} className="hidden sm:flex" />
           <Button href={href("contact", locale)} variant="shield" size="sm" notch="strong" event="cta_schedule_click" className="hidden sm:inline-flex">
             {nav.schedule}
           </Button>
@@ -130,7 +159,7 @@ export function SiteHeader({ locale, nav, whatsappText }: { locale: Locale; nav:
           <button
             ref={menuBtn}
             type="button"
-            className="menu-btn -mr-2 inline-flex h-11 w-11 items-center justify-center rounded-[2px] text-ink lg:hidden"
+            className={cn("menu-btn -mr-2 inline-flex h-11 w-11 items-center justify-center rounded-[2px] lg:hidden", dark ? "text-on-dark" : "text-ink")}
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? nav.close : nav.menu}

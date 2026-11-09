@@ -8,7 +8,6 @@ import { PlanningLine } from "@/components/sections/PlanningLine";
 import { PlatformPeople } from "@/components/sections/PlatformPeople";
 import { ClosingCta } from "@/components/sections/ClosingCta";
 import { ChapterRail } from "@/components/layout/ChapterRail";
-import { RingHandoff } from "@/components/motion/RingHandoff";
 import { getDict } from "@/content";
 import type { Locale } from "@/lib/i18n";
 
@@ -26,7 +25,6 @@ export function HomeView({ locale }: { locale: Locale }) {
       <Hero locale={locale} t={t} />
       <Perspective t={t} />
       <GlobeSection t={t} staticGlobe={<GlobeStatic label={t.home.globe.label} />} />
-      <RingHandoff />
       <Expertise locale={locale} t={t} />
       <WhoWeServeTabs locale={locale} t={t} />
       <PlanningLine t={t} />

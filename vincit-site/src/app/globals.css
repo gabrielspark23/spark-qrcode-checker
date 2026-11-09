@@ -671,7 +671,9 @@ details[open] .faq-icon {
   transition-timing-function: var(--ease-out);
 }
 .vn-strong {
-  --vn-chamfer: 14px;
+  --vn-depth: 13px;
+  --vn-chamfer: 0px; /* só o V pequeno */
+  padding-right: 2.75rem;
 }
 .vn:focus-visible,
 .vn[aria-current="page"] {
@@ -1599,7 +1601,7 @@ html[data-loader="leaving"] .route-loader {
   }
 }
 
-/* ---- V-Notch forte: a marca da Vincit (V sobre o C) recortada no cartão ----
+/* ---- Marca recortada (botões secundários .xm): o V sobre o C da Vincit no canto ----
    No hover/foco/toque, o interior oficial da marca — o V entrelaçado ao C, como na logo —
    é recortado no canto direito do botão. Ancorada na base (o C fica completo embaixo); o
    excedente sobe e só o topo do V corta a borda superior; o fundo aparece pelo recorte. Nasce e cresce a partir
@@ -1609,10 +1611,8 @@ html[data-loader="leaving"] .route-loader {
   inherits: false;
   initial-value: 0px;
 }
-.vn-strong {
+.xm {
   --vn-h: 3rem;
-  --vn-depth: 0px; /* sem o entalhe antigo: a marca é o recorte */
-  --vn-chamfer: 0px;
   --m-h: calc(var(--vn-h) * 1.16); /* altura da marca: passa do topo e da base */
   --m-w: calc(var(--m-h) * 0.774); /* proporção do V+C oficial */
   --m-right: calc(var(--vn-h) * -0.05); /* encostada no canto: corta também a borda direita */
@@ -1628,22 +1628,16 @@ html[data-loader="leaving"] .route-loader {
   transition-property: --vn-ms, color, background-color, border-color;
   transition-duration: 220ms;
 }
-.vn-strong.btn-sm {
-  --vn-h: 2.5rem;
-}
-.vn-strong.btn-lg {
-  --vn-h: 3.5rem;
-}
-.vn-strong:focus-visible {
+.xm:focus-visible {
   --vn-ms: var(--m-h);
 }
 @media (hover: hover) {
-  .vn-strong:hover {
+  .xm:hover {
     --vn-ms: var(--m-h);
   }
 }
 @media (hover: none) {
-  .vn-strong:active {
+  .xm:active {
     --vn-ms: var(--m-h);
   }
 }
@@ -1661,4 +1655,16 @@ html[data-loader="leaving"] .route-loader {
 }
 .btn-shield.is-demo::before {
   clip-path: polygon(50% 260%, -40% 110%, -45% 20%, -40% -40%, 140% -40%, 145% 20%);
+}
+
+/* Botões secundários: sem as placas que se separam — superfície única com a marca recortada */
+.xm > .xm-seam,
+.xm > .xm-plate {
+  display: none;
+}
+.xm > .xm-base,
+.xm:hover > .xm-base,
+.xm:focus-visible > .xm-base {
+  opacity: 1;
+  transition: background-color var(--dur-base) var(--ease-out);
 }

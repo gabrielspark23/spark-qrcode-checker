@@ -156,7 +156,7 @@ export default function GlobeInteractive({
         const cosS = sp0 * Math.sin(PORTO_ALEGRE[1] * R) + cp0 * Math.cos(PORTO_ALEGRE[1] * R) * Math.cos(PORTO_ALEGRE[0] * R - l0);
         // lente: aparece com o foco no Sul do Brasil (zoom) e mostra os dois escritórios ampliados
         const lens = decorative ? 0 : Math.min(1, Math.max(0, (zoom - 1.5) / 0.6)) * Math.min(1, Math.max(0, cosS / 0.35));
-        cityLabels = 1 - lens; // na lente os nomes aparecem ampliados
+        cityLabels = decorative ? 0 : 1 - lens; // na lente os nomes aparecem ampliados
         city(CAXIAS_DO_SUL, "Caxias do Sul", false, active === "cxs", [d, -d]);
         city(PORTO_ALEGRE, "Porto Alegre", true, active === "poa", [d, d]);
         cityLabels = decorative ? 0 : 1;

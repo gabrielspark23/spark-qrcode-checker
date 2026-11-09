@@ -84,6 +84,7 @@ export function PageHero({
   tone = "light",
   motif = "v",
   size = "default",
+  art,
 }: {
   eyebrow: string;
   title: string;
@@ -92,6 +93,8 @@ export function PageHero({
   tone?: "light" | "dark";
   motif?: Motif;
   size?: "default" | "statement";
+  /** Arte própria no lugar do motivo padrão (ex.: órbita de Serviços). */
+  art?: ReactNode;
 }) {
   const dark = tone === "dark";
   return (
@@ -99,7 +102,7 @@ export function PageHero({
       className={cn("relative overflow-hidden border-b", dark ? "on-dark border-navy-line bg-navy text-on-dark" : "border-line bg-app")}
       aria-labelledby="page-title"
     >
-      <MotifArt motif={motif} dark={dark} />
+      {art ?? <MotifArt motif={motif} dark={dark} />}
       <Container className={cn("relative pt-36 sm:pt-44", size === "statement" ? "pb-24 sm:pb-32" : "pb-16 sm:pb-20")}>
         <Eyebrow onDark={dark} className="enter">{eyebrow}</Eyebrow>
         <h1

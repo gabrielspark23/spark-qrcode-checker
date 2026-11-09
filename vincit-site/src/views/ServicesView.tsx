@@ -2,18 +2,31 @@ import { Check } from "lucide-react";
 import { PageHero } from "@/components/sections/PageHero";
 import { ServicesIndex } from "@/components/sections/ServicesIndex";
 import { ServiceIcon } from "@/components/brand/ServiceIcon";
+import { ServicesOrbit } from "@/components/sections/ServicesOrbit";
 import { ModuleButton } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Layout";
 import { getDict } from "@/content";
 import { href, type Locale } from "@/lib/i18n";
 
-/** Serviços como catálogo: cabeçalho grafite com as seis frentes num círculo + índice lateral fixo. */
+/** Serviços como catálogo: cabeçalho grafite com as seis disciplinas em órbita em volta do plano + índice lateral fixo. */
 export function ServicesView({ locale }: { locale: Locale }) {
   const t = getDict(locale);
   const p = t.servicesPage;
   return (
     <>
-      <PageHero eyebrow={p.eyebrow} title={p.title} intro={p.intro} tone="dark" motif="ring" />
+      <PageHero
+        eyebrow={p.eyebrow}
+        title={p.title}
+        intro={p.intro}
+        tone="dark"
+        size="statement"
+        art={
+          <ServicesOrbit
+            items={t.services.map((s) => ({ id: s.id, title: s.title }))}
+            className="absolute top-[6.5rem] hidden h-[27rem] w-[27rem] xl:right-[max(1rem,calc((100vw-80rem)/2+1rem))] xl:block"
+          />
+        }
+      />
 
       <section className="bg-app py-16 sm:py-24">
         <Container>

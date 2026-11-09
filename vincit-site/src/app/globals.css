@@ -1473,38 +1473,38 @@ html[data-loader="leaving"] .route-loader {
   stroke-dashoffset: 0;
 }
 /* gatilhos: hover/foco do card ou do próprio ícone */
-:is(.svc-trigger:hover, .svc-trigger:focus-visible, .svc-trigger:focus-within) .svc-ring circle,
+:is(.svc-trigger:hover, .svc-trigger:focus-visible, .svc-trigger:focus-within, .svc-trigger[data-on]) .svc-ring circle,
 .svc-icon:hover .svc-ring circle {
   stroke-dashoffset: 0;
 }
 @media (prefers-reduced-motion: no-preference) {
-  :is(.svc-trigger:hover, .svc-trigger:focus-visible, .svc-trigger:focus-within) .si-needle,
+  :is(.svc-trigger:hover, .svc-trigger:focus-visible, .svc-trigger:focus-within, .svc-trigger[data-on]) .si-needle,
   .svc-icon:hover .si-needle {
     animation: si-needle 900ms var(--ease-in-out);
   }
-  :is(.svc-trigger:hover, .svc-trigger:focus-visible, .svc-trigger:focus-within) .si-draw,
+  :is(.svc-trigger:hover, .svc-trigger:focus-visible, .svc-trigger:focus-within, .svc-trigger[data-on]) .si-draw,
   .svc-icon:hover .si-draw {
     animation: line-draw 520ms var(--ease-out) both;
   }
-  :is(.svc-trigger:hover, .svc-trigger:focus-visible, .svc-trigger:focus-within) .si-draw-2,
+  :is(.svc-trigger:hover, .svc-trigger:focus-visible, .svc-trigger:focus-within, .svc-trigger[data-on]) .si-draw-2,
   .svc-icon:hover .si-draw-2 {
     animation-delay: 160ms;
   }
-  :is(.svc-trigger:hover, .svc-trigger:focus-visible, .svc-trigger:focus-within) .si-col,
+  :is(.svc-trigger:hover, .svc-trigger:focus-visible, .svc-trigger:focus-within, .svc-trigger[data-on]) .si-col,
   .svc-icon:hover .si-col {
     animation: si-col 520ms var(--ease-out) both;
   }
-  :is(.svc-trigger:hover, .svc-trigger:focus-visible, .svc-trigger:focus-within) .si-col-2,
+  :is(.svc-trigger:hover, .svc-trigger:focus-visible, .svc-trigger:focus-within, .svc-trigger[data-on]) .si-col-2,
   .svc-icon:hover .si-col-2 { animation-delay: 70ms; }
-  :is(.svc-trigger:hover, .svc-trigger:focus-visible, .svc-trigger:focus-within) .si-col-3,
+  :is(.svc-trigger:hover, .svc-trigger:focus-visible, .svc-trigger:focus-within, .svc-trigger[data-on]) .si-col-3,
   .svc-icon:hover .si-col-3 { animation-delay: 140ms; }
-  :is(.svc-trigger:hover, .svc-trigger:focus-visible, .svc-trigger:focus-within) .si-col-4,
+  :is(.svc-trigger:hover, .svc-trigger:focus-visible, .svc-trigger:focus-within, .svc-trigger[data-on]) .si-col-4,
   .svc-icon:hover .si-col-4 { animation-delay: 210ms; }
-  :is(.svc-trigger:hover, .svc-trigger:focus-visible, .svc-trigger:focus-within) .si-beam,
+  :is(.svc-trigger:hover, .svc-trigger:focus-visible, .svc-trigger:focus-within, .svc-trigger[data-on]) .si-beam,
   .svc-icon:hover .si-beam {
     animation: si-beam 1100ms var(--ease-in-out);
   }
-  :is(.svc-trigger:hover, .svc-trigger:focus-visible, .svc-trigger:focus-within) .si-meridian,
+  :is(.svc-trigger:hover, .svc-trigger:focus-visible, .svc-trigger:focus-within, .svc-trigger[data-on]) .si-meridian,
   .svc-icon:hover .si-meridian {
     animation: si-meridian 1100ms var(--ease-in-out);
   }
@@ -2210,4 +2210,90 @@ form ::selection { background: rgb(194 162 99 / 0.35); color: var(--text-primary
 @media (prefers-reduced-motion: reduce) {
   .lens-canvas, .lens-plate { translate: none; }
   .lens-play, .lens-play-label { transition: none; }
+}
+
+/* ---- Serviços: seis disciplinas em órbita em volta do plano ---- */
+.svc-orbit { position: absolute; }
+.svc-orbit-spin { position: absolute; inset: 0; }
+.svc-orbit-node {
+  position: absolute;
+  z-index: 1;
+  translate: -50% -50%;
+  display: grid;
+  place-items: center;
+  width: 4.25rem;
+  height: 4.25rem;
+  border-radius: 9999px;
+  background: var(--color-navy);
+  border: 1px solid rgb(245 245 244 / 0.14);
+  color: var(--text-on-dark-2, #c9c6c0);
+  transition: color 400ms var(--ease-out), border-color 400ms var(--ease-out), background-color 400ms var(--ease-out);
+}
+.svc-orbit-node:hover,
+.svc-orbit-node:focus-visible,
+.svc-orbit-node[data-on] { color: var(--color-gold); border-color: rgb(194 162 99 / 0.6); }
+.svc-orbit-node:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 3px; }
+.svc-orbit-upright { position: relative; display: grid; place-items: center; }
+.svc-orbit-node .svc-icon { color: inherit; }
+.svc-orbit-label {
+  position: absolute;
+  top: calc(100% + 0.95rem);
+  left: 50%;
+  translate: -50% 4px;
+  white-space: nowrap;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--text-on-dark);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 300ms var(--ease-out), translate 300ms var(--ease-out);
+}
+.svc-orbit-node:hover .svc-orbit-label,
+.svc-orbit-node:focus-visible .svc-orbit-label,
+.svc-orbit-node[data-on] .svc-orbit-label { opacity: 1; translate: -50% 0; }
+
+/* pulso: corre do serviço até o centro */
+.svc-orbit-pulse { stroke-dasharray: 0.16 1.2; stroke-dashoffset: 0.16; opacity: 0; }
+.svc-orbit-pulse[data-on] { animation: orbit-pulse 1100ms var(--ease-in-out) 250ms both; }
+@keyframes orbit-pulse {
+  0% { stroke-dashoffset: 0.16; opacity: 0; }
+  12% { opacity: 1; }
+  88% { opacity: 1; }
+  100% { stroke-dashoffset: -1; opacity: 0; }
+}
+
+/* centro */
+.svc-orbit-core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  display: grid;
+  place-items: center;
+  width: 5.5rem;
+  height: 5.5rem;
+  border-radius: 9999px;
+  border: 1px solid rgb(194 162 99 / 0.45);
+  background: var(--color-navy);
+}
+.svc-orbit-halo {
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  border: 1px solid var(--color-gold);
+  opacity: 0;
+  animation: orbit-halo 1200ms var(--ease-out) 1250ms both;
+}
+@keyframes orbit-halo {
+  0% { opacity: 0.8; scale: 1; }
+  100% { opacity: 0; scale: 1.7; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .svc-orbit-spin { animation: orbit-turn 120s linear infinite; }
+  .svc-orbit-upright { animation: orbit-turn 120s linear infinite reverse; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .svc-orbit-halo { display: none; }
+  .svc-orbit-label { opacity: 1; translate: -50% 0; }
 }

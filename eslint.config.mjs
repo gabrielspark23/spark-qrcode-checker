@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Site institucional Vincit: projeto Next independente, com lint próprio.
+    "vincit-site/**",
   ]),
 ]);
 

@@ -1,0 +1,530 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   Vincit — "à luz do dia"
+   Tokens copiados do Vincit OS (apps/web/src/app/globals.css), PRD §8.2.
+   Grafite e latão; latão em no máximo ~1% da tela; elevação por borda.
+   ------------------------------------------------------------------ */
+
+:root {
+  /* Superfícies claras */
+  --bg-app: #fafaf9;
+  --bg-surface: #ffffff;
+  --bg-surface-muted: #f5f5f4;
+
+  /* Grafite (marca): definido no @theme abaixo (--color-navy, -soft, -line) */
+
+  /* Latão (marca) — nunca como texto/botão sobre fundo claro (≈2,4:1) */
+  --color-gold: #c2a263;
+  --color-gold-soft: #d4bc8b;
+
+  /* Tinta */
+  --text-primary: #1c1917;
+  --text-secondary: #57534e;
+  --text-muted: #6f6863;
+
+  /* Sobre grafite */
+  --text-on-dark: #f5f5f4;
+  --text-on-dark-secondary: #b8b4ae;
+  --text-on-dark-muted: #8f8a84;
+
+  /* Bordas */
+  --border-faint: #e7e5e4;
+  --border-soft: #cbc9c7;
+  --border-rule: #8a8886;
+
+  /* Ações */
+  --primary: #17191e;
+  --primary-hover: #2a2e37;
+
+  /* Estados */
+  --success: #3d6b4c;
+  --danger: #9b4444;
+
+  /* Movimento: curto, só em entrada e hover (PRD §8.6) */
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --dur-fast: 120ms;
+  --dur-base: 200ms;
+}
+
+@theme static {
+  --color-navy: #16181d;
+  --color-navy-soft: #23262e;
+  --color-navy-line: #2a2e37;
+}
+
+@theme inline {
+  --color-app: var(--bg-app);
+  --color-surface: var(--bg-surface);
+  --color-surface-muted: var(--bg-surface-muted);
+
+  --color-brass: var(--color-gold);
+  --color-brass-soft: var(--color-gold-soft);
+
+  --color-ink: var(--text-primary);
+  --color-ink-2: var(--text-secondary);
+  --color-ink-3: var(--text-muted);
+
+  --color-on-dark: var(--text-on-dark);
+  --color-on-dark-2: var(--text-on-dark-secondary);
+  --color-on-dark-3: var(--text-on-dark-muted);
+
+  --color-line: var(--border-faint);
+  --color-line-soft: var(--border-soft);
+  --color-line-rule: var(--border-rule);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+
+  --font-serif: "Newsreader Variable", "Source Serif 4", Georgia, serif;
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+}
+
+/* ------------------------------------------------------------------ base */
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    scroll-padding-top: 6rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background: var(--bg-app);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "cv11", "ss01";
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+    line-height: 1.15;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-gold-soft);
+    color: var(--color-navy);
+  }
+
+  /* Foco visível em todo elemento interativo (anel, não glow) */
+  :focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  .on-dark :focus-visible,
+  .on-dark:focus-visible {
+    outline-color: var(--color-gold);
+  }
+}
+
+/* ------------------------------------------------------------------ type */
+
+@layer components {
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .display {
+    font-size: clamp(2.5rem, 1.6rem + 3.6vw, 4.25rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+  .h1 {
+    font-size: clamp(2.25rem, 1.7rem + 2.2vw, 3.25rem);
+    line-height: 1.1;
+  }
+  .h2 {
+    font-size: clamp(1.875rem, 1.5rem + 1.5vw, 2.5rem);
+    line-height: 1.15;
+  }
+  .h3 {
+    font-size: 1.5rem;
+    line-height: 1.25;
+  }
+  .lead {
+    font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+    line-height: 1.6;
+  }
+  .measure {
+    max-width: 68ch;
+  }
+
+  /* Filete de latão de 2 px (marca) */
+  .rule-brass {
+    display: block;
+    width: 2.5rem;
+    height: 2px;
+    background: var(--color-gold);
+  }
+
+  /* Textura discreta do herói: linhas finas em latão a 6% */
+  .texture-lines {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath d='M0 120L120 0' stroke='%23c2a263' stroke-opacity='0.07' stroke-width='1'/%3E%3C/svg%3E");
+    background-size: 120px 120px;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Botões — animação elegante, sem degradê, sem glow, sem `transition: all`.
+   1) Varredura de preenchimento (pseudo-elemento, scaleX, 200 ms).
+   2) Seta desliza 3 px e uma segunda seta entra (efeito "passagem").
+   3) Pressionar: desce 1 px.
+   ------------------------------------------------------------------ */
+
+@layer components {
+  .btn {
+    --btn-bg: transparent;
+    --btn-fg: var(--text-primary);
+    --btn-border: transparent;
+    --btn-sweep: transparent;
+    --btn-fg-hover: var(--btn-fg);
+    --btn-border-hover: var(--btn-border);
+
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    min-height: 3rem;
+    padding: 0 1.375rem;
+    border: 1px solid var(--btn-border);
+    border-radius: 2px;
+    background: var(--btn-bg);
+    color: var(--btn-fg);
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: 0.005em;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition-property: color, border-color, transform;
+    transition-duration: var(--dur-base);
+    transition-timing-function: var(--ease-out);
+  }
+
+  .btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--btn-sweep);
+    transform: scaleX(0);
+    transform-origin: right center;
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+
+  .btn:hover {
+    color: var(--btn-fg-hover);
+    border-color: var(--btn-border-hover);
+  }
+  .btn:hover::before {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+  .btn:active {
+    transform: translateY(1px);
+  }
+  .btn[aria-disabled="true"],
+  .btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+  }
+  .btn[aria-disabled="true"]::before,
+  .btn:disabled::before {
+    transform: scaleX(0);
+  }
+
+  .btn-sm {
+    min-height: 2.5rem;
+    padding: 0 1rem;
+    font-size: 0.875rem;
+  }
+  .btn-lg {
+    min-height: 3.5rem;
+    padding: 0 1.75rem;
+    font-size: 1rem;
+  }
+
+  /* Primário sobre claro: tinta, texto branco. Nunca latão aqui. */
+  .btn-primary {
+    --btn-bg: var(--primary);
+    --btn-fg: #ffffff;
+    --btn-border: var(--primary);
+    --btn-sweep: var(--primary-hover);
+    --btn-border-hover: var(--primary-hover);
+  }
+
+  /* Primário sobre grafite: latão, texto grafite. */
+  .btn-brass {
+    --btn-bg: var(--color-gold);
+    --btn-fg: var(--color-navy);
+    --btn-border: var(--color-gold);
+    --btn-sweep: var(--color-gold-soft);
+    --btn-border-hover: var(--color-gold-soft);
+  }
+
+  /* Secundário sobre claro: contorno régua; hover preenche com tinta. */
+  .btn-secondary {
+    --btn-bg: transparent;
+    --btn-fg: var(--text-primary);
+    --btn-border: var(--border-rule);
+    --btn-sweep: var(--primary);
+    --btn-fg-hover: #ffffff;
+    --btn-border-hover: var(--primary);
+  }
+
+  /* Secundário sobre grafite: contorno claro; hover preenche grafite-suave, borda latão. */
+  .btn-ghost-dark {
+    --btn-bg: transparent;
+    --btn-fg: var(--text-on-dark);
+    --btn-border: #5b5f69;
+    --btn-sweep: var(--color-navy-soft);
+    --btn-border-hover: var(--color-gold);
+  }
+
+  /* Ícones dentro do botão */
+  .btn-icon {
+    position: relative;
+    display: inline-flex;
+    width: 1rem;
+    height: 1rem;
+    overflow: hidden;
+    flex: none;
+  }
+  .btn-icon > svg {
+    position: absolute;
+    inset: 0;
+    width: 1rem;
+    height: 1rem;
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+  .btn-icon > svg:last-child {
+    transform: translateX(-130%);
+  }
+  .btn:hover .btn-icon > svg:first-child {
+    transform: translateX(130%);
+  }
+  .btn:hover .btn-icon > svg:last-child {
+    transform: translateX(0);
+  }
+  /* Ícone diagonal (link externo) */
+  .btn-icon[data-dir="diag"] > svg:last-child {
+    transform: translate(-130%, 130%);
+  }
+  .btn:hover .btn-icon[data-dir="diag"] > svg:first-child {
+    transform: translate(130%, -130%);
+  }
+  .btn:hover .btn-icon[data-dir="diag"] > svg:last-child {
+    transform: translate(0, 0);
+  }
+
+  /* Link com seta e sublinhado desenhado */
+  .link-arrow {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: inherit;
+    padding-block: 0.25rem;
+  }
+  .link-arrow::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 1.5rem;
+    bottom: 0;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0.35);
+    transform-origin: left center;
+    opacity: 0.5;
+    transition-property: transform, opacity;
+    transition-duration: var(--dur-base);
+    transition-timing-function: var(--ease-out);
+  }
+  .link-arrow:hover::after {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  .link-arrow svg {
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+  .link-arrow:hover svg {
+    transform: translateX(3px);
+  }
+
+  /* Link de navegação: sublinhado de latão que cresce do centro */
+  .nav-link {
+    position: relative;
+    padding-block: 0.5rem;
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.125rem;
+    height: 2px;
+    background: var(--color-gold);
+    transform: scaleX(0);
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+  .nav-link:hover::after,
+  .nav-link[aria-current="page"]::after {
+    transform: scaleX(1);
+  }
+
+  /* Cartão: elevação por borda, hover escurece a borda e sobe o filete */
+  .card {
+    position: relative;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-faint);
+    border-radius: 4px;
+    transition: border-color var(--dur-base) var(--ease-out);
+  }
+  .card-interactive:hover {
+    border-color: var(--border-rule);
+  }
+  .card-interactive .card-rule {
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+  .card-interactive:hover .card-rule,
+  .card-interactive:focus-within .card-rule {
+    transform: scaleX(1);
+  }
+
+  /* Campos de formulário */
+  .field {
+    width: 100%;
+    min-height: 3rem;
+    padding: 0.75rem 0.875rem;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-rule);
+    border-radius: 2px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: border-color var(--dur-fast) var(--ease-out);
+  }
+  .field:hover {
+    border-color: var(--text-secondary);
+  }
+  .field:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 0;
+    border-color: var(--primary);
+  }
+  .field[aria-invalid="true"] {
+    border-color: var(--danger);
+  }
+  textarea.field {
+    min-height: 8rem;
+    resize: vertical;
+  }
+  select.field {
+    appearance: none;
+    padding-right: 2.5rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%2357534e' stroke-width='1.5' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.875rem center;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Entrada: só no herói, sem depender de JS (CSS puro), ≤ 200 ms por item.
+   ------------------------------------------------------------------ */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.enter {
+  animation: rise var(--dur-base) var(--ease-out) both;
+}
+.enter-1 {
+  animation-delay: 60ms;
+}
+.enter-2 {
+  animation-delay: 120ms;
+}
+.enter-3 {
+  animation-delay: 180ms;
+}
+.draw {
+  transform-origin: left center;
+  animation: draw 200ms var(--ease-out) 120ms both;
+}
+
+/* FAQ nativo (<details>) */
+details > summary {
+  list-style: none;
+  cursor: pointer;
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}
+details .faq-icon {
+  transition: transform var(--dur-base) var(--ease-out);
+}
+details[open] .faq-icon {
+  transform: rotate(45deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

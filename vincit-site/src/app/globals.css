@@ -1585,3 +1585,18 @@ html[data-loader="leaving"] .route-loader {
   --btn-fg-hover: var(--color-navy);
   --btn-border-hover: var(--color-gold);
 }
+
+/* Fechamento: o interior da marca entra depois que o escudo se desenha */
+@media (prefers-reduced-motion: no-preference) {
+  .draw-on-view .closing-mark {
+    transform-box: fill-box;
+    transform-origin: 50% 60%;
+    transition:
+      opacity 500ms var(--ease-out) 900ms,
+      transform 700ms var(--ease-in-out) 900ms;
+  }
+  .draw-on-view[data-draw="pending"] .closing-mark {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+}

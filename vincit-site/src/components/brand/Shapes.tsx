@@ -1,4 +1,4 @@
-import { SHIELD_OUTLINE_PATH, BRAND_GEOMETRY } from "@/lib/brand-geometry";
+import { SHIELD_OUTLINE_PATH, BRAND_GEOMETRY, MARK_PARTS } from "@/lib/brand-geometry";
 
 /**
  * Primitivas geométricas derivadas da marca, para composições em SVG.
@@ -66,3 +66,29 @@ export function VLines({
 }
 
 export const vRunFor = (h: number) => h / Math.tan((BRAND_GEOMETRY.vAngle * Math.PI) / 180);
+
+/**
+ * O interior oficial do escudo (o V e o "C" com seus traços), encaixado na mesma caixa da
+ * ShieldLine (mesmos x, y e largura) — completa a marca dentro de um contorno de escudo.
+ */
+export function ShieldInterior({
+  x,
+  y,
+  width,
+  className,
+  fill = "var(--color-gold)",
+}: {
+  x: number;
+  y: number;
+  width: number;
+  className?: string;
+  fill?: string;
+}) {
+  const s = width / B.w;
+  return (
+    <g transform={`translate(${x} ${y}) scale(${s}) translate(${-B.x} ${-B.y})`} className={className}>
+      <path d={MARK_PARTS.v} fill={fill} fillRule="evenodd" />
+      <path d={MARK_PARTS.circle} fill={fill} fillRule="evenodd" />
+    </g>
+  );
+}

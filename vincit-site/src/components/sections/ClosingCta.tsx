@@ -2,7 +2,7 @@ import { MessageCircle } from "lucide-react";
 import { Button, ModuleButton } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Layout";
 import { DrawOnView } from "@/components/motion/DrawOnView";
-import { ShieldLine } from "@/components/brand/Shapes";
+import { ShieldInterior, ShieldLine } from "@/components/brand/Shapes";
 import { href, type Locale } from "@/lib/i18n";
 import { whatsappHref } from "@/lib/site";
 import type { Dict } from "@/content";
@@ -20,6 +20,8 @@ export function ClosingCta({ locale, t }: { locale: Locale; t: Dict }) {
           <circle className="draw-line" pathLength={1} cx="330" cy="370" r="300" stroke="var(--color-gold)" strokeOpacity="0.75" transform="rotate(-120 330 370)" />
           <circle className="draw-line d2" pathLength={1} cx="370" cy="350" r="300" stroke="var(--text-primary)" strokeOpacity="0.1" />
           <ShieldLine x={130} y={110} width={420} stroke="var(--text-primary)" opacity={0.22} className="draw-line d3" />
+          {/* o interior da marca (V + círculo) completa o escudo, em latão */}
+          <ShieldInterior x={130} y={110} width={420} className="closing-mark fade-node" />
           <circle className="fade-node" cx="340" cy="597" r="6" fill="var(--color-gold)" />
         </svg>
       </DrawOnView>

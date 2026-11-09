@@ -47,7 +47,7 @@ export const en = {
       { id: "serve-title", label: "Who we serve" },
       { id: "process-title", label: "How we work" },
       { id: "platform-title", label: "People" },
-      { id: "final-title", label: "Conversation" },
+      { id: "manifesto-home-title", label: "Manifesto" },
     ],
     chaptersLabel: "Chapters",
     hero: {

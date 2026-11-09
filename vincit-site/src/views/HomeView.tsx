@@ -6,7 +6,7 @@ import { Expertise } from "@/components/sections/Expertise";
 import { WhoWeServeTabs } from "@/components/sections/WhoWeServeTabs";
 import { PlanningLine } from "@/components/sections/PlanningLine";
 import { PlatformPeople } from "@/components/sections/PlatformPeople";
-import { ClosingCta } from "@/components/sections/ClosingCta";
+import { HomeManifesto } from "@/components/sections/HomeManifesto";
 import { ChapterRail } from "@/components/layout/ChapterRail";
 import { getDict } from "@/content";
 import type { Locale } from "@/lib/i18n";
@@ -15,7 +15,7 @@ import type { Locale } from "@/lib/i18n";
  * Home como narrativa:
  * 1. O que fazemos (herói claro) → 2. como pensamos (reveal circular para grafite) →
  * 3. onde atuamos (globo BR–EUA, ainda em grafite) → 4. o que oferecemos (módulos) →
- * 5. para quem (painéis) → 6. como trabalhamos (linha) → 7. plataforma e pessoas → 8. conversa.
+ * 5. para quem (painéis) → 6. como trabalhamos (linha) → 7. plataforma e pessoas → 8. manifesto (vídeo), sobre o fundo claro.
  */
 export function HomeView({ locale }: { locale: Locale }) {
   const t = getDict(locale);
@@ -29,7 +29,7 @@ export function HomeView({ locale }: { locale: Locale }) {
       <WhoWeServeTabs locale={locale} t={t} />
       <PlanningLine t={t} />
       <PlatformPeople locale={locale} t={t} />
-      <ClosingCta locale={locale} t={t} />
+      <HomeManifesto locale={locale} t={t} />
     </>
   );
 }

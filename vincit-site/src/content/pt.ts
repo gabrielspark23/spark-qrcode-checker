@@ -45,7 +45,7 @@ export const pt: Dict = {
       { id: "serve-title", label: "Para quem" },
       { id: "process-title", label: "Como trabalhamos" },
       { id: "platform-title", label: "Pessoas" },
-      { id: "final-title", label: "Conversa" },
+      { id: "manifesto-home-title", label: "Manifesto" },
     ],
     chaptersLabel: "Capítulos",
     hero: {

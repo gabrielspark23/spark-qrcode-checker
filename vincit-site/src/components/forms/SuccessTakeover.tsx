@@ -19,7 +19,9 @@ export function SuccessTakeover({
   origin,
   locale,
   t,
+  onReset,
 }: {
+  onReset: () => void;
   stage: HTMLElement;
   origin: { x: number; y: number };
   locale: Locale;
@@ -30,13 +32,17 @@ export function SuccessTakeover({
 
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    // primeiro o círculo cobre a tela a partir do botão (onde o olhar está); depois sobe até a confirmação
+    // 1) o círculo cobre a tela a partir do botão; 2) o formulário sai de vez e a seção vira só a confirmação
     const id = window.setTimeout(() => {
-      stage.scrollIntoView({ block: "start", behavior: reduce ? "auto" : "smooth" });
+      stage.dataset.done = "";
+      stage.scrollIntoView({ block: "start", behavior: "auto" });
       titleRef.current?.focus({ preventScroll: true });
       window.dispatchEvent(new Event("scroll")); // o header recalcula o tom sobre o grafite
-    }, reduce ? 0 : 950);
-    return () => window.clearTimeout(id);
+    }, reduce ? 0 : 1100);
+    return () => {
+      window.clearTimeout(id);
+      delete stage.dataset.done;
+    };
   }, [stage]);
 
   return createPortal(
@@ -64,7 +70,11 @@ export function SuccessTakeover({
             ))}
           </ol>
           <div className="tk-in tk-4 mt-12 flex flex-wrap items-center gap-x-10 gap-y-5">
-            <Link href={href("home", locale)} className="link-arrow text-on-dark">
+            <button type="button" onClick={onReset} className="link-arrow text-on-dark">
+              <span>{s.again}</span>
+              <ArrowUpRight className="h-4 w-4 rotate-[225deg]" strokeWidth={1.75} aria-hidden />
+            </button>
+            <Link href={href("home", locale)} className="link-arrow text-on-dark-2 hover:text-on-dark">
               <span>{s.home}</span>
               <ArrowUpRight className="h-4 w-4" strokeWidth={1.75} aria-hidden />
             </Link>

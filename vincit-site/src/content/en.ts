@@ -473,6 +473,7 @@ export const en = {
     success: {
       title: "Thank you. We received your message.",
       body: "Here is what happens next:",
+      again: "Send another message",
       home: "Back to home",
       steps: [
         "A member of our team reviews your message.",

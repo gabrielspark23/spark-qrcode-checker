@@ -470,6 +470,7 @@ export const pt: Dict = {
     success: {
       title: "Obrigado. Recebemos a sua mensagem.",
       body: "O que acontece agora:",
+      again: "Enviar outra mensagem",
       home: "Voltar ao início",
       steps: [
         "Alguém da nossa equipe lê a sua mensagem.",

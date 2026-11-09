@@ -74,6 +74,7 @@ export default function GlobeInteractive({
       };
 
       const draw = (now: number) => {
+        if (w < 24) return; // canvas oculto (ex.: coluna escondida pela confirmação do Contato)
         const radius = (w / 2 - 6) * zoom;
         proj.rotate(rot).scale(radius);
         ctx.clearRect(0, 0, w, w);

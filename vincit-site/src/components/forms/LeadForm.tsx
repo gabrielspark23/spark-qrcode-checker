@@ -287,7 +287,26 @@ export function LeadForm({ locale, t }: { locale: Locale; t: Dict }) {
         <span className="sr-only" role="status" aria-live="polite">{busy ? (status === "done" ? f.sent : f.sending) : ""}</span>
       </div>
     </form>
-    {takeover ? <SuccessTakeover stage={takeover.stage} origin={takeover.origin} locale={locale} t={t} /> : null}
+    {takeover ? (
+      <SuccessTakeover
+        stage={takeover.stage}
+        origin={takeover.origin}
+        locale={locale}
+        t={t}
+        onReset={() => {
+          // volta ao formulário limpo, no topo da seção
+          formRef.current?.reset();
+          setErrors({});
+          setMessageLen(0);
+          setTakeover(null);
+          setStatus("idle");
+          requestAnimationFrame(() => {
+            takeover.stage.scrollIntoView({ block: "start" });
+            formRef.current?.querySelector<HTMLInputElement>("input[name=name]")?.focus({ preventScroll: true });
+          });
+        }}
+      />
+    ) : null}
     </>
   );
 }

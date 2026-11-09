@@ -1964,13 +1964,15 @@ html[data-loader="leaving"] .route-loader {
 .btn-sent .sent-label { animation: rise 420ms var(--ease-out) 820ms both; }
 
 /* ---- Confirmação em tela cheia (Contato) ---- */
-.takeover {
-  clip-path: circle(0px at var(--ox) var(--oy));
-  animation: takeover-open 1050ms var(--ease-in-out) forwards;
-}
+/* o círculo cresce a partir do botão; ao terminar, a camada fica sem recorte (cobre qualquer altura) */
+.takeover { animation: takeover-open 1050ms var(--ease-in-out) backwards; }
 @keyframes takeover-open {
-  to { clip-path: circle(160vmax at var(--ox) var(--oy)); }
+  from { clip-path: circle(0px at var(--ox) var(--oy)); }
+  to { clip-path: circle(150% at var(--ox) var(--oy)); }
 }
+/* depois do círculo: o formulário sai e a seção passa a ser só a confirmação */
+[data-contact-stage][data-done] > :not(.takeover) { display: none; }
+[data-contact-stage][data-done] > .takeover { position: relative; inset: auto; grid-column: 1 / -1; animation: none; }
 .takeover .tk-mark { opacity: 0; animation: tk-mark 700ms var(--ease-out) 1300ms forwards; }
 @keyframes tk-mark {
   from { opacity: 0; scale: 0.7; }

@@ -12,6 +12,7 @@ const noop = () => () => {};
 
 /**
  * Who we serve — painéis editoriais (abas ARIA) com o C-Reveal como FUNDO da própria seção.
+ * O C é ancorado na seção (rola junto com o conteúdo); só a forma muda com o progresso.
  * Duas camadas com o mesmo layout: a clara (real, interativa) e a grafite por cima, recortada
  * no formato do C (clip-path com o contorno do C) e transparente a cliques. Na borda do C o
  * texto inverte de cor — nunca fica ilegível. Ao fim da seção o grafite cobre tudo e continua
@@ -32,39 +33,42 @@ export function WhoWeServeTabs({ locale, t }: { locale: Locale; t: Dict }) {
     if (!el || !dk) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     let raf = 0;
-    let cur = -1;
     const target = () => {
       const r = el.getBoundingClientRect();
       const vh = window.innerHeight;
       // começa quando o título está na tela; termina quando a base da seção chega à base da tela
       return clamp((0.3 * vh - r.top) / Math.max(1, r.height - 0.7 * vh));
     };
+    let last = -1;
     const paint = (e: number) => {
-      const r = el.getBoundingClientRect();
       const W = el.clientWidth;
-      const vh = window.innerHeight;
-      const s = cShapeAt(e, W, vh, W < 640);
+      const H = el.clientHeight;
+      const s = cShapeAt(e, W, H, W < 640);
       dk.style.display = e <= 0.001 ? "none" : "block";
-      dk.style.clipPath = s.full ? "none" : `path(evenodd, "${cPath(s, r.top)}")`;
+      dk.style.clipPath = s.full ? "none" : `path(evenodd, "${cPath(s)}")`;
     };
+    // Progresso preso à posição de rolagem (sem atraso): o C acompanha o conteúdo exatamente.
     const tick = () => {
       raf = 0;
       const tg = target();
-      cur = cur < 0 ? tg : cur + (tg - cur) * 0.12; // mais suave
-      if (Math.abs(tg - cur) < 0.0008) cur = tg;
-      paint(cur);
-      if (cur !== tg) raf = requestAnimationFrame(tick);
+      if (Math.abs(tg - last) < 0.0005) return;
+      last = tg;
+      paint(tg);
     };
     const req = () => {
       if (!raf) raf = requestAnimationFrame(tick);
     };
+    const onResize = () => {
+      last = -1;
+      req();
+    };
     window.addEventListener("scroll", req, { passive: true });
-    window.addEventListener("resize", req);
+    window.addEventListener("resize", onResize);
     req();
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("scroll", req);
-      window.removeEventListener("resize", req);
+      window.removeEventListener("resize", onResize);
     };
   }, []);
 

@@ -10,17 +10,21 @@ const SHIELD_BASE = 42;
 
 export type CShape = { cx: number; cy: number; R: number; ix: number; iy: number; r: number; half: number; full: boolean };
 
-/** e: 0 → 1. 0–0,7: o C entra pela direita (80%→100% da escala) e fica inteiro; 0,7–1: cobre tudo. */
-export function cShapeAt(e: number, W: number, vh: number, mobile: boolean): CShape {
-  const Rc = mobile ? 0.7 * W : Math.min(0.46 * W, 0.72 * vh);
+/**
+ * e: 0 → 1. Coordenadas da PRÓPRIA SEÇÃO (W × H): o C é parte do fundo e rola junto com o
+ * conteúdo — só a forma muda com o progresso.
+ * 0–0,7: o C entra pela direita (80%→100% da escala) e fica inteiro; 0,7–1: cobre a seção.
+ */
+export function cShapeAt(e: number, W: number, H: number, mobile: boolean): CShape {
+  const Rc = mobile ? 0.7 * W : Math.min(0.46 * W, 0.42 * H);
   const f = easeInOut(clamp(e / 0.7));
   const g = easeInOut(clamp((e - 0.7) / 0.3));
   const ax = lerp((mobile ? 1.4 : 1.25) * W, (mobile ? 0.6 : 0.64) * W, f);
-  const ay = lerp(0.58 * vh, 0.5 * vh, f);
+  const ay = (mobile ? 0.5 : 0.48) * H; // linha horizontal fixa: o C segue a sua linha
   const aR = lerp(0.8 * Rc, Rc, f);
   const ex = 0.58 * W;
-  const ey = 0.5 * vh;
-  const cover = Math.hypot(Math.max(ex, W - ex), Math.max(ey, vh - ey)) * 1.08;
+  const ey = 0.48 * H;
+  const cover = Math.hypot(Math.max(ex, W - ex), Math.max(ey, H - ey)) * 1.06;
   return {
     cx: lerp(ax, ex, g),
     cy: lerp(ay, ey, g),

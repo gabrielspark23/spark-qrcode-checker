@@ -150,7 +150,8 @@ function Chapter({ s, i, active, labels }: { s: Service; i: number; active: bool
               <div>
                 <p className="eyebrow border-b border-line-soft pb-3 text-ink-3">{labels.whatWeDo}</p>
                 <div id={panel} className="sc-panel" data-open={open || undefined}>
-                  <ul className="sc-panel-inner space-y-4 pt-5">
+                  <div className="sc-panel-inner">
+                  <ul className="space-y-4 pt-5">
                     {s.whatWeDo.map((x) => (
                       <li key={x} className="flex gap-3 text-[0.9375rem] leading-relaxed">
                         <svg viewBox="0 0 16 16" className="mt-1.5 h-3 w-3 shrink-0" fill="none" aria-hidden>
@@ -160,6 +161,7 @@ function Chapter({ s, i, active, labels }: { s: Service; i: number; active: bool
                       </li>
                     ))}
                   </ul>
+                  </div>
                 </div>
                 <button
                   type="button"

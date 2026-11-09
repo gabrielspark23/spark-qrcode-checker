@@ -1833,33 +1833,25 @@ html[data-loader="leaving"] .route-loader {
 }
 .story-tl[data-enhanced] li[data-on] .tl-text { opacity: 1; translate: 0 0; }
 
-/* ---- Sobre: valores com barras de latão que se preenchem na rolagem ---- */
-.values-list li { --vp: 1; }
-.values-list .value-bar {
+/* ---- Sobre: valores com fundo em latão que acompanha a rolagem (fundo e fonte na mesma borda) ---- */
+.values-list li { --ve: 0; --vx: 0; }
+.values-list .value-base .v-num { color: var(--text-muted); }
+.values-list .value-base .v-title { color: var(--text-primary); }
+.values-list .value-base .v-body { color: var(--text-secondary); }
+.values-list .value-gold {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 1px;
-  background: var(--border-soft);
-}
-.values-list .value-bar::after {
-  content: "";
-  position: absolute;
-  inset: -0.5px 0;
+  inset: -1px 0;
+  display: flex;
+  align-items: center;
   background: var(--color-gold);
-  transform-origin: left;
-  transform: scaleX(var(--vp));
+  color: #16181d;
+  clip-path: inset(0 calc((1 - var(--ve)) * 100%) 0 calc(var(--vx) * 100%));
+  pointer-events: none;
 }
-.values-list:not([data-enhanced]) .value-bar::after { transform: scaleX(1); opacity: 0.55; }
-.values-list[data-enhanced] .value-title {
-  opacity: calc(0.25 + var(--vp) * 0.75);
-  translate: calc((1 - var(--vp)) * 2.5rem) 0;
-}
-.values-list[data-enhanced] .value-body {
-  opacity: calc(var(--vp) * 1.4 - 0.4);
-}
-.values-list .value-end .value-bar::after { transform: scaleX(1); opacity: 0; }
+.values-list .value-gold > div { width: 100%; }
+.values-list .value-gold .v-num,
+.values-list .value-gold .v-body { color: rgb(22 24 29 / 0.78); }
+.values-list:not([data-enhanced]) .value-gold { display: none; }
 
 /* ---- Sobre: "Onde estamos" com mapa pontilhado ao fundo ---- */
 .where-map-bg {

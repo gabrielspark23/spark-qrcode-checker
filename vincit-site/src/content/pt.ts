@@ -469,6 +469,7 @@ export const pt: Dict = {
     },
     success: {
       title: "Obrigado. Recebemos a sua mensagem.",
+      receivedOn: "Mensagem recebida",
       thanks: "Obrigado.",
       thanksName: "Obrigado, {name}.",
       received: "Recebemos a sua mensagem.",

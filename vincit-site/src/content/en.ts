@@ -472,6 +472,7 @@ export const en = {
     },
     success: {
       title: "Thank you. We received your message.",
+      receivedOn: "Message received",
       thanks: "Thank you.",
       thanksName: "Thank you, {name}.",
       received: "We received your message.",

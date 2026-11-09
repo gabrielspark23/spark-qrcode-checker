@@ -2378,44 +2378,41 @@ form ::selection { background: rgb(194 162 99 / 0.35); color: var(--text-primary
 .ed-index { color: var(--text-primary); transition: color 240ms var(--ease-out), padding 300ms var(--ease-out); }
 .ed-index:hover, .ed-index:focus-visible { color: var(--color-gold); padding-left: 0.5rem; }
 
-/* ---- Confirmação premium (latão): grafite abre a partir do botão, latão nasce do centro ---- */
-.takeover-gold { background: var(--color-navy); color: #16181d; }
-.takeover-gold .tk-cap { position: absolute; left: 0; right: 0; top: 0; height: 4.5rem; background: var(--color-navy); }
-.takeover-gold .tk-gold {
-  position: absolute; inset: 4.5rem 0 0;
-  background: var(--color-gold);
-  clip-path: circle(150% at 50% 50%);
-}
-.takeover-gold .tk-frame {
-  position: absolute; inset: 5.5rem 1rem 1rem;
-  border: 1px solid rgb(22 24 29 / 0.28);
-  border-radius: 1.25rem;
+/* ---- Confirmação premium: latão abre do botão, a pedra cobre e fica o cartão ---- */
+.takeover-card { background: var(--color-gold); color: var(--text-primary); }
+.takeover-card .tk-stone { position: absolute; inset: 0; background: var(--bg-app); }
+.tk-card { background: var(--color-gold); border-radius: 3rem 0.5rem 3rem 0.5rem; }
+.tk-card-rule {
+  position: absolute; inset: 0;
+  border: 1px solid rgb(22 24 29 / 0.35);
+  border-radius: 3rem 0.5rem 3rem 0.5rem;
+  translate: -0.9rem 0.9rem;
   pointer-events: none;
 }
-@media (min-width: 640px) { .takeover-gold .tk-frame { inset: 6.25rem 1.75rem 1.75rem; border-radius: 2rem; } }
-.takeover-gold .tk-title .tk-line { overflow: hidden; }
-.takeover-gold .tk-mark-line { stroke-dasharray: 1; stroke-dashoffset: 0; }
+.takeover-card .tk-title .tk-line { overflow: hidden; padding-bottom: 0.06em; }
+.takeover-card .tk-mark-line { stroke-dasharray: 1; stroke-dashoffset: 0; }
 .tk-btn {
   display: inline-flex; align-items: center; min-height: 3rem; padding: 0 1.5rem;
   border-radius: 9999px; background: #16181d; color: var(--color-gold);
   font-size: 0.9375rem; font-weight: 600;
   transition: background-color 300ms var(--ease-out), color 300ms var(--ease-out);
 }
-.tk-btn:hover, .tk-btn:focus-visible { background: #f5f5f4; color: #16181d; }
-.takeover-gold a:focus-visible, .tk-btn:focus-visible { outline: 2px solid #16181d; outline-offset: 3px; }
+.tk-btn:hover, .tk-btn:focus-visible { background: var(--color-gold); color: #16181d; }
+.takeover-card a:focus-visible, .tk-btn:focus-visible { outline: 2px solid #16181d; outline-offset: 3px; }
 @media (prefers-reduced-motion: no-preference) {
-  .takeover-gold .tk-gold { animation: tk-gold 1100ms var(--ease-in-out) 700ms both; }
-  .takeover-gold .tk-frame { animation: tk-fade 900ms var(--ease-out) 1500ms both; }
-  .takeover-gold .tk-mark { opacity: 1; animation: none; }
-  .takeover-gold .tk-mark-line { animation: tk-draw 900ms var(--ease-in-out) 1300ms both; }
-  .takeover-gold .tk-mark-fill { animation: tk-fade 600ms var(--ease-out) 2100ms both; }
-  .takeover-gold .tk-title .tk-line { animation: ed-in 1000ms var(--ease-out) 1600ms both; }
-  .takeover-gold .tk-title .tk-line-2 { animation-delay: 1800ms; }
-  .takeover-gold .tk-1 { animation-delay: 1500ms; }
-  .takeover-gold .tk-2 { animation-delay: 2100ms; }
-  .takeover-gold .tk-3 { animation-delay: 2300ms; }
-  .takeover-gold .tk-4 { animation-delay: 2500ms; }
+  .takeover-card .tk-stone { animation: tk-curtain 1000ms var(--ease-in-out) 1050ms both; }
+  .takeover-card .tk-card { animation: tk-card 900ms var(--ease-out) 1500ms both; }
+  .takeover-card .tk-card-rule { animation: tk-fade 700ms var(--ease-out) 2100ms both; }
+  .takeover-card .tk-mark { opacity: 1; animation: none; }
+  .takeover-card .tk-mark-line { animation: tk-draw 900ms var(--ease-in-out) 1900ms both; }
+  .takeover-card .tk-mark-fill { animation: tk-fade 600ms var(--ease-out) 2600ms both; }
+  .takeover-card .tk-title .tk-line { animation: ed-in 1000ms var(--ease-out) 1700ms both; }
+  .takeover-card .tk-title .tk-line-2 { animation-delay: 1900ms; }
+  .takeover-card .tk-1 { animation-delay: 1600ms; }
+  .takeover-card .tk-2 { animation-delay: 2200ms; }
+  .takeover-card .tk-4 { animation-delay: 2400ms; }
 }
-@keyframes tk-gold { from { clip-path: circle(0% at 50% 55%); } to { clip-path: circle(150% at 50% 55%); } }
+@keyframes tk-curtain { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes tk-card { from { clip-path: inset(0 0 100% 0 round 3rem 0.5rem 3rem 0.5rem); translate: 0 1.5rem; } to { clip-path: inset(0 0 0 0 round 3rem 0.5rem 3rem 0.5rem); translate: 0 0; } }
 @keyframes tk-fade { from { opacity: 0; } to { opacity: 1; } }
 @keyframes tk-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }

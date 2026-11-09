@@ -48,66 +48,72 @@ export function SuccessTakeover({
   }, [stage]);
 
   const first = name?.trim().split(/\s+/)[0];
+  const date = new Intl.DateTimeFormat(locale === "pt" ? "pt-BR" : "en-US", { day: "numeric", month: "long", year: "numeric" }).format(new Date());
+  const thanksWord = s.thanks.replace(/[.!]$/, first ? "," : ".");
   return createPortal(
     <div
-      className="takeover takeover-gold absolute inset-0 z-30"
-      data-tone="dark"
+      className="takeover takeover-card absolute inset-0 z-30"
+      data-tone="light"
       style={{ "--ox": `${origin.x}px`, "--oy": `${origin.y}px` } as React.CSSProperties}
       role="status"
       aria-live="polite"
     >
-      {/* segunda onda: o latão nasce do centro sobre o grafite */}
-      <span className="tk-gold" aria-hidden />
-      {/* faixa grafite sob o header: o logo (escudo em latão) continua visível */}
-      <span className="tk-cap on-dark" aria-hidden />
-      {/* filetes finos em moldura, como um cartão de agradecimento */}
-      <span className="tk-frame" aria-hidden />
+      {/* a pedra cobre o latão de cima para baixo; o latão "se recolhe" e fica só o cartão */}
+      <span className="tk-stone" aria-hidden />
 
-      <div className="relative flex min-h-svh items-center px-6 py-28 sm:px-14">
-        <div className="mx-auto w-full max-w-5xl">
-          <div className="grid gap-12 lg:grid-cols-12 lg:items-end">
-            <div className="lg:col-span-8">
-              <svg viewBox={MARK_VIEWBOX} className="tk-mark h-16 w-auto sm:h-20" aria-hidden>
-                <path className="tk-mark-line" d={SHIELD_OUTLINE_PATH} pathLength={1} fill="none" stroke="#16181d" strokeWidth="6" />
-                <path className="tk-mark-fill" d={MARK_PATH} fill="#16181d" />
-              </svg>
-              <p className="tk-in tk-1 eyebrow mt-10 flex items-center gap-3 text-[#16181d]/70">
-                <span className="h-px w-8 bg-[#16181d]/60" aria-hidden />
-                Vincit Capital
-              </p>
-              <h2 ref={titleRef} tabIndex={-1} className="tk-title display mt-6 text-[clamp(3rem,1.8rem+5vw,6.5rem)] leading-[0.98] outline-none">
-                <span className="tk-line block">{first ? s.thanksName.replace("{name}", first) : s.thanks}</span>
-                <span className="tk-line tk-line-2 block text-[#16181d]/70">{s.received}</span>
-              </h2>
-            </div>
-            <p className="tk-in tk-2 max-w-[30ch] border-l border-[#16181d]/30 pl-6 font-serif text-[1.375rem] italic leading-snug lg:col-span-4">
-              {s.note}
-              <span className="mt-4 block font-sans text-sm not-italic tracking-wide text-[#16181d]/70">{s.signature}</span>
+      <div className="relative flex min-h-svh items-center px-5 pb-20 pt-28 sm:px-12 sm:pt-32">
+        <div className="mx-auto grid w-full max-w-6xl items-center gap-14 lg:grid-cols-12 lg:gap-10">
+          {/* esquerda: o agradecimento */}
+          <div className="lg:col-span-6">
+            <p className="tk-in tk-1 eyebrow flex items-center gap-3 text-ink-3">
+              <span className="h-px w-8 bg-brass" aria-hidden />
+              {s.receivedOn} · {date}
             </p>
+            <h2 ref={titleRef} tabIndex={-1} className="tk-title display mt-8 leading-[0.92] outline-none">
+              <span className="tk-line block text-[clamp(3.5rem,2rem+6vw,7.5rem)]">{thanksWord}</span>
+              {first ? <span className="tk-line tk-line-2 block text-[clamp(3.5rem,2rem+6vw,7.5rem)] text-[#8a6d3b]">{first}.</span> : null}
+            </h2>
+            <p className="tk-in tk-2 mt-8 max-w-[36ch] text-[1.125rem] leading-relaxed text-ink-2">{s.received}</p>
+
+            <div className="tk-in tk-4 mt-12 flex flex-wrap items-center gap-x-8 gap-y-5">
+              <button type="button" onClick={onReset} className="tk-btn">
+                <span>{s.again}</span>
+              </button>
+              <Link href={href("home", locale)} className="link-arrow text-ink">
+                <span>{s.home}</span>
+                <ArrowUpRight className="h-4 w-4" strokeWidth={1.75} aria-hidden />
+              </Link>
+              <a href={site.instagram} target="_blank" rel="noopener noreferrer" className="link-arrow text-ink-2 hover:text-ink">
+                <span>@vincit.capital</span>
+                <ArrowUpRight className="h-4 w-4" strokeWidth={1.75} aria-hidden />
+              </a>
+            </div>
           </div>
 
-          <p className="tk-in tk-3 eyebrow mt-16 text-[#16181d]/70">{s.body}</p>
-          <ol className="tk-in tk-3 mt-5 grid border-t border-[#16181d]/25 sm:grid-cols-3">
-            {s.steps.map((step, i) => (
-              <li key={step} className="border-b border-[#16181d]/15 py-6 sm:border-b-0 sm:pr-8">
-                <span className="font-serif text-2xl tabular-nums">{String(i + 1).padStart(2, "0")}</span>
-                <p className="mt-2 text-[1rem] leading-relaxed text-[#16181d]/85">{step}</p>
-              </li>
-            ))}
-          </ol>
+          {/* direita: o cartão em latão */}
+          <div className="relative lg:col-span-5 lg:col-start-8">
+            <span className="tk-card-rule" aria-hidden />
+            <div className="tk-card relative p-8 text-[#16181d] sm:p-10">
+              <div className="flex items-start justify-between gap-6">
+                <svg viewBox={MARK_VIEWBOX} className="tk-mark h-14 w-auto" aria-hidden>
+                  <path className="tk-mark-line" d={SHIELD_OUTLINE_PATH} pathLength={1} fill="none" stroke="#16181d" strokeWidth="7" />
+                  <path className="tk-mark-fill" d={MARK_PATH} fill="#16181d" />
+                </svg>
+                <span className="text-right text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#16181d]/70">Vincit<br />Capital</span>
+              </div>
+              <p className="mt-10 font-serif text-[1.5rem] leading-snug">{s.note}</p>
+              <p className="mt-5 text-sm tracking-wide text-[#16181d]/75">{s.signature}</p>
 
-          <div className="tk-in tk-4 mt-12 flex flex-wrap items-center gap-x-10 gap-y-5 text-[#16181d]">
-            <button type="button" onClick={onReset} className="tk-btn">
-              <span>{s.again}</span>
-            </button>
-            <Link href={href("home", locale)} className="link-arrow">
-              <span>{s.home}</span>
-              <ArrowUpRight className="h-4 w-4" strokeWidth={1.75} aria-hidden />
-            </Link>
-            <a href={site.instagram} target="_blank" rel="noopener noreferrer" className="link-arrow">
-              <span>@vincit.capital</span>
-              <ArrowUpRight className="h-4 w-4" strokeWidth={1.75} aria-hidden />
-            </a>
+              <p className="mt-10 border-t border-[#16181d]/25 pt-6 text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#16181d]/70">{s.body}</p>
+              <ol className="mt-5 space-y-4">
+                {s.steps.map((step, i) => (
+                  <li key={step} className="flex gap-4 text-[0.9375rem] leading-relaxed">
+                    <span className="font-serif text-lg tabular-nums leading-snug">{String(i + 1).padStart(2, "0")}</span>
+                    <span>{step}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
           </div>
         </div>
       </div>

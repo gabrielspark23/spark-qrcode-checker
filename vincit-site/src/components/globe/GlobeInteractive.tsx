@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import type { Feature, FeatureCollection, Geometry } from "geojson";
 import type { GeoPermissibleObjects } from "d3-geo";
-import { GLOBE_EVENT, ISO_BRAZIL, ISO_USA, SAN_DIEGO, VIEW_BR, VIEW_INITIAL, VIEW_US, type GlobeTarget } from "./config";
+import { CAXIAS_DO_SUL, GLOBE_EVENT, ISO_BRAZIL, ISO_USA, PORTO_ALEGRE, SAN_DIEGO, VIEWS, type GlobeTarget } from "./config";
 
 type Rot = [number, number, number];
 const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
@@ -23,7 +23,7 @@ export default function GlobeInteractive({ label, onReady }: { label: string; on
     let cleanup = () => {};
 
     (async () => {
-      const [{ geoOrthographic, geoPath, geoGraticule10, geoCentroid }, { feature }, worldMod] = await Promise.all([
+      const [{ geoOrthographic, geoPath, geoGraticule10 }, { feature }, worldMod] = await Promise.all([
         import("d3-geo"),
         import("topojson-client"),
         import("world-atlas/countries-110m.json"),
@@ -36,8 +36,7 @@ export default function GlobeInteractive({ label, onReady }: { label: string; on
       const brazil = countries.features.find((f) => String(f.id) === ISO_BRAZIL) as Feature<Geometry>;
       const usa = countries.features.find((f) => String(f.id) === ISO_USA) as Feature<Geometry>;
       const others = countries.features.filter((f) => f !== brazil && f !== usa);
-      const brC = geoCentroid(brazil) as [number, number];
-      const arc: GeoPermissibleObjects = { type: "LineString", coordinates: [SAN_DIEGO, brC] };
+      const arc: GeoPermissibleObjects = { type: "LineString", coordinates: [SAN_DIEGO, PORTO_ALEGRE] };
       const graticule = geoGraticule10();
 
       const ctx = canvas.getContext("2d");
@@ -46,12 +45,13 @@ export default function GlobeInteractive({ label, onReady }: { label: string; on
       const path = geoPath(proj, ctx);
 
       let w = 0;
-      let rot: Rot = [...VIEW_INITIAL];
-      let base: Rot = [...VIEW_INITIAL];
+      let rot: Rot = [...VIEWS.reset.rotate];
+      let base: Rot = [...VIEWS.reset.rotate];
+      let zoom = 1;
       let active: GlobeTarget = "reset";
       let dragging = false;
       let lastInteract = 0;
-      let tween: { from: Rot; to: Rot; t0: number; dur: number } | null = null;
+      let tween: { from: Rot; to: Rot; z0: number; z1: number; t0: number; dur: number } | null = null;
       let visible = true;
       let raf = 0;
       const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -63,12 +63,15 @@ export default function GlobeInteractive({ label, onReady }: { label: string; on
         canvas.width = Math.round(w * dpr);
         canvas.height = Math.round(w * dpr);
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        proj.scale(w / 2 - 4).translate([w / 2, w / 2]);
+        proj.translate([w / 2, w / 2]);
       };
 
       const draw = () => {
-        proj.rotate(rot);
+        proj.rotate(rot).scale((w / 2 - 4) * zoom);
         ctx.clearRect(0, 0, w, w);
+        // com zoom, o globo é recortado pelo círculo do palco (continua um disco)
+        ctx.save();
+        ctx.beginPath(); ctx.arc(w / 2, w / 2, w / 2 - 4, 0, Math.PI * 2); ctx.clip();
         ctx.beginPath(); path({ type: "Sphere" }); ctx.fillStyle = "#1c1f25"; ctx.fill();
         ctx.strokeStyle = "#2a2e37"; ctx.lineWidth = 1; ctx.stroke();
         ctx.beginPath(); path(graticule); ctx.strokeStyle = "rgba(245,245,244,0.05)"; ctx.stroke();
@@ -76,10 +79,11 @@ export default function GlobeInteractive({ label, onReady }: { label: string; on
         ctx.strokeStyle = "#16181d"; ctx.lineWidth = 0.5; ctx.stroke();
         ctx.beginPath(); path(usa); ctx.fillStyle = active === "us" ? "#3d414d" : "#343843"; ctx.fill();
         ctx.strokeStyle = active === "us" ? "rgba(245,245,244,0.7)" : "rgba(245,245,244,0.35)"; ctx.lineWidth = active === "us" ? 1.2 : 0.8; ctx.stroke();
-        ctx.beginPath(); path(brazil); ctx.fillStyle = active === "br" ? "rgba(194,162,99,0.42)" : "rgba(194,162,99,0.28)"; ctx.fill();
-        ctx.strokeStyle = "#c2a263"; ctx.lineWidth = active === "br" ? 1.5 : 1; ctx.stroke();
+        const brActive = active === "poa" || active === "cxs";
+        ctx.beginPath(); path(brazil); ctx.fillStyle = brActive ? "rgba(194,162,99,0.36)" : "rgba(194,162,99,0.28)"; ctx.fill();
+        ctx.strokeStyle = "#c2a263"; ctx.lineWidth = 1; ctx.stroke();
         ctx.beginPath(); path(arc); ctx.strokeStyle = "#c2a263"; ctx.lineWidth = 1.5; ctx.stroke();
-        const ring = (lonlat: [number, number], dot: boolean) => {
+        const ring = (lonlat: [number, number], dot: boolean, on = false) => {
           const [lam, phi] = proj.rotate();
           // visível só no hemisfério da frente
           const toRad = Math.PI / 180;
@@ -87,11 +91,13 @@ export default function GlobeInteractive({ label, onReady }: { label: string; on
           if (cosc < 0) return;
           const p = proj(lonlat);
           if (!p) return;
-          ctx.beginPath(); ctx.arc(p[0], p[1], 10, 0, Math.PI * 2); ctx.strokeStyle = "rgba(194,162,99,0.6)"; ctx.lineWidth = 1; ctx.stroke();
-          if (dot) { ctx.beginPath(); ctx.arc(p[0], p[1], 4, 0, Math.PI * 2); ctx.fillStyle = "#c2a263"; ctx.fill(); }
+          if (on || dot) { ctx.beginPath(); ctx.arc(p[0], p[1], on ? 12 : 9, 0, Math.PI * 2); ctx.strokeStyle = on ? "rgba(194,162,99,0.9)" : "rgba(194,162,99,0.55)"; ctx.lineWidth = 1; ctx.stroke(); }
+          ctx.beginPath(); ctx.arc(p[0], p[1], dot ? 4 : 3, 0, Math.PI * 2); ctx.fillStyle = dot ? "#c2a263" : "#f5f5f4"; ctx.fill();
         };
-        ring(SAN_DIEGO, true);
-        ring(brC, false);
+        ring(SAN_DIEGO, true, active === "us");
+        ring(CAXIAS_DO_SUL, false, active === "cxs");
+        ring(PORTO_ALEGRE, true, active === "poa");
+        ctx.restore();
       };
 
       const loop = (now: number) => {
@@ -100,10 +106,11 @@ export default function GlobeInteractive({ label, onReady }: { label: string; on
           const k = Math.min(1, (now - tween.t0) / tween.dur);
           const e = easeInOut(k);
           rot = tween.from.map((v, i) => v + (tween!.to[i] - v) * e) as Rot;
+          zoom = tween.z0 + (tween.z1 - tween.z0) * e;
           if (k >= 1) { base = [...tween.to]; tween = null; }
         } else if (!dragging && !reduced && now - lastInteract > 3500) {
           // deriva muito sutil em torno da vista atual
-          rot = [base[0] + Math.sin(now / 5200) * 7, base[1], 0];
+          if (zoom < 1.05) rot = [base[0] + Math.sin(now / 5200) * 7, base[1], 0];
         }
         draw();
         if (visible && !disposed && (!reduced || tween || dragging)) raf = requestAnimationFrame(loop);
@@ -112,8 +119,8 @@ export default function GlobeInteractive({ label, onReady }: { label: string; on
 
       const goTo = (target: GlobeTarget) => {
         active = target;
-        const to: Rot = target === "us" ? [...VIEW_US] : target === "br" ? [...VIEW_BR] : [...VIEW_INITIAL];
-        tween = { from: [...rot], to, t0: performance.now(), dur: reduced ? 1 : 900 };
+        const v = VIEWS[target];
+        tween = { from: [...rot], to: [...v.rotate], z0: zoom, z1: v.zoom, t0: performance.now(), dur: reduced ? 1 : 900 };
         lastInteract = performance.now();
         kick();
       };
@@ -129,7 +136,7 @@ export default function GlobeInteractive({ label, onReady }: { label: string; on
       };
       const onMove = (e: PointerEvent) => {
         if (!start) return;
-        const k = 90 / (w / 2);
+        const k = 90 / ((w / 2) * zoom);
         rot = [start.rot[0] + (e.clientX - start.x) * k, Math.max(-60, Math.min(60, start.rot[1] - (e.clientY - start.y) * k)), 0];
         kick();
       };
@@ -144,7 +151,7 @@ export default function GlobeInteractive({ label, onReady }: { label: string; on
         const d = map[e.key];
         if (!d) return;
         e.preventDefault();
-        tween = { from: [...rot], to: [rot[0] + d[0], Math.max(-60, Math.min(60, rot[1] + d[1])), 0], t0: performance.now(), dur: reduced ? 1 : 220 };
+        tween = { from: [...rot], to: [rot[0] + d[0], Math.max(-60, Math.min(60, rot[1] + d[1])), 0], z0: zoom, z1: zoom, t0: performance.now(), dur: reduced ? 1 : 220 };
         lastInteract = performance.now();
         kick();
       };

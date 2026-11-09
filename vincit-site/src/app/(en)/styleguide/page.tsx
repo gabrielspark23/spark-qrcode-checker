@@ -71,7 +71,7 @@ export default function StyleguidePage() {
             id="sg-brand"
             eyebrow="01 · Marca"
             title="Geometria oficial"
-            intro="Traçado fiel do logotipo oficial (PNG de vincitfinancial.com) até a chegada do SVG master. Todas as formas derivadas leem as medidas abaixo."
+            intro="Marca do SVG oficial (escudo-vincit.svg, vincitcapital.com.br) e wordmark vetorizado do lockup oficial. Todas as formas derivadas leem as medidas abaixo."
           />
           <div className="grid gap-6 md:grid-cols-3">
             <div className="on-dark flex h-44 items-center justify-center border border-navy-line bg-navy"><Logo onDark /></div>
@@ -252,7 +252,7 @@ export default function StyleguidePage() {
         <Container>
           <SectionHeader id="sg-pend" eyebrow="07 · Interno" title="Pendências da Vincit" intro="Não aparecem no site público; os componentes somem até haver dado real." />
           <div className="flex flex-wrap gap-3">
-            <DraftNote code="D6">SVG master do logotipo</DraftNote>
+            <DraftNote code="D6">Vetor master do wordmark</DraftNote>
             <DraftNote code="D1">Texto regulatório aprovado</DraftNote>
             <DraftNote code="D8">Endereço, telefone e e-mail novos</DraftNote>
             <DraftNote code="D9">Link de agenda</DraftNote>

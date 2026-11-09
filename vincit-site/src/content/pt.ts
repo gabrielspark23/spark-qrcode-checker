@@ -71,17 +71,18 @@ export const pt: Dict = {
     },
     globe: {
       eyebrow: "Dois países. Um plano.",
-      short: "Sede em San Diego. Equipe no Brasil. Um plano coordenado.",
-      title: "Sede em San Diego. Conectados ao Brasil.",
+      short: "Sede em San Diego. Escritórios em Porto Alegre e Caxias do Sul. Um plano coordenado.",
+      title: "San Diego e o Sul do Brasil. Um plano.",
       body: "Nossa sede e equipe nos EUA ficam em San Diego, na Califórnia, e nossa equipe no Brasil atende clientes e patrimônio por lá. Um plano coordenado cobre os dois lados: contas, proteção, impostos e sucessão.",
       locations: [
         { id: "us", name: "San Diego, Califórnia", role: "Sede e equipe nos EUA" },
-        { id: "br", name: "Brasil", role: "Equipe local para clientes e patrimônio no Brasil" },
+        { id: "poa", name: "Porto Alegre, RS", role: "Escritório · Rua Mostardeiro, 322 – Moinhos de Vento" },
+        { id: "cxs", name: "Caxias do Sul, RS", role: "Escritório" },
       ],
       focus: "Mostrar no globo",
       reset: "Voltar à vista inicial",
       hint: "Arraste o globo para girá-lo.",
-      label: "Globo mostrando a conexão entre San Diego, nos Estados Unidos, e o Brasil.",
+      label: "Globo mostrando a conexão entre San Diego, nos Estados Unidos, e os escritórios de Porto Alegre e Caxias do Sul, no Brasil.",
     },
     expertise: {
       eyebrow: "Nossa atuação",

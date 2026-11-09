@@ -74,17 +74,18 @@ export const en = {
     },
     globe: {
       eyebrow: "Two countries. One plan.",
-      short: "Headquarters in San Diego. A team in Brazil. One coordinated plan.",
-      title: "Based in San Diego. Connected to Brazil.",
+      short: "Headquarters in San Diego. Offices in Porto Alegre and Caxias do Sul. One coordinated plan.",
+      title: "San Diego and the South of Brazil. One plan.",
       body: "Our headquarters and U.S. team are in San Diego, California, and our team in Brazil works with clients and assets there. One coordinated plan covers both sides: accounts, protection, taxes and succession.",
       locations: [
         { id: "us", name: "San Diego, California", role: "Headquarters and U.S. team" },
-        { id: "br", name: "Brazil", role: "Local team for clients and assets in Brazil" },
+        { id: "poa", name: "Porto Alegre, Brazil", role: "Office · Rua Mostardeiro, 322 – Moinhos de Vento" },
+        { id: "cxs", name: "Caxias do Sul, Brazil", role: "Office" },
       ],
       focus: "Show on the globe",
       reset: "Reset view",
       hint: "Drag the globe to rotate it.",
-      label: "Globe showing the connection between San Diego, in the United States, and Brazil.",
+      label: "Globe showing the connection between San Diego, in the United States, and the offices in Porto Alegre and Caxias do Sul, in Brazil.",
     },
     expertise: {
       eyebrow: "Our expertise",

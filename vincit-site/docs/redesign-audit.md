@@ -7,10 +7,11 @@ Editorial Luxury + Geometric Brand Language + Scroll-Driven Storytelling".
 
 | Item | Situação encontrada | Decisão |
 | --- | --- | --- |
-| SVG oficial | **Não existe** no repositório `vincit-os/vincit-os` nem no site atual. O único arquivo oficial é o PNG `vincit financial 2.png` (1569×490) em vincitfinancial.com. | Vetorizado com potrace a partir do PNG oficial (sem redesenho) → `src/lib/brand-geometry.ts`. **Trocar pelo SVG master quando chegar (D6).** |
+| SVG oficial | Não está no `vincit-os/vincit-os` nem em vincitfinancial.com, mas **existe em vincitcapital.com.br**: `escudo-vincit.svg`. | **Usado sem alteração** como marca; silhueta do escudo extraída do mesmo SVG → `src/lib/brand-geometry.ts`. |
+| Lockup "VINCIT CAPITAL" | Publicado só em bitmap (`logo-vincit-capital-negativo.webp`, vincitcapital.com.br). | Wordmark vetorizado fielmente desse arquivo. **Trocar pelo vetor master se a agência enviar.** |
 | `BrandMark` do site (escudo "V" desenhado à mão) | Aproximação: escudo pontudo simétrico, sem o círculo "C" da marca real. | **Removido.** Substituído pelo traçado oficial. |
-| Wordmark "VINCIT / CAPITAL" em Newsreader | Letras inventadas pelo site. | **Removido.** Usa as letras "VINCIT" do logotipo oficial. O descritor ("Financial" no logo × "Capital" no site) segue aberto em D6 e não é exibido. |
-| Medidas | — | V a 66°, ombros do escudo a 66°, base a 42°, proporção 1,16, círculo deslocado à direita. Tudo derivado daqui. |
+| Wordmark "VINCIT / CAPITAL" em Newsreader | Letras inventadas pelo site. | **Removido.** Usa o lockup oficial "VINCIT CAPITAL" (resolve o nome de D6 a favor de "Vincit Capital", como no site brasileiro). |
+| Medidas | — | Conferidas no SVG oficial: V a 66°, ombros a 66,0°, base a 41,4° (usamos 42°), proporção 1,16, círculo deslocado à direita. |
 
 ## 2. Componentes
 
@@ -46,7 +47,7 @@ Editorial Luxury + Geometric Brand Language + Scroll-Driven Storytelling".
 | Páginas legais | Caixa "Pending compliance approval" e trechos "Pending D1" visíveis | Removidos do público. Ficam só os trechos factuais (custódia, seguros, conteúdo educacional, privacidade básica). **Texto final continua dependendo da Ana.** |
 | Números, depoimentos, selos, "Featured In", notícias | Nenhum no site novo | Mantido assim. "Featured In" omitido (não há imprensa verificável). |
 | Tecnologia | Texto descreve só o que existe | Mantido; sem captura até haver imagem aprovada. |
-| Brasil | Não há cidade/endereço confirmado | O globo destaca o **país**, não uma cidade. San Diego é a única localização pontual. |
+| Brasil | vincitcapital.com.br lista escritórios em **Porto Alegre** (Rua Mostardeiro, 322 – Moinhos de Vento) e **Caxias do Sul** | Entram no globo com foco e zoom. **Confirmar com o Ricardo que seguem atuais.** Serviços próprios do Brasil (crédito, consórcio, câmbio, holding) **não** entram no site americano. |
 
 ## 4. Pendências que só a Vincit resolve
 
@@ -68,3 +69,11 @@ Editorial Luxury + Geometric Brand Language + Scroll-Driven Storytelling".
   servido via `next/font/local` com preload.
 - Sem JS: reveal vira seção grafite comum, os quatro públicos aparecem, globo estático, linha inteira.
 - Movimento reduzido: sem máscara, sem 3D, linhas já desenhadas.
+
+## 6. Referência vincitcapital.com.br (site brasileiro)
+
+- Efeito principal: página inteira em rolagem horizontal fixada (GSAP ScrollTrigger com `pin`). **Não adotado**
+  — o cliente pediu rolagem vertical e o briefing proíbe scroll hijacking.
+- Aproveitado: escudo SVG oficial, lockup "VINCIT CAPITAL", escritórios de Porto Alegre e Caxias do Sul
+  (padrão "seletor de escritório" → foco no globo).
+- Para avaliar com o Ricardo: o manifesto "Vencer é investir em você" como assinatura em PT.

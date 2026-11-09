@@ -16,6 +16,8 @@ type Common = {
   children: ReactNode;
   /** Nome do evento de analytics (PRD §7.6), ex.: cta_schedule_click */
   event?: string;
+  /** V-Notch — Vincit Shield: o contorno ganha o recorte do escudo no hover/foco. */
+  notch?: "soft" | "strong";
 };
 
 type AsLink = Common & { href: string; external?: boolean; type?: never; disabled?: never; onClick?: never };
@@ -44,10 +46,12 @@ function Passage({ icon }: { icon: Icon }) {
  * - secondary: contorno sobre claro · ghost-dark: contorno sobre grafite
  */
 export function Button(props: AsLink | AsButton) {
-  const { variant = "primary", size = "md", icon = "arrow", leading, className, children, event } = props;
+  const { variant = "primary", size = "md", icon = "arrow", leading, className, children, event, notch } = props;
   const cls = cn(
     "btn",
     `btn-${variant}`,
+    notch && "vn",
+    notch === "strong" && "vn-strong",
     size === "sm" && "btn-sm",
     size === "lg" && "btn-lg",
     className,
@@ -104,6 +108,55 @@ export function LinkArrow({
     <Link href={href} className={cn("link-arrow", className)} data-event={event}>
       <span>{children}</span>
       <ArrowRight className="h-4 w-4" strokeWidth={1.75} aria-hidden />
+    </Link>
+  );
+}
+
+/**
+ * Exploded Modules — três placas que se afastam no hover revelando as junções em V.
+ * Para CTAs secundários e links de exploração. Nunca no header.
+ */
+export function ModuleButton({
+  href: to,
+  children,
+  tone = "light",
+  className,
+  event,
+  external,
+  ariaLabel,
+}: {
+  href: string;
+  children: ReactNode;
+  tone?: "light" | "dark" | "ink";
+  className?: string;
+  event?: string;
+  external?: boolean;
+  /** Nome acessível quando o texto visível é genérico. */
+  ariaLabel?: string;
+}) {
+  const cls = cn("xm", tone === "dark" && "xm-dark", tone === "ink" && "xm-ink", className);
+  const inner = (
+    <>
+      <span className="xm-base" aria-hidden />
+      <span className="xm-seam xm-seam-1" aria-hidden />
+      <span className="xm-seam xm-seam-2" aria-hidden />
+      <span className="xm-plate xm-p1" aria-hidden />
+      <span className="xm-plate xm-p2" aria-hidden />
+      <span className="xm-plate xm-p3" aria-hidden />
+      <span>{children}</span>
+      <ArrowRight className="xm-arrow h-4 w-4" strokeWidth={1.75} aria-hidden />
+    </>
+  );
+  if (external || /^https?:/.test(to)) {
+    return (
+      <a href={to} className={cls} data-event={event} target="_blank" rel="noopener noreferrer" aria-label={ariaLabel}>
+        {inner}
+      </a>
+    );
+  }
+  return (
+    <Link href={to} className={cls} data-event={event} aria-label={ariaLabel}>
+      {inner}
     </Link>
   );
 }

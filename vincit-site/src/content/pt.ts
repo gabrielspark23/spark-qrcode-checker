@@ -22,6 +22,7 @@ export const pt: Dict = {
     language: "Idioma",
   },
   common: {
+    howWeHelp: "Como ajudamos",
     talkWhatsApp: "Fale no WhatsApp",
     talkToTeam: "Fale com a nossa equipe",
     learnMore: "Saiba mais",
@@ -37,7 +38,7 @@ export const pt: Dict = {
   },
   home: {
     hero: {
-      eyebrow: "Vincit Capital · San Diego e Brasil",
+      eyebrow: "Planejamento financeiro · Brasil e Estados Unidos",
       titleA: "Planejamento em torno da sua vida,",
       titleB: "não apenas do seu dinheiro.",
       subtitle:
@@ -59,15 +60,44 @@ export const pt: Dict = {
       title: "Um plano. Toda a sua vida financeira.",
       intro: "Cada linha de serviço se conecta ao mesmo plano, para que proteção, investimentos e impostos andem na mesma direção.",
     },
-    geometry: {
-      eyebrow: "Nossa geometria",
-      title: "Três formas, um jeito de trabalhar.",
-      intro: "Todo plano que construímos se apoia nas mesmas três ideias.",
-      items: [
-        { shape: "circle", title: "Continuidade", body: "Um plano nunca está pronto. Revisamos conforme a sua vida muda, ano após ano." },
-        { shape: "v", title: "Convergência", body: "Brasil e Estados Unidos: dois sistemas que se encontram em um só plano." },
-        { shape: "shield", title: "Proteção", body: "O que você construiu fica protegido, para você e para quem depende de você." },
+    perspective: {
+      eyebrow: "Nossa visão",
+      statement: "Um plano. Dois países. Uma vida inteira de decisões.",
+      principles: [
+        { title: "Um plano antes dos produtos", body: "Proteção, investimentos e impostos são decididos dentro de um plano escrito, nunca isoladamente." },
+        { title: "Dois países, uma direção", body: "O que você tem no Brasil e nos Estados Unidos trabalha pelos mesmos objetivos." },
+        { title: "Proteção dentro do plano", body: "A proteção de vida e de renda faz parte da estrutura desde a primeira conversa." },
       ],
+    },
+    globe: {
+      eyebrow: "Dois países. Um plano.",
+      short: "Sede em San Diego. Equipe no Brasil. Um plano coordenado.",
+      title: "Sede em San Diego. Conectados ao Brasil.",
+      body: "Nossa sede e equipe nos EUA ficam em San Diego, na Califórnia, e nossa equipe no Brasil atende clientes e patrimônio por lá. Um plano coordenado cobre os dois lados: contas, proteção, impostos e sucessão.",
+      locations: [
+        { id: "us", name: "San Diego, Califórnia", role: "Sede e equipe nos EUA" },
+        { id: "br", name: "Brasil", role: "Equipe local para clientes e patrimônio no Brasil" },
+      ],
+      focus: "Mostrar no globo",
+      reset: "Voltar à vista inicial",
+      hint: "Arraste o globo para girá-lo.",
+      label: "Globo mostrando a conexão entre San Diego, nos Estados Unidos, e o Brasil.",
+    },
+    expertise: {
+      eyebrow: "Nossa atuação",
+      title: "Seis frentes, organizadas em torno de um plano.",
+      explore: "Conheça o planejamento",
+      all: "Todos os serviços",
+      core: "O centro",
+    },
+    serveIntro: "A maioria dos nossos clientes são brasileiros que construíram a vida nos Estados Unidos. Escolha a situação mais próxima da sua.",
+    processIntro: "Um processo contínuo e coordenado — revisto conforme a sua vida muda.",
+    techTeam: {
+      eyebrow: "Plataforma e pessoas",
+      techTitle: "Organizado e fácil de acompanhar.",
+      custody: "Os ativos ficam no seu nome, na Charles Schwab e na Interactive Brokers.",
+      teamTitle: "Liderança",
+      meet: "Conheça a equipe",
     },
     process: {
       eyebrow: "Como funciona",
@@ -153,7 +183,6 @@ export const pt: Dict = {
         "Planejamento de renda na aposentadoria",
         "Acompanhamento e revisões",
       ],
-      draftNote: "Os verbos dependem da D1 (quem presta a consultoria de investimentos).",
     },
     {
       id: "tax",
@@ -428,8 +457,6 @@ export const pt: Dict = {
     pendingBody:
       "O texto final desta página é fornecido e aprovado por escrito pelo compliance (D1). A página não vai ao ar sem ele.",
     disclosureSections: [
-      { title: "Enquadramento regulatório", body: "Pendente da D1: qual entidade presta cada serviço e como está registrada." },
-      { title: "Form CRS e Form ADV", body: "Se a consultoria de investimentos for prestada por uma consultoria registrada, o Form CRS e o ADV Part 2A/2B ficam disponíveis aqui." },
       { title: "Custódia", body: "A Vincit não guarda ativos de clientes. As contas de investimento ficam em custodiantes terceirizados qualificados, e os clientes mantêm propriedade e controle diretos." },
       { title: "Seguros", body: "Os produtos de seguro são oferecidos por profissionais licenciados em seus respectivos estados. Os números de licença aparecem quando exigido." },
       { title: "Conteúdo educacional e riscos", body: "O conteúdo deste site é apenas informativo e educacional e não constitui oferta ou recomendação. Toda estratégia envolve riscos, inclusive de perda do capital. Desempenho passado não garante resultados futuros." },
@@ -438,7 +465,6 @@ export const pt: Dict = {
       { title: "O que coletamos", body: "Apenas o que você envia pelo formulário de contato: nome, e-mail, telefone, país, assunto e mensagem. Este site não armazena os seus dados; ele os encaminha com segurança ao nosso sistema de clientes." },
       { title: "Como usamos", body: "Para responder à sua solicitação. Não vendemos informações pessoais." },
       { title: "Cookies e métricas", body: "Usamos métricas de audiência sem cookies. Nenhum pixel de publicidade." },
-      { title: "Seus direitos", body: "Texto final a validar pelo compliance (GLBA/Reg S-P, CCPA e LGPD para visitantes do Brasil)." },
     ],
     englishPrevails: "Em caso de divergência entre as versões, prevalece o texto em inglês.",
   },

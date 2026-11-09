@@ -26,7 +26,7 @@
   /* Sobre grafite */
   --text-on-dark: #f5f5f4;
   --text-on-dark-secondary: #b8b4ae;
-  --text-on-dark-muted: #8f8a84;
+  --text-on-dark-muted: #a29d97;
 
   /* Bordas */
   --border-faint: #e7e5e4;
@@ -41,10 +41,15 @@
   --success: #3d6b4c;
   --danger: #9b4444;
 
-  /* Movimento: curto, só em entrada e hover (PRD §8.6) */
-  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
-  --dur-fast: 120ms;
-  --dur-base: 200ms;
+  /* Movimento — um só sistema (ver "Sistema de movimento" abaixo) */
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1); /* desaceleração: entradas e hovers */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1); /* planos e máscaras que trocam de lugar */
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1); /* saídas */
+  --dur-fast: 120ms; /* cor, opacidade */
+  --dur-base: 180ms; /* contornos (V-Notch), módulos (Exploded) */
+  --dur-panel: 420ms; /* troca de painel/máscara por clique */
+  --dur-draw: 900ms; /* linhas que se desenham ao entrar */
+  --shift: 3px; /* deslocamento máximo de um módulo */
 }
 
 @theme static {
@@ -78,8 +83,8 @@
   --color-success: var(--success);
   --color-danger: var(--danger);
 
-  --font-serif: "Newsreader Variable", "Source Serif 4", Georgia, serif;
-  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: var(--font-newsreader), Georgia, serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 
 }
 
@@ -620,24 +625,333 @@ details[open] .faq-icon {
 }
 
 /* ==================================================================
-   Architectural Motion — círculo, V e escudo
+   SISTEMA DE MOVIMENTO — Architectural Motion
+   Princípios: geometria precisa, sem elasticidade; controles ≤ 200 ms;
+   linhas e máscaras ligadas à estrutura do conteúdo; nada prende o scroll;
+   sem JS ou com movimento reduzido, tudo aparece completo e estático.
    ================================================================== */
 
-/* ---- Offset Circular Reveal (sem fixar a página) ---------------- */
+@property --vn-d {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@property --vn-w {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@property --vn-c {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+/* ---- V-Notch — Vincit Shield ---------------------------------------
+   O contorno do botão se transforma na extremidade direita:
+   - um entalhe em V no topo, com os braços a 66° (V do logotipo): meia-abertura = profundidade × 0,445
+   - um corte na base, a 42° (base do escudo oficial): avanço horizontal = altura × 1,11
+   Sem mudança de largura; o texto não se move.                        */
+.vn {
+  --vn-x: 1.375rem; /* distância do entalhe até a borda direita */
+  --vn-depth: 9px;
+  --vn-chamfer: 10px;
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--vn-x) - var(--vn-w)) 0,
+    calc(100% - var(--vn-x)) var(--vn-d),
+    calc(100% - var(--vn-x) + var(--vn-w)) 0,
+    100% 0,
+    100% calc(100% - var(--vn-c)),
+    calc(100% - var(--vn-c) * 1.11) 100%,
+    0 100%
+  );
+  transition-property: --vn-d, --vn-w, --vn-c, color, background-color, border-color;
+  transition-duration: var(--dur-base);
+  transition-timing-function: var(--ease-out);
+}
+.vn-strong {
+  --vn-depth: 13px;
+  --vn-chamfer: 14px;
+  padding-right: 2.75rem;
+}
+.vn:focus-visible,
+.vn[aria-current="page"] {
+  --vn-d: var(--vn-depth);
+  --vn-w: calc(var(--vn-depth) * 0.445);
+  --vn-c: var(--vn-chamfer);
+}
+@media (hover: hover) {
+  .vn:hover {
+    --vn-d: var(--vn-depth);
+    --vn-w: calc(var(--vn-depth) * 0.445);
+    --vn-c: var(--vn-chamfer);
+  }
+}
+/* Touch: o recorte aparece durante o toque */
+@media (hover: none) {
+  .vn:active {
+    --vn-d: var(--vn-depth);
+    --vn-w: calc(var(--vn-depth) * 0.445);
+    --vn-c: var(--vn-chamfer);
+  }
+}
+/* O foco do V-Notch não pode ser um outline (o clip-path o cortaria): anel interno */
+.vn:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--color-gold);
+}
+
+/* Links do header: mesma linguagem, menor intensidade — uma placa que ganha o contorno do escudo */
+.vn-link {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  height: 2.5rem;
+  padding: 0 0.875rem;
+  color: var(--text-secondary);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.vn-link::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--plate, #ecebe8);
+  opacity: 0;
+  --vn-x: 0.625rem;
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--vn-x) - var(--vn-w)) 0,
+    calc(100% - var(--vn-x)) var(--vn-d),
+    calc(100% - var(--vn-x) + var(--vn-w)) 0,
+    100% 0,
+    100% calc(100% - var(--vn-c)),
+    calc(100% - var(--vn-c) * 1.11) 100%,
+    0 100%
+  );
+  transition-property: opacity, --vn-d, --vn-w, --vn-c;
+  transition-duration: var(--dur-base);
+  transition-timing-function: var(--ease-out);
+}
+.vn-link:focus-visible {
+  outline: none;
+  color: var(--text-primary);
+}
+.vn-link:focus-visible::before,
+.vn-link[aria-current="page"]::before {
+  opacity: 1;
+  --vn-d: 6px;
+  --vn-w: 2.7px;
+  --vn-c: 7px;
+}
+.vn-link[aria-current="page"] {
+  color: var(--text-primary);
+}
+.vn-link:focus-visible::before {
+  box-shadow: inset 0 0 0 2px var(--primary);
+}
+@media (hover: hover) {
+  .vn-link:hover {
+    color: var(--text-primary);
+  }
+  .vn-link:hover::before {
+    opacity: 1;
+    --vn-d: 6px;
+    --vn-w: 2.7px;
+    --vn-c: 7px;
+  }
+}
+.on-dark .vn-link {
+  --plate: var(--color-navy-soft);
+  color: var(--text-on-dark-secondary);
+}
+.on-dark .vn-link:hover,
+.on-dark .vn-link[aria-current="page"],
+.on-dark .vn-link:focus-visible {
+  color: var(--text-on-dark);
+}
+
+/* ---- Exploded Modules ----------------------------------------------
+   Três placas adjacentes. As junções seguem os braços do V (66°): a placa central
+   é um "V" invertido. No hover a base some, as placas se afastam alguns pixels em
+   direções diferentes e as junções de latão aparecem. O texto não se move.     */
+.xm {
+  --xm-h: 3rem;
+  --xm-run: calc(var(--xm-h) * 0.445);
+  --xm-a: 33%;
+  --xm-b: 67%;
+  --xm-bg: #e9e6e1;
+  --xm-fg: var(--text-primary);
+  --xm-seam: var(--color-gold);
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  min-height: var(--xm-h);
+  padding: 0 1.625rem;
+  color: var(--xm-fg);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.xm-dark {
+  --xm-bg: var(--color-navy-line);
+  --xm-fg: var(--text-on-dark);
+}
+.xm-ink {
+  --xm-bg: var(--primary);
+  --xm-fg: #ffffff;
+}
+.xm > .xm-base,
+.xm > .xm-seam,
+.xm > .xm-plate {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.xm > .xm-base {
+  z-index: -3;
+  background: var(--xm-bg);
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+.xm > .xm-seam {
+  z-index: -2;
+  background: var(--xm-seam);
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+.xm > .xm-seam-1 {
+  clip-path: polygon(var(--xm-a) 0, calc(var(--xm-a) + 1px) 0, calc(var(--xm-a) + var(--xm-run) + 1px) 100%, calc(var(--xm-a) + var(--xm-run)) 100%);
+}
+.xm > .xm-seam-2 {
+  clip-path: polygon(calc(var(--xm-b) - 1px) 0, var(--xm-b) 0, calc(var(--xm-b) - var(--xm-run)) 100%, calc(var(--xm-b) - var(--xm-run) - 1px) 100%);
+}
+.xm > .xm-plate {
+  z-index: -1;
+  background: var(--xm-bg);
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.xm > .xm-p1 {
+  clip-path: polygon(0 0, var(--xm-a) 0, calc(var(--xm-a) + var(--xm-run)) 100%, 0 100%);
+}
+.xm > .xm-p2 {
+  clip-path: polygon(var(--xm-a) 0, var(--xm-b) 0, calc(var(--xm-b) - var(--xm-run)) 100%, calc(var(--xm-a) + var(--xm-run)) 100%);
+}
+.xm > .xm-p3 {
+  clip-path: polygon(var(--xm-b) 0, 100% 0, 100% 100%, calc(var(--xm-b) - var(--xm-run)) 100%);
+}
+.xm .xm-arrow {
+  transition: transform var(--dur-base) var(--ease-out);
+}
+@media (hover: hover) {
+  .xm:hover > .xm-base {
+    opacity: 0;
+  }
+  .xm:hover > .xm-seam {
+    opacity: 1;
+  }
+  .xm:hover > .xm-p1 {
+    transform: translate(calc(var(--shift) * -1), calc(var(--shift) * -0.67));
+  }
+  .xm:hover > .xm-p2 {
+    transform: translateY(var(--shift));
+  }
+  .xm:hover > .xm-p3 {
+    transform: translate(var(--shift), calc(var(--shift) * -0.67));
+  }
+  .xm:hover .xm-arrow {
+    transform: translateX(2px);
+  }
+}
+.xm:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 5px;
+}
+.on-dark .xm:focus-visible {
+  outline-color: var(--color-gold);
+}
+.xm:focus-visible > .xm-base {
+  opacity: 0;
+}
+.xm:focus-visible > .xm-seam {
+  opacity: 1;
+}
+.xm:focus-visible > .xm-p1 {
+  transform: translate(calc(var(--shift) * -1), calc(var(--shift) * -0.67));
+}
+.xm:focus-visible > .xm-p2 {
+  transform: translateY(var(--shift));
+}
+.xm:focus-visible > .xm-p3 {
+  transform: translate(var(--shift), calc(var(--shift) * -0.67));
+}
+.xm:active > .xm-plate {
+  transform: none;
+}
+
+/* ---- Linhas que se desenham ---------------------------------------- */
+.draw-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .enter-draw .draw-line {
+    animation: line-draw var(--dur-draw) var(--ease-in-out) both;
+  }
+  .enter-draw .draw-line.d2 {
+    animation-delay: 140ms;
+  }
+  .enter-draw .draw-line.d3 {
+    animation-delay: 280ms;
+  }
+  .enter-draw .draw-line.d4 {
+    animation-delay: 420ms;
+  }
+  .enter-draw .fade-node {
+    animation: rise 300ms var(--ease-out) 700ms both;
+  }
+  .draw-on-view[data-draw="pending"] .draw-line {
+    stroke-dashoffset: 1;
+  }
+  .draw-on-view .draw-line {
+    transition: stroke-dashoffset var(--dur-draw) var(--ease-in-out);
+  }
+  .draw-on-view .draw-line.d2 {
+    transition-delay: 140ms;
+  }
+  .draw-on-view .draw-line.d3 {
+    transition-delay: 280ms;
+  }
+  .draw-on-view[data-draw="pending"] .fade-node {
+    opacity: 0;
+  }
+  .draw-on-view .fade-node {
+    transition: opacity 300ms var(--ease-out) 600ms;
+  }
+}
+@keyframes line-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ---- Offset Circular Reveal (sem fixar a página) ------------------ */
 .reveal-stage {
   position: relative;
 }
 .reveal-light,
 .reveal-ring {
   display: none;
-}
-.reveal-layer {
-  padding-block: 6rem;
-}
-@media (min-width: 640px) {
-  .reveal-layer {
-    padding-block: 8rem;
-  }
 }
 .reveal-dark {
   position: relative;
@@ -652,7 +966,6 @@ details[open] .faq-icon {
 .reveal[data-enhanced] .reveal-dark {
   clip-path: circle(var(--r, 0px) at var(--cx, 68%) var(--cy, 65%));
 }
-/* Anéis de latão no limite da máscara, deslocados (offset) e discretos */
 .reveal[data-enhanced] .reveal-ring {
   display: block;
   position: absolute;
@@ -672,102 +985,75 @@ details[open] .faq-icon {
 }
 .reveal-ring-a {
   r: var(--r, 0px);
-  stroke-opacity: 0.55;
+  stroke-opacity: 0.5;
 }
 .reveal-ring-b {
   r: calc(var(--r, 0px) + 22px);
-  stroke-opacity: 0.22;
+  stroke-opacity: 0.2;
 }
 
-/* ---- Traços que se desenham ------------------------------------- */
-.geo-path {
-  stroke-dasharray: 1;
-  stroke-dashoffset: calc(1 - var(--draw, 1));
+/* ---- Expertise: módulo revela o "o que fazemos" por máscara ------- */
+.mod-reveal {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path var(--dur-panel) var(--ease-in-out);
 }
-.draw-on-view .geo-path {
-  transition: stroke-dashoffset 900ms var(--ease-out);
+@media (hover: hover) {
+  .mod:hover .mod-reveal {
+    clip-path: inset(0 0 0 0);
+  }
 }
-.draw-on-view[data-draw="pending"] .geo-path {
-  stroke-dashoffset: 1;
+.mod:focus-within .mod-reveal,
+.mod:focus-visible .mod-reveal {
+  clip-path: inset(0 0 0 0);
 }
-.draw-on-view .geo-node {
-  transition: opacity 300ms var(--ease-out) 600ms;
+.mod-tick {
+  transition: transform var(--dur-base) var(--ease-out);
+  transform: scale(0);
+  transform-origin: top left;
 }
-.draw-on-view[data-draw="pending"] .geo-node {
-  opacity: 0;
-}
-
-/* Hover dos marcos: órbita gira, nó de convergência pulsa uma vez, V interno do escudo se completa */
-.geo-mark .geo-orbit,
-.geo-mark .geo-node {
-  transform-box: view-box;
-  transform-origin: 50% 50%;
-  transition: transform 600ms var(--ease-out);
-}
-.geo-mark .geo-node {
-  transform-box: fill-box;
-}
-.geo-mark .geo-inner {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 0.62;
-  transition: stroke-dashoffset 500ms var(--ease-out);
-}
-.geo-item:hover .geo-orbit {
-  transform: rotate(150deg);
-}
-.geo-item:hover .geo-node {
-  transform: scale(1.6);
-}
-.geo-item:hover .geo-inner {
-  stroke-dashoffset: 0;
+.mod:hover .mod-tick,
+.mod:focus-visible .mod-tick {
+  transform: scale(1);
 }
 
-/* Anel que se fecha ao redor do ícone de serviço no hover */
-.icon-ring circle {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  transition: stroke-dashoffset 450ms var(--ease-out);
+/* ---- Who We Serve: troca de painel -------------------------------- */
+.seg-panel[data-active] .seg-copy {
+  animation: seg-in var(--dur-panel) var(--ease-in-out) both;
 }
-.group:hover .icon-ring circle,
-.group:focus-visible .icon-ring circle {
-  stroke-dashoffset: 0;
-}
-
-/* ---- Herói ------------------------------------------------------- */
-.hero-geo {
-  position: absolute;
-  right: -17rem;
-  top: 50%;
-  width: 46rem;
-  height: 46rem;
-  transform: translateY(-50%);
-  pointer-events: none;
-}
-.hero-geo-rings {
-  transform-box: view-box;
-  transform-origin: 50% 50%;
-  transform: rotate(calc(var(--hp, 0) * 28deg));
-}
-.hero-geo-shield {
-  transform: translateY(calc(var(--hp, 0) * 36px));
-}
-.hero-geo-ring {
-  stroke-dasharray: 1;
-  animation: ring-draw 1400ms var(--ease-out) 150ms both;
-}
-.hero-geo-ring-2 {
-  animation-delay: 380ms;
-}
-@keyframes ring-draw {
+@keyframes seg-in {
   from {
-    stroke-dashoffset: 1;
+    clip-path: inset(0 100% 0 0);
   }
   to {
-    stroke-dashoffset: 0;
+    clip-path: inset(0 0 0 0);
   }
 }
+.seg-shape {
+  transform-box: view-box;
+  transform-origin: 0 0;
+  transition:
+    transform 640ms var(--ease-in-out),
+    opacity 320ms var(--ease-out);
+}
 
-/* ---- Rodapé: redes em círculo, latão preenche do centro ---------- */
+/* ---- How We Work: linha de planejamento --------------------------- */
+.plan-line {
+  clip-path: inset(0 calc((1 - var(--p, 1)) * 100%) 0 0);
+}
+.plan-line-v {
+  clip-path: inset(0 0 calc((1 - var(--p, 1)) * 100%) 0);
+}
+.plan-node {
+  transition:
+    background-color var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out);
+}
+.plan-node[data-on] {
+  background: var(--color-gold);
+  border-color: var(--color-gold);
+}
+
+/* ---- Rodapé: redes em círculo, latão preenche do centro ----------- */
 .footer-social {
   position: relative;
   isolation: isolate;
@@ -794,58 +1080,17 @@ details[open] .faq-icon {
   transform: scale(1);
 }
 
-/* ---- Convergência (chamada final) -------------------------------- */
-.converge {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  display: none;
+/* Globo: o canvas entra por cima do SVG estático */
+.globe-canvas {
+  opacity: 0;
+  transition: opacity 600ms var(--ease-out);
 }
-.converge[data-ready] {
-  display: block;
+.globe-canvas[data-ready] {
+  opacity: 1;
 }
-.converge-line {
-  position: absolute;
-  top: 0;
-  height: 1px;
-  background: var(--border-rule);
-}
-.converge-l {
-  left: var(--inset);
-  width: var(--l-len);
-  transform-origin: left center;
-  transform: rotate(var(--l-ang)) scaleX(var(--p, 0));
-}
-.converge-r {
-  right: var(--inset);
-  width: var(--r-len);
-  transform-origin: right center;
-  transform: rotate(var(--r-ang)) scaleX(var(--p, 0));
-}
-.converge-label {
-  position: absolute;
-  top: 1.25rem;
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
+.top-link-light {
   color: var(--text-muted);
-  opacity: min(1, calc(var(--p, 0) * 4));
 }
-.converge-label-l {
-  left: var(--inset);
-}
-.converge-label-r {
-  right: var(--inset);
-}
-.converge-node {
-  position: absolute;
-  left: var(--ax);
-  top: var(--ay);
-  width: 7px;
-  height: 7px;
-  margin: -3.5px 0 0 -3.5px;
-  border-radius: 9999px;
-  background: var(--color-gold);
-  /* surge só quando as linhas se encontram */
-  transform: scale(clamp(0, calc((var(--p, 0) - 0.94) * 16.7), 1));
+.top-link-light:hover {
+  color: var(--text-primary);
 }

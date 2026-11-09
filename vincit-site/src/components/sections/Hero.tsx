@@ -1,77 +1,59 @@
 import { MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Layout";
-import { HeroGeometry } from "@/components/motion/HeroGeometry";
+import { HeroComposition } from "./HeroComposition";
 import { href, type Locale } from "@/lib/i18n";
 import { whatsappHref } from "@/lib/site";
 import type { Dict } from "@/content";
 
-/** Herói da Home: grafite, título serifado em 2 linhas, 1 frase, 1 botão + link WhatsApp. Legível sem JS. */
+/** Herói: fundo claro, composição assimétrica, título editorial; legível sem JS. */
 export function Hero({ locale, t }: { locale: Locale; t: Dict }) {
   const h = t.home.hero;
   const wa = whatsappHref(t.common.talkWhatsApp);
+  const pt = locale === "pt";
   return (
-    <section className="on-dark relative overflow-hidden bg-navy text-on-dark" aria-labelledby="hero-title">
-      <div className="texture-lines absolute inset-0" aria-hidden />
-      <div className="hidden lg:block" aria-hidden>
-        <HeroGeometry />
+    <section className="relative overflow-hidden bg-app" aria-labelledby="hero-title">
+      {/* peça geométrica: à direita, parcialmente fora da área visível */}
+      <div className="pointer-events-none absolute right-[-9rem] top-24 hidden h-[46rem] w-[46rem] lg:block xl:right-[-5rem]">
+        <HeroComposition
+          usLabel={pt ? "EUA · SAN DIEGO" : "U.S. · SAN DIEGO"}
+          brLabel={pt ? "BRASIL" : "BRAZIL"}
+          planLabel={pt ? "UM PLANO" : "ONE PLAN"}
+        />
       </div>
-      <Container className="relative pb-16 pt-36 sm:pb-20 sm:pt-44 lg:pb-24 lg:pt-48">
-        <div className="grid gap-16 lg:grid-cols-12 lg:items-end">
-          <div className="lg:col-span-8">
-            <p className="eyebrow enter flex items-center gap-3 text-brass">
-              <span className="draw h-px w-8 bg-brass" aria-hidden />
-              {h.eyebrow}
-            </p>
-            <h1 id="hero-title" className="display enter enter-1 mt-8 max-w-[18ch]">
-              {h.titleA} <span className="italic text-on-dark-2">{h.titleB}</span>
-            </h1>
-            <p className="lead enter enter-2 mt-8 max-w-[56ch] text-on-dark-2">{h.subtitle}</p>
-            <div className="enter enter-3 mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
-              <Button href={href("contact", locale)} variant="brass" size="lg" event="cta_schedule_click">
-                {t.nav.schedule}
-              </Button>
-              <a
-                href={wa ?? href("contact", locale, "whatsapp")}
-                target={wa ? "_blank" : undefined}
-                rel={wa ? "noopener noreferrer" : undefined}
-                data-event="cta_whatsapp_click"
-                className="link-arrow self-start text-on-dark sm:self-auto"
-              >
-                <MessageCircle className="h-4 w-4 text-brass" strokeWidth={1.75} aria-hidden />
+
+      <Container className="relative pb-14 pt-32 sm:pt-40 lg:min-h-[52rem] lg:pb-24 lg:pt-52">
+        <div className="max-w-[44rem]">
+          <p className="eyebrow enter flex items-center gap-3 text-ink-2">
+            <span className="draw h-px w-8 bg-brass" aria-hidden />
+            {h.eyebrow}
+          </p>
+          <h1 id="hero-title" className="display mt-8 text-[clamp(2.75rem,1.6rem+4.2vw,5.25rem)] leading-[1.02]">
+            {h.titleA} <span className="italic text-ink-2">{h.titleB}</span>
+          </h1>
+          <p className="lead enter enter-2 mt-8 max-w-[50ch] text-ink-2">{h.subtitle}</p>
+          <div className="enter enter-3 mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+            <Button href={href("contact", locale)} size="lg" notch="strong" event="cta_schedule_click">
+              {t.nav.schedule}
+            </Button>
+            {wa ? (
+              <a href={wa} target="_blank" rel="noopener noreferrer" data-event="cta_whatsapp_click" className="link-arrow self-start sm:self-auto">
+                <MessageCircle className="h-4 w-4" strokeWidth={1.75} aria-hidden />
                 <span>{t.common.talkWhatsApp}</span>
               </a>
-            </div>
-          </div>
-
-          <div className="hidden lg:col-span-4 lg:block">
-            <p className="eyebrow mb-4 text-on-dark-3">{h.indexLabel}</p>
-            <ol className="border-t border-navy-line">
-              {h.index.map((item, i) => (
-                <li key={item}>
-                  <a
-                    href={href("services", locale, t.services[i].id)}
-                    className="group flex items-baseline gap-4 border-b border-navy-line py-3 text-on-dark-2 transition-colors duration-150 hover:text-on-dark"
-                  >
-                    <span className="w-6 text-xs tabular-nums text-on-dark-3 transition-colors duration-150 group-hover:text-brass">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span className="font-serif text-lg">{item}</span>
-                  </a>
-                </li>
-              ))}
-            </ol>
+            ) : null}
           </div>
         </div>
 
-        <dl className="mt-20 grid gap-6 border-t border-navy-line pt-8 sm:grid-cols-3">
-          {h.facts.map((f) => (
-            <div key={f.k}>
-              <dt className="eyebrow text-on-dark-3">{f.k}</dt>
-              <dd className="mt-2 text-[0.9375rem] text-on-dark">{f.v}</dd>
-            </div>
-          ))}
-        </dl>
+        {/* mobile/tablet: a mesma peça, menor, abaixo do texto */}
+        <div className="pointer-events-none -mx-5 mt-10 h-[22rem] sm:mx-0 sm:h-[28rem] lg:hidden">
+          <HeroComposition
+            usLabel={pt ? "EUA · SAN DIEGO" : "U.S. · SAN DIEGO"}
+            brLabel={pt ? "BRASIL" : "BRAZIL"}
+            planLabel={pt ? "UM PLANO" : "ONE PLAN"}
+          />
+        </div>
+
       </Container>
     </section>
   );

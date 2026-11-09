@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import "@fontsource-variable/inter";
-import "@fontsource-variable/newsreader/opsz.css";
 import "./globals.css";
 import { Logo } from "@/components/brand/Logo";
 import { en } from "@/content/en";
 import { pt } from "@/content/pt";
+import { sans, serif } from "@/lib/fonts";
 
 export const metadata: Metadata = { title: "404 · Vincit Capital", robots: { index: false } };
 
@@ -17,7 +16,7 @@ export default function GlobalNotFound() {
     { en: "/contact", pt: "/pt/contato", label: [en.nav.contact, pt.nav.contact] },
   ];
   return (
-    <html lang="en">
+    <html lang="en" className={`${serif.variable} ${sans.variable}`}>
       <body className="on-dark min-h-dvh bg-navy text-on-dark">
         <div className="texture-lines fixed inset-0" aria-hidden />
         <main className="relative mx-auto flex min-h-dvh max-w-5xl flex-col px-5 py-10 sm:px-8">

@@ -13,10 +13,6 @@ export function LegalView({ locale, kind }: { locale: Locale; kind: "disclosures
       <PageHero eyebrow="Vincit Capital" title={title} />
       <section className="bg-app py-16 sm:py-24">
         <Container narrow>
-          <div className="mb-12 border-l-2 border-danger bg-surface p-6">
-            <p className="font-semibold">{l.pendingTitle}</p>
-            <p className="mt-2 text-[0.9375rem] text-ink-2">{l.pendingBody}</p>
-          </div>
           <div className="space-y-10">
             {sections.map((s) => (
               <div key={s.title} className="border-t border-line pt-8">

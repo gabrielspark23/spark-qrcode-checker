@@ -24,6 +24,7 @@ export const en = {
     language: "Language",
   },
   common: {
+    howWeHelp: "How we help",
     talkWhatsApp: "Talk on WhatsApp",
     talkToTeam: "Talk to our team",
     learnMore: "Learn more",
@@ -39,7 +40,7 @@ export const en = {
   },
   home: {
     hero: {
-      eyebrow: "Vincit Capital · San Diego & Brazil",
+      eyebrow: "Financial planning · Brazil & United States",
       titleA: "Financial planning built around your life,",
       titleB: "not just your money.",
       subtitle:
@@ -62,15 +63,44 @@ export const en = {
       title: "One plan. Every part of your financial life.",
       intro: "Each line of service connects to the same plan, so decisions about protection, investments and taxes pull in the same direction.",
     },
-    geometry: {
-      eyebrow: "Our geometry",
-      title: "Three shapes, one way of working.",
-      intro: "Every plan we build rests on the same three ideas.",
-      items: [
-        { shape: "circle", title: "Continuity", body: "A plan is never finished. We review it as your life changes, year after year." },
-        { shape: "v", title: "Convergence", body: "Brazil and the United States: two systems meeting in a single plan." },
-        { shape: "shield", title: "Protection", body: "What you built stays protected, for you and for the people who depend on you." },
+    perspective: {
+      eyebrow: "Our perspective",
+      statement: "One plan. Two countries. A lifetime of decisions.",
+      principles: [
+        { title: "A plan before products", body: "Protection, investments and taxes are decided inside one written plan, never in isolation." },
+        { title: "Two countries, one direction", body: "What you have in Brazil and in the United States works toward the same goals." },
+        { title: "Protection inside the plan", body: "Life and income protection are part of the structure from the first conversation." },
       ],
+    },
+    globe: {
+      eyebrow: "Two countries. One plan.",
+      short: "Headquarters in San Diego. A team in Brazil. One coordinated plan.",
+      title: "Based in San Diego. Connected to Brazil.",
+      body: "Our headquarters and U.S. team are in San Diego, California, and our team in Brazil works with clients and assets there. One coordinated plan covers both sides: accounts, protection, taxes and succession.",
+      locations: [
+        { id: "us", name: "San Diego, California", role: "Headquarters and U.S. team" },
+        { id: "br", name: "Brazil", role: "Local team for clients and assets in Brazil" },
+      ],
+      focus: "Show on the globe",
+      reset: "Reset view",
+      hint: "Drag the globe to rotate it.",
+      label: "Globe showing the connection between San Diego, in the United States, and Brazil.",
+    },
+    expertise: {
+      eyebrow: "Our expertise",
+      title: "Six disciplines, organized around one plan.",
+      explore: "Explore financial planning",
+      all: "All services",
+      core: "The core",
+    },
+    serveIntro: "Most of our clients are Brazilians who built a life in the United States. Choose the situation closest to yours.",
+    processIntro: "A continuous, coordinated process — revisited as your life changes.",
+    techTeam: {
+      eyebrow: "Platform and people",
+      techTitle: "Organized, and easy to follow.",
+      custody: "Assets are held in your name at Charles Schwab and Interactive Brokers.",
+      teamTitle: "Leadership",
+      meet: "Meet the team",
     },
     process: {
       eyebrow: "How it works",
@@ -156,7 +186,6 @@ export const en = {
         "Retirement income planning",
         "Ongoing monitoring and reviews",
       ],
-      draftNote: "Verbs depend on D1 (who provides investment advice).",
     },
     {
       id: "tax",
@@ -431,8 +460,6 @@ export const en = {
     pendingBody:
       "The final text of this page is provided and approved in writing by compliance (D1). This page will not go live without it.",
     disclosureSections: [
-      { title: "Regulatory status", body: "Pending D1: which entity provides each service, and how it is registered." },
-      { title: "Form CRS and Form ADV", body: "If investment advice is provided by a registered investment adviser, Form CRS and ADV Part 2A/2B will be linked here." },
       { title: "Custody", body: "Vincit does not hold client assets. Investment accounts are held at qualified third-party custodians, and clients keep direct ownership and control." },
       { title: "Insurance", body: "Insurance products are offered by professionals licensed in their respective states. License numbers are listed where required." },
       { title: "Educational content and risk", body: "Content on this website is for information and education only and is not an offer or recommendation. All strategies involve risk, including loss of principal. Past performance does not guarantee future results." },
@@ -441,7 +468,6 @@ export const en = {
       { title: "What we collect", body: "Only what you send us through the contact form: name, email, phone, country, topic and message. This website does not store your data; it forwards it securely to our client system." },
       { title: "How we use it", body: "To reply to your request. We do not sell personal information." },
       { title: "Cookies and analytics", body: "We use privacy-friendly analytics without cookies. No advertising pixels." },
-      { title: "Your rights", body: "Final text to be validated by compliance (GLBA/Reg S-P, CCPA and LGPD for visitors from Brazil)." },
     ],
     englishPrevails: "",
   },

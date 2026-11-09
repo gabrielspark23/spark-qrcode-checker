@@ -2,8 +2,8 @@ import { Check } from "lucide-react";
 import { PageHero } from "@/components/sections/PageHero";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { serviceIcons } from "@/components/sections/icons";
-import { Button } from "@/components/ui/Button";
-import { Container, DraftNote } from "@/components/ui/Layout";
+import { ModuleButton } from "@/components/ui/Button";
+import { Container } from "@/components/ui/Layout";
 import { getDict } from "@/content";
 import { href, type Locale } from "@/lib/i18n";
 
@@ -19,7 +19,7 @@ export function ServicesView({ locale }: { locale: Locale }) {
               <li key={s.id}>
                 <a
                   href={`#${s.id}`}
-                  className="inline-flex min-h-10 items-center rounded-[2px] border border-[#5b5f69] px-4 text-sm text-on-dark-2 transition-colors duration-150 hover:border-brass hover:text-on-dark"
+                  className="vn-link border border-line-soft text-sm"
                 >
                   {s.title}
                 </a>
@@ -50,11 +50,10 @@ export function ServicesView({ locale }: { locale: Locale }) {
                     <h2 id={`${s.id}-title`} className="h2 mt-3">{s.title}</h2>
                     <span className="rule-brass mt-6" aria-hidden />
                     <p className="lead mt-6 text-ink-2">{s.body}</p>
-                    {s.draftNote ? <DraftNote className="mt-6" code="D1">{s.draftNote}</DraftNote> : null}
                     <div className="mt-10">
-                      <Button href={href("contact", locale)} variant="secondary" event="cta_schedule_click">
+                      <ModuleButton href={href("contact", locale)} event="cta_schedule_click">
                         {t.common.talkToTeam}
-                      </Button>
+                      </ModuleButton>
                     </div>
                   </div>
                   <div className="grid gap-10 sm:grid-cols-2 lg:col-span-6 lg:col-start-7">

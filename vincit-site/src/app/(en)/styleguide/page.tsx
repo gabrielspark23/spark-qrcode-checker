@@ -1,32 +1,34 @@
 import type { Metadata } from "next";
-import { MessageCircle, Phone } from "lucide-react";
-import { Button, LinkArrow } from "@/components/ui/Button";
-import { Container, DraftNote, Eyebrow, Section, SectionHeader } from "@/components/ui/Layout";
-import { ImageSlot } from "@/components/ui/ImageSlot";
-import { Logo } from "@/components/brand/Logo";
-import { BrandMark } from "@/components/brand/BrandMark";
+import { Button, LinkArrow, ModuleButton } from "@/components/ui/Button";
+import { Container, DraftNote, Section, SectionHeader } from "@/components/ui/Layout";
+import { Logo, LogoMark } from "@/components/brand/Logo";
+import { ShieldLine, VLines } from "@/components/brand/Shapes";
+import { SegmentComposition } from "@/components/sections/SegmentComposition";
 import { PageHero } from "@/components/sections/PageHero";
-import { ProcessSteps } from "@/components/sections/ProcessSteps";
-import { serviceIcons } from "@/components/sections/icons";
-import { CircleMark, VMark, ShieldMark, ConvergenceDiagram } from "@/components/brand/Geometry";
-import { getDict } from "@/content";
+import { BRAND_GEOMETRY } from "@/lib/brand-geometry";
 
 export const metadata: Metadata = { title: "Design system", robots: { index: false, follow: false } };
 
 const palette = [
-  { name: "--bg-app", hex: "#fafaf9", use: "Fundo das páginas", dark: false },
-  { name: "--bg-surface-muted", hex: "#f5f5f4", use: "Cartões, faixas claras", dark: false },
-  { name: "--color-navy", hex: "#16181d", use: "Herói, faixas, rodapé", dark: true },
-  { name: "--color-navy-soft", hex: "#23262e", use: "Cartão sobre grafite", dark: true },
-  { name: "--color-gold", hex: "#c2a263", use: "Latão: logo, filete, botão escuro", dark: false },
-  { name: "--color-gold-soft", hex: "#d4bc8b", use: "Hover do botão latão", dark: false },
-  { name: "--text-primary", hex: "#1c1917", use: "Texto; botão sobre claro", dark: true },
-  { name: "--text-secondary", hex: "#57534e", use: "Texto secundário", dark: true },
-  { name: "--text-muted", hex: "#6f6863", use: "Muted (≥ 4,5:1)", dark: true },
-  { name: "--border-soft", hex: "#cbc9c7", use: "Divisórias", dark: false },
-  { name: "--border-rule", hex: "#8a8886", use: "Régua estrutural (≥ 3:1)", dark: true },
-  { name: "--success", hex: "#3d6b4c", use: "Sucesso no formulário", dark: true },
-  { name: "--danger", hex: "#9b4444", use: "Erro no formulário", dark: true },
+  { name: "--bg-app", hex: "#fafaf9", use: "Fundo principal" },
+  { name: "--bg-surface-muted", hex: "#f5f5f4", use: "Superfícies claras" },
+  { name: "--color-navy", hex: "#16181d", use: "Grafite institucional" },
+  { name: "--color-navy-soft", hex: "#23262e", use: "Superfície sobre grafite" },
+  { name: "--color-gold", hex: "#c2a263", use: "Latão" },
+  { name: "--color-gold-soft", hex: "#d4bc8b", use: "Latão — hover" },
+  { name: "--text-primary", hex: "#1c1917", use: "Texto sobre claro" },
+  { name: "--text-secondary", hex: "#57534e", use: "Texto secundário" },
+  { name: "--border-soft", hex: "#cbc9c7", use: "Divisórias" },
+];
+
+const motion = [
+  ["--dur-fast", "120 ms", "cor, opacidade"],
+  ["--dur-base", "180 ms", "contornos (V-Notch), módulos (Exploded)"],
+  ["--dur-panel", "420 ms", "máscaras e troca de painel por clique"],
+  ["--dur-draw", "900 ms", "linhas que se desenham ao entrar (uma vez)"],
+  ["--ease-out", "cubic-bezier(.2,.7,.2,1)", "entradas e hovers"],
+  ["--ease-in-out", "cubic-bezier(.65,0,.35,1)", "planos e máscaras"],
+  ["--shift", "3 px", "deslocamento máximo de um módulo"],
 ];
 
 function Spec({ children }: { children: React.ReactNode }) {
@@ -34,265 +36,228 @@ function Spec({ children }: { children: React.ReactNode }) {
 }
 
 export default function StyleguidePage() {
-  const t = getDict("en");
+  const g = BRAND_GEOMETRY;
   return (
     <>
       <PageHero
-        eyebrow="Vincit · Design system v0"
-        title="Vincit, à luz do dia."
-        intro="Base de UI do site institucional: tokens do Vincit OS, tipografia, botões com animação, componentes e estados. Página interna, fora do sitemap."
+        eyebrow="Vincit · Design system v1 (interno)"
+        title="Architectural Minimalism, Editorial Luxury."
+        intro="Fonte única dos tokens, da geometria da marca, das duas famílias de botões e do sistema de movimento. Página interna, fora do sitemap."
       />
 
-      {/* Índice */}
       <nav aria-label="Seções" className="sticky top-[4.5rem] z-40 border-b border-line bg-app/95 backdrop-blur-sm">
         <Container>
-          <ul className="flex gap-6 overflow-x-auto py-3 text-sm text-ink-2">
-            {["cores", "tipografia", "botoes", "links", "marca", "movimento", "cartoes", "formulario", "conteudo"].map((s) => (
-              <li key={s}><a href={`#${s}`} className="nav-link whitespace-nowrap capitalize hover:text-ink">{s.replace("botoes", "botões").replace("formulario", "formulário").replace("cartoes", "cartões").replace("conteudo", "conteúdo")}</a></li>
+          <ul className="flex gap-1 overflow-x-auto py-2 text-sm">
+            {[
+              ["marca", "Marca"],
+              ["cores", "Cores"],
+              ["tipografia", "Tipografia"],
+              ["vnotch", "V-Notch"],
+              ["exploded", "Exploded Modules"],
+              ["movimento", "Movimento"],
+              ["pendencias", "Pendências"],
+            ].map(([id, label]) => (
+              <li key={id}>
+                <a href={`#${id}`} className="vn-link whitespace-nowrap">{label}</a>
+              </li>
             ))}
           </ul>
         </Container>
       </nav>
 
-      {/* Cores */}
-      <Section id="cores" tone="light" labelledBy="sg-cores">
+      <Section id="marca" tone="light" labelledBy="sg-brand">
         <Container>
-          <SectionHeader id="sg-cores" eyebrow="01 · Tokens" title="Cores" intro="Grafite e latão no lugar de preto e ouro saturados. Latão em no máximo ~1% da tela." />
+          <SectionHeader
+            id="sg-brand"
+            eyebrow="01 · Marca"
+            title="Geometria oficial"
+            intro="Traçado fiel do logotipo oficial (PNG de vincitfinancial.com) até a chegada do SVG master. Todas as formas derivadas leem as medidas abaixo."
+          />
+          <div className="grid gap-6 md:grid-cols-3">
+            <div className="on-dark flex h-44 items-center justify-center border border-navy-line bg-navy"><Logo onDark /></div>
+            <div className="flex h-44 items-center justify-center border border-line bg-surface"><Logo /></div>
+            <div className="flex h-44 items-center justify-center gap-8 border border-line bg-surface">
+              <LogoMark className="h-24 w-auto" />
+              <LogoMark className="h-12 w-auto" tone="ink" />
+            </div>
+          </div>
+          <div className="mt-6 grid gap-6 md:grid-cols-2">
+            <div className="border border-line bg-surface p-8">
+              <svg viewBox="0 0 400 300" className="h-56 w-full" fill="none" aria-hidden>
+                <ShieldLine x={40} y={30} width={200} stroke="var(--text-primary)" opacity={0.6} />
+                <VLines ax={300} ay={250} h={200} stroke="var(--text-primary)" opacity={0.6} />
+                <circle cx="300" cy="250" r="4" fill="var(--color-gold)" />
+                <text x="250" y="44" fill="var(--text-muted)" fontSize="11" fontFamily="var(--font-sans)">V · {g.vAngle}°</text>
+                <text x="40" y="292" fill="var(--text-muted)" fontSize="11" fontFamily="var(--font-sans)">escudo · base {g.shieldBaseAngle}° · ombro {g.shieldShoulderAngle}°</text>
+              </svg>
+            </div>
+            <dl className="grid content-start gap-px border border-line bg-line text-sm">
+              {[
+                ["Braços do V", `${g.vAngle}° da horizontal`],
+                ["Base do escudo", `${g.shieldBaseAngle}° da horizontal`],
+                ["Ombros do escudo", `${g.shieldShoulderAngle}° da horizontal`],
+                ["Proporção do escudo", `altura = largura × ${g.shieldRatio}`],
+                ["Círculo (“C”)", "deslocado à direita do eixo do escudo"],
+                ["Fonte", "src/lib/brand-geometry.ts"],
+              ].map(([k, v]) => (
+                <div key={k} className="flex justify-between gap-4 bg-surface px-5 py-3">
+                  <dt className="text-ink-2">{k}</dt>
+                  <dd className="text-right font-medium">{v}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+          <p className="eyebrow mb-4 mt-12 text-ink-3">Composições por público (Who We Serve)</p>
+          <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+            {(["families", "business", "crossborder", "retirement"] as const).map((s) => (
+              <div key={s} className="border border-line bg-surface p-4">
+                <SegmentComposition segment={s} className="aspect-square w-full" />
+                <p className="mt-2 text-center text-xs text-ink-3">{s}</p>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </Section>
+
+      <Section id="cores" tone="white" bordered labelledBy="sg-cores">
+        <Container>
+          <SectionHeader id="sg-cores" eyebrow="02 · Cor" title="Paleta" intro="Latão nunca como texto ou botão sobre fundo claro (≈ 2,4:1). Sobre grafite passa (≈ 8,7:1)." />
           <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
             {palette.map((c) => (
-              <li key={c.name} className="card overflow-hidden">
+              <li key={c.name} className="overflow-hidden border border-line bg-surface">
                 <div className="h-20 border-b border-line" style={{ background: c.hex }} />
                 <div className="p-3">
                   <p className="font-mono text-xs">{c.hex}</p>
                   <p className="mt-1 text-xs text-ink-2">{c.use}</p>
-                  <p className="mt-1 font-mono text-[0.6875rem] text-ink-3">{c.name}</p>
                 </div>
               </li>
             ))}
           </ul>
-          <div className="mt-10 border-l-2 border-danger bg-surface p-5 text-[0.9375rem]">
-            <strong>Contraste, a regra que mais quebra.</strong> Latão <code>#c2a263</code> sobre branco ≈ 2,4:1 —
-            nunca como texto nem botão sobre fundo claro. Sobre grafite passa (≈ 8,7:1). Texto sobre latão é grafite.
-          </div>
         </Container>
       </Section>
 
-      {/* Tipografia */}
-      <Section id="tipografia" tone="white" bordered labelledBy="sg-type">
+      <Section id="tipografia" tone="light" bordered labelledBy="sg-type">
         <Container>
-          <SectionHeader id="sg-type" eyebrow="02 · Tipografia" title="Newsreader + Inter" intro="Serifa editorial nos títulos (peso 400–500); Inter no corpo, 16–18 px, line-height 1,6, até ~70 caracteres." />
-          <div className="space-y-10">
-            <div><p className="display">Built around your life.</p><Spec>.display · Newsreader 400 · clamp(40px → 68px) · -0.02em</Spec></div>
-            <div><p className="h1 font-serif">Financial planning, not just money.</p><Spec>.h1 · clamp(36px → 52px)</Spec></div>
-            <div><p className="h2 font-serif">One plan. Every part of your life.</p><Spec>.h2 · clamp(30px → 40px)</Spec></div>
-            <div><p className="h3 font-serif">Wealth &amp; Retirement</p><Spec>.h3 · 24px</Spec></div>
-            <div><p className="lead measure text-ink-2">Independent, bilingual wealth and protection planning for families and business owners between Brazil and the United States.</p><Spec>.lead · Inter 17–19px · text-secondary</Spec></div>
-            <div><p className="measure">Corpo em Inter 16 px. Aspas curvas “assim” e travessões corretos — nunca hífens duplos. Termos técnicos como IUL ou 401(k) ganham uma linha de explicação na primeira vez.</p><Spec>body · Inter 16px / 1.6</Spec></div>
-            <div><Eyebrow>Eyebrow / rótulo</Eyebrow><Spec>.eyebrow · Inter 600 · 12px · tracking 0.14em · CAPS só em rótulos</Spec></div>
-          </div>
+          <SectionHeader id="sg-type" eyebrow="03 · Tipografia" title="Newsreader + Inter" />
+          <p className="display text-[clamp(2.75rem,1.6rem+4.2vw,5.25rem)]">Built around your life.</p>
+          <Spec>display · Newsreader 400 · até 84 px · -0.02em</Spec>
+          <p className="h1 mt-10 font-serif">Six disciplines, one plan.</p>
+          <Spec>.h1 · clamp(36 → 52 px)</Spec>
+          <p className="lead measure mt-10 text-ink-2">Independent, bilingual wealth and protection planning for families and business owners between Brazil and the United States.</p>
+          <Spec>.lead · Inter 17–19 px · corpo Inter 16 px / 1.6</Spec>
         </Container>
       </Section>
 
-      {/* Botões */}
-      <Section id="botoes" tone="light" bordered labelledBy="sg-btn">
+      <Section id="vnotch" tone="white" bordered labelledBy="sg-vn">
         <Container>
           <SectionHeader
-            id="sg-btn"
-            eyebrow="03 · Ações"
-            title="Botões"
-            intro="Passe o mouse: o preenchimento varre da esquerda (200 ms), a seta sai e outra entra, e o clique desce 1 px. Sem degradê, sem glow, sem transition: all. Desligado em prefers-reduced-motion."
+            id="sg-vn"
+            eyebrow="04 · Família 1"
+            title="V-Notch — Vincit Shield"
+            intro="O contorno muda na extremidade direita: entalhe em V no topo (braços a 66°) e corte da base do escudo (42°). Sem mudança de largura, texto parado, 180 ms. Foco reproduz o hover; no touch, o recorte aparece durante o toque."
           />
           <div className="grid gap-6 lg:grid-cols-3">
+            <div className="border border-line bg-surface p-8">
+              <Button notch="strong">Schedule a conversation</Button>
+              <Spec>notch=&quot;strong&quot; · CTA principal (header, herói, fechamento)</Spec>
+            </div>
+            <div className="border border-line bg-surface p-8">
+              <Button notch="soft" icon="none">Schedule</Button>
+              <Spec>notch=&quot;soft&quot; · versões compactas</Spec>
+            </div>
             <div className="on-dark border border-navy-line bg-navy p-8">
-              <Button variant="brass">Schedule a conversation</Button>
-              <p className="mt-6 text-sm text-on-dark-2">Primário sobre grafite: latão com texto grafite. Hover: latão claro.</p>
-              <Spec><span className="text-on-dark-3">.btn .btn-brass</span></Spec>
-            </div>
-            <div className="border border-line bg-surface p-8">
-              <Button>Schedule a conversation</Button>
-              <p className="mt-6 text-sm text-ink-2">Primário sobre claro: tinta com texto branco. Nunca latão aqui.</p>
-              <Spec>.btn .btn-primary</Spec>
-            </div>
-            <div className="border border-line bg-surface p-8">
-              <Button variant="secondary" icon="none" leading={<MessageCircle className="h-4 w-4" strokeWidth={1.75} />}>Talk on WhatsApp</Button>
-              <p className="mt-6 text-sm text-ink-2">Secundário: contorno régua; hover preenche com tinta.</p>
-              <Spec>.btn .btn-secondary</Spec>
+              <Button variant="brass" notch="strong">Schedule a conversation</Button>
+              <Spec><span className="text-on-dark-3">variant=&quot;brass&quot; · sobre grafite</span></Spec>
             </div>
           </div>
-
           <div className="mt-6 grid gap-6 lg:grid-cols-2">
             <div className="border border-line bg-surface p-8">
-              <p className="eyebrow mb-5 text-ink-3">Tamanhos</p>
-              <div className="flex flex-wrap items-center gap-3">
-                <Button size="sm">Small</Button>
-                <Button>Medium</Button>
-                <Button size="lg">Large</Button>
+              <div className="flex flex-wrap gap-1">
+                <a href="#vnotch" className="vn-link">Services</a>
+                <a href="#vnotch" className="vn-link" aria-current="page">Who We Serve</a>
+                <a href="#vnotch" className="vn-link">Team</a>
               </div>
-              <p className="eyebrow mb-5 mt-8 text-ink-3">Ícones e estados</p>
-              <div className="flex flex-wrap items-center gap-3">
-                <Button variant="secondary" icon="external">Pick a time</Button>
-                <Button variant="secondary" icon="none" leading={<Phone className="h-4 w-4" strokeWidth={1.75} />}>Call us</Button>
-                <Button disabled>Disabled</Button>
-              </div>
-              <Spec>icon=&quot;arrow&quot; (padrão) · &quot;external&quot; (diagonal) · &quot;none&quot; · leading=&#123;ícone&#125; · disabled</Spec>
+              <Spec>.vn-link · links do header: placa que ganha o contorno do escudo (menor intensidade)</Spec>
             </div>
             <div className="on-dark border border-navy-line bg-navy p-8">
-              <p className="eyebrow mb-5 text-on-dark-3">Sobre grafite</p>
-              <div className="flex flex-wrap items-center gap-3">
-                <Button variant="brass" size="lg">Schedule a conversation</Button>
-                <Button variant="ghost-dark" icon="none" leading={<MessageCircle className="h-4 w-4" strokeWidth={1.75} />}>WhatsApp</Button>
+              <div className="flex flex-wrap gap-1">
+                <a href="#vnotch" className="vn-link">Services</a>
+                <a href="#vnotch" className="vn-link" aria-current="page">Who We Serve</a>
               </div>
-              <p className="mt-6 text-sm text-on-dark-2">Secundário escuro: contorno claro; hover preenche grafite-suave e a borda vira latão.</p>
-              <Spec><span className="text-on-dark-3">.btn .btn-ghost-dark · foco: anel latão 2 px</span></Spec>
+              <Spec><span className="text-on-dark-3">.vn-link sobre grafite</span></Spec>
             </div>
           </div>
         </Container>
       </Section>
 
-      {/* Links */}
-      <Section id="links" tone="white" bordered labelledBy="sg-links">
+      <Section id="exploded" tone="light" bordered labelledBy="sg-xm">
         <Container>
-          <SectionHeader id="sg-links" eyebrow="04 · Navegação" title="Links" />
-          <div className="grid gap-8 md:grid-cols-3">
-            <div>
-              <LinkArrow href="#links">See all services</LinkArrow>
-              <Spec>.link-arrow · sublinhado se desenha + seta avança 3 px</Spec>
+          <SectionHeader
+            id="sg-xm"
+            eyebrow="05 · Família 2"
+            title="Exploded Modules"
+            intro="Três placas com junções a 66° (a placa central é um V). No hover, afastam-se até 3 px em direções diferentes e as junções em latão aparecem. Texto fixo. Para CTAs secundários e exploração — nunca no header."
+          />
+          <div className="grid gap-6 lg:grid-cols-3">
+            <div className="border border-line bg-surface p-8">
+              <ModuleButton href="#exploded">Talk to our team</ModuleButton>
+              <Spec>tone=&quot;light&quot;</Spec>
             </div>
-            <div>
-              <a href="#links" className="nav-link text-[0.9375rem]">Services</a>
-              <Spec>.nav-link · filete de latão 2 px cresce no hover / página atual</Spec>
+            <div className="border border-line bg-surface p-8">
+              <ModuleButton href="#exploded" tone="ink">Explore financial planning</ModuleButton>
+              <Spec>tone=&quot;ink&quot;</Spec>
             </div>
-            <div>
-              <a href="#links" className="font-medium underline underline-offset-4 hover:text-ink-2">Privacy Policy</a>
-              <Spec>link em texto corrido · sublinhado sempre visível</Spec>
+            <div className="on-dark border border-navy-line bg-navy p-8">
+              <ModuleButton href="#exploded" tone="dark">Meet the team</ModuleButton>
+              <Spec><span className="text-on-dark-3">tone=&quot;dark&quot;</span></Spec>
             </div>
+          </div>
+          <div className="mt-6 border border-line bg-surface p-8">
+            <LinkArrow href="#exploded">All services</LinkArrow>
+            <Spec>.link-arrow · links de texto</Spec>
           </div>
         </Container>
       </Section>
 
-      {/* Marca */}
-      <Section id="marca" tone="light" bordered labelledBy="sg-brand">
-        <Container>
-          <SectionHeader id="sg-brand" eyebrow="05 · Marca" title="Logo e escudo" intro="Provisório até o SVG oficial (D6). Latão chapado, sem degradê. Versão clara sobre grafite, escura sobre claro." />
-          <div className="grid gap-6 md:grid-cols-3">
-            <div className="on-dark flex h-40 items-center justify-center border border-navy-line bg-navy"><Logo onDark /></div>
-            <div className="flex h-40 items-center justify-center border border-line bg-surface"><Logo /></div>
-            <div className="flex h-40 items-center justify-center gap-6 border border-line bg-surface">
-              <BrandMark className="h-12 w-12" tone="ink" />
-              <span className="on-dark inline-flex h-16 w-16 items-center justify-center bg-navy"><BrandMark className="h-10 w-10" /></span>
-            </div>
-          </div>
-          <p className="eyebrow mb-4 mt-12 text-ink-3">Ícones de linha (Lucide, 1.25 px, monocromáticos)</p>
-          <ul className="flex flex-wrap gap-8">
-            {t.services.map((s) => {
-              const I = serviceIcons[s.id];
-              return (
-                <li key={s.id} className="flex flex-col items-center gap-2 text-xs text-ink-3">
-                  <I className="h-8 w-8 text-ink" strokeWidth={1.25} aria-hidden />
-                  {s.id}
-                </li>
-              );
-            })}
-          </ul>
-        </Container>
-      </Section>
-
-      {/* Movimento */}
       <Section id="movimento" tone="white" bordered labelledBy="sg-motion">
         <Container>
           <SectionHeader
             id="sg-motion"
-            eyebrow="05b · Movimento"
-            title="Geometria de marca"
-            intro="Círculo = continuidade · V = convergência Brasil–EUA · escudo = proteção. Traços finos, latão discreto, nunca no lugar do logotipo. Passe o mouse em cada marco."
+            eyebrow="06 · Movimento"
+            title="Um só sistema"
+            intro="Geométrico e preciso, sem elasticidade. Controles ≤ 200 ms. Scroll nunca é sequestrado: o círculo do “Our Perspective”, a linha de planejamento e as linhas de entrada seguem a rolagem. Sem JS ou com movimento reduzido, tudo aparece completo."
           />
-          <ul className="grid gap-px border border-line bg-line sm:grid-cols-3">
-            {[
-              { M: CircleMark, t: "Círculo · continuidade", d: "Hover: o ponto orbita 150°." },
-              { M: VMark, t: "V · convergência", d: "Hover: o nó de encontro cresce." },
-              { M: ShieldMark, t: "Escudo · proteção", d: "Hover: o V interno se completa." },
-            ].map(({ M, t: title, d }) => (
-              <li key={title} className="geo-item bg-surface p-8">
-                <M className="h-16 w-16" />
-                <p className="mt-6 font-serif text-xl">{title}</p>
-                <p className="mt-2 text-sm text-ink-2">{d}</p>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-6 grid gap-6 md:grid-cols-2">
-            <div className="on-dark border border-navy-line bg-navy p-8">
-              <ConvergenceDiagram className="w-40" />
-              <Spec><span className="text-on-dark-3">ConvergenceDiagram · desenha ao entrar na tela (DrawOnView)</span></Spec>
-            </div>
-            <div className="border border-line bg-surface p-8 text-[0.9375rem] text-ink-2">
-              <p className="font-semibold text-ink">Offset Circular Reveal</p>
-              <p className="mt-2">Home, “Our geometry”: a seção grafite chega com a rolagem, sem fixar a página. Raio inicial ≈ 5% do final, centro em 68% × 65%, sobe para 60% × 42%. Propósito: marcar a mudança de capítulo e conduzir a leitura — cada marco se desenha quando o seu item chega à zona de leitura. Chamada final: Convergência — linhas BR e US se encontram num ponto de latão acima da ação.</p>
-              <Spec>&lt;CircleReveal light=&#123;…&#125; dark=&#123;…&#125; /&gt; · sem sticky, amortecimento leve · estático sem JS ou com movimento reduzido</Spec>
-            </div>
-          </div>
+          <table className="w-full text-left text-sm">
+            <thead>
+              <tr className="border-b border-line-rule text-ink-3">
+                <th className="py-3 pr-4 font-medium">Token</th>
+                <th className="py-3 pr-4 font-medium">Valor</th>
+                <th className="py-3 font-medium">Uso</th>
+              </tr>
+            </thead>
+            <tbody>
+              {motion.map(([k, v, u]) => (
+                <tr key={k} className="border-b border-line">
+                  <td className="py-3 pr-4 font-mono text-xs">{k}</td>
+                  <td className="py-3 pr-4">{v}</td>
+                  <td className="py-3 text-ink-2">{u}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </Container>
       </Section>
 
-      {/* Cartões */}
-      <Section id="cartoes" tone="white" bordered labelledBy="sg-cards">
+      <Section id="pendencias" tone="light" bordered labelledBy="sg-pend">
         <Container>
-          <SectionHeader id="sg-cards" eyebrow="06 · Superfícies" title="Cartões, passos e fotos" intro="Elevação por borda de 1 px, nunca sombra. Hover escurece a borda e desenha o filete de latão." />
-          <div className="grid gap-6 md:grid-cols-3">
-            <a href="#cartoes" className="card card-interactive block p-8">
-              <span className="card-rule absolute inset-x-0 top-0 h-0.5 bg-brass" aria-hidden />
-              <p className="eyebrow text-ink-3">Vincit Planning</p>
-              <h3 className="h3 mt-2">Financial Planning</h3>
-              <p className="mt-3 text-[0.9375rem] text-ink-2">Cartão interativo: passe o mouse.</p>
-            </a>
-            <div className="card p-8">
-              <h3 className="h3">Cartão estático</h3>
-              <p className="mt-3 text-[0.9375rem] text-ink-2">Borda faint, fundo surface, raio 4 px.</p>
-            </div>
-            <ImageSlot ratio="16/9" label="Foto 16:9 — a receber" caption="ImageSlot: proporção fixa até a foto real chegar." />
-          </div>
-          <div className="mt-16">
-            <ProcessSteps t={t} />
-          </div>
-        </Container>
-      </Section>
-
-      {/* Formulário */}
-      <Section id="formulario" tone="light" bordered labelledBy="sg-form">
-        <Container>
-          <SectionHeader id="sg-form" eyebrow="07 · Formulário" title="Campos e estados" intro="Rótulo sempre visível, erro descrito em texto (não só cor), foco com anel de 2 px. O formulário completo está em /contact." />
-          <div className="grid max-w-3xl gap-6 sm:grid-cols-2">
-            <div>
-              <label htmlFor="sg-a" className="mb-2 block text-sm font-medium">Default</label>
-              <input id="sg-a" className="field" defaultValue="Ana Silva" />
-            </div>
-            <div>
-              <label htmlFor="sg-b" className="mb-2 block text-sm font-medium">Com erro</label>
-              <input id="sg-b" className="field" aria-invalid="true" aria-describedby="sg-b-e" defaultValue="ana@" />
-              <p id="sg-b-e" className="mt-2 text-sm text-danger">Please enter a valid email address.</p>
-            </div>
-            <div>
-              <label htmlFor="sg-c" className="mb-2 block text-sm font-medium">Select</label>
-              <select id="sg-c" className="field" defaultValue="planning">
-                <option value="planning">Financial planning</option>
-                <option value="protection">Protection</option>
-              </select>
-            </div>
-            <div>
-              <label htmlFor="sg-d" className="mb-2 block text-sm font-medium">Desabilitado</label>
-              <input id="sg-d" className="field" disabled defaultValue="—" />
-            </div>
-          </div>
-        </Container>
-      </Section>
-
-      {/* Conteúdo pendente */}
-      <Section id="conteudo" tone="white" bordered labelledBy="sg-pend">
-        <Container>
-          <SectionHeader id="sg-pend" eyebrow="08 · Preview" title="Marcas de pendência" intro="Enquanto as decisões do PRD (§14) não fecham, o preview mostra o que falta com uma marca tracejada. Some quando o dado entra em src/lib/site.ts ou no conteúdo." />
+          <SectionHeader id="sg-pend" eyebrow="07 · Interno" title="Pendências da Vincit" intro="Não aparecem no site público; os componentes somem até haver dado real." />
           <div className="flex flex-wrap gap-3">
-            <DraftNote code="D1">Texto regulatório pendente</DraftNote>
-            <DraftNote code="D8">Endereço e telefone novos</DraftNote>
+            <DraftNote code="D6">SVG master do logotipo</DraftNote>
+            <DraftNote code="D1">Texto regulatório aprovado</DraftNote>
+            <DraftNote code="D8">Endereço, telefone e e-mail novos</DraftNote>
+            <DraftNote code="D9">Link de agenda</DraftNote>
             <DraftNote code="D10">Número do WhatsApp</DraftNote>
+            <DraftNote code="OS">Capturas aprovadas do Vincit OS</DraftNote>
           </div>
         </Container>
       </Section>

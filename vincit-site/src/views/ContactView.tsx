@@ -1,8 +1,8 @@
 import { CalendarDays, MapPin, MessageCircle, Clock } from "lucide-react";
 import { PageHero } from "@/components/sections/PageHero";
 import { LeadForm } from "@/components/forms/LeadForm";
-import { Button } from "@/components/ui/Button";
-import { Container, DraftNote } from "@/components/ui/Layout";
+import { Button, ModuleButton } from "@/components/ui/Button";
+import { Container } from "@/components/ui/Layout";
 import { getDict } from "@/content";
 import { site, whatsappHref } from "@/lib/site";
 import type { Locale } from "@/lib/i18n";
@@ -23,37 +23,27 @@ export function ContactView({ locale }: { locale: Locale }) {
             </div>
 
             <aside className="space-y-6 lg:col-span-4 lg:col-start-9">
-              <div className="border border-line bg-surface p-7">
-                <CalendarDays className="h-6 w-6" strokeWidth={1.25} aria-hidden />
-                <h2 className="h3 mt-5">{c.scheduleTitle}</h2>
-                <p className="mt-2 text-[0.9375rem] text-ink-2">{c.scheduleBody}</p>
-                <div className="mt-6">
-                  {site.scheduleUrl ? (
-                    <Button href={site.scheduleUrl} external icon="external" event="cta_schedule_click">{c.pickTime}</Button>
-                  ) : (
-                    <>
-                      <Button disabled icon="external">{c.pickTime}</Button>
-                      <DraftNote className="mt-3" code="D9">GHL</DraftNote>
-                    </>
-                  )}
+              {site.scheduleUrl ? (
+                <div className="border border-line bg-surface p-7">
+                  <CalendarDays className="h-6 w-6" strokeWidth={1.25} aria-hidden />
+                  <h2 className="h3 mt-5">{c.scheduleTitle}</h2>
+                  <p className="mt-2 text-[0.9375rem] text-ink-2">{c.scheduleBody}</p>
+                  <div className="mt-6">
+                    <Button href={site.scheduleUrl} external icon="external" notch="soft" event="cta_schedule_click">{c.pickTime}</Button>
+                  </div>
                 </div>
-              </div>
+              ) : null}
 
-              <div id="whatsapp" className="scroll-mt-28 border border-line bg-surface p-7">
-                <MessageCircle className="h-6 w-6" strokeWidth={1.25} aria-hidden />
-                <h2 className="h3 mt-5">{c.whatsappTitle}</h2>
-                <p className="mt-2 text-[0.9375rem] text-ink-2">{c.whatsappBody}</p>
-                <div className="mt-6">
-                  {wa ? (
-                    <Button href={wa} variant="secondary" icon="external" event="cta_whatsapp_click">{t.common.talkWhatsApp}</Button>
-                  ) : (
-                    <>
-                      <Button disabled variant="secondary" icon="external">{t.common.talkWhatsApp}</Button>
-                      <DraftNote className="mt-3" code="D10">wa.me</DraftNote>
-                    </>
-                  )}
+              {wa ? (
+                <div id="whatsapp" className="scroll-mt-28 border border-line bg-surface p-7">
+                  <MessageCircle className="h-6 w-6" strokeWidth={1.25} aria-hidden />
+                  <h2 className="h3 mt-5">{c.whatsappTitle}</h2>
+                  <p className="mt-2 text-[0.9375rem] text-ink-2">{c.whatsappBody}</p>
+                  <div className="mt-6">
+                    <ModuleButton href={wa} event="cta_whatsapp_click">{t.common.talkWhatsApp}</ModuleButton>
+                  </div>
                 </div>
-              </div>
+              ) : null}
 
               <div className="on-dark border border-navy-line bg-navy p-7 text-on-dark">
                 <MapPin className="h-6 w-6 text-brass" strokeWidth={1.25} aria-hidden />
@@ -66,7 +56,6 @@ export function ContactView({ locale }: { locale: Locale }) {
                   <Clock className="h-4 w-4" strokeWidth={1.5} aria-hidden />
                   {c.hours}
                 </p>
-                {!site.address.line1 ? <DraftNote onDark className="mt-5" code="D8">{c.pendingAddress}</DraftNote> : null}
               </div>
             </aside>
           </div>

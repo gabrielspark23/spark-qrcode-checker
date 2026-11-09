@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Logo } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/Button";
-import { DraftNote } from "@/components/ui/Layout";
 import { href, type Locale } from "@/lib/i18n";
 import { site } from "@/lib/site";
 import type { Dict } from "@/content";
@@ -87,7 +86,6 @@ export function SiteFooter({ locale, t }: { locale: Locale; t: Dict }) {
                 {site.phone ? <p><a className={muted} href={`tel:${site.phone}`}>{site.phoneDisplay}</a></p> : null}
                 {site.email ? <p><a className={muted} href={`mailto:${site.email}`}>{site.email}</a></p> : null}
               </address>
-              {!site.phone || !site.email ? <DraftNote onDark className="mt-4" code="D8">{t.contact.pendingAddress}</DraftNote> : null}
             </div>
           </div>
 

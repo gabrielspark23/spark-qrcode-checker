@@ -71,8 +71,8 @@ export function SiteHeader({ locale, nav, whatsappText }: { locale: Locale; nav:
   return (
     <header
       className={cn(
-        "on-dark fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color] duration-200",
-        solid ? "border-navy-line bg-navy" : "border-transparent bg-transparent",
+        "fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color] duration-200",
+        solid ? "border-line bg-app/92 backdrop-blur-md" : "border-transparent bg-transparent",
       )}
     >
       <a
@@ -83,17 +83,17 @@ export function SiteHeader({ locale, nav, whatsappText }: { locale: Locale; nav:
       </a>
       <div className="mx-auto flex h-[4.5rem] max-w-7xl items-center gap-6 px-5 sm:px-8">
         <Link href={href("home", locale)} className="rounded-[2px]" aria-label="Vincit Capital — Home">
-          <Logo onDark />
+          <Logo />
         </Link>
 
         <nav aria-label="Main" className="ml-auto hidden lg:block">
-          <ul className="flex items-center gap-7 text-[0.9375rem] text-on-dark-2">
+          <ul className="flex items-center gap-1 text-[0.9375rem]">
             {NAV.map((k) => (
               <li key={k}>
                 <Link
                   href={href(k, locale)}
                   aria-current={active === k ? "page" : undefined}
-                  className={cn("nav-link transition-colors hover:text-on-dark", active === k && "text-on-dark")}
+                  className="vn-link"
                 >
                   {labels[k]}
                 </Link>
@@ -103,18 +103,18 @@ export function SiteHeader({ locale, nav, whatsappText }: { locale: Locale; nav:
         </nav>
 
         <div className="ml-auto flex items-center gap-4 lg:ml-0">
-          <LanguageSwitch label={nav.language} className="hidden sm:flex" />
-          <Button href={href("contact", locale)} variant="brass-invert" size="sm" event="cta_schedule_click" className="hidden sm:inline-flex">
+          <LanguageSwitch label={nav.language} onDark={false} className="hidden sm:flex" />
+          <Button href={href("contact", locale)} size="sm" notch="strong" event="cta_schedule_click" className="hidden sm:inline-flex">
             {nav.schedule}
           </Button>
-          <Button href={href("contact", locale)} variant="brass-invert" size="sm" icon="none" event="cta_schedule_click" className="sm:hidden">
+          <Button href={href("contact", locale)} size="sm" notch="soft" icon="none" event="cta_schedule_click" className="sm:hidden">
             {nav.scheduleShort}
           </Button>
           <a
             href={site.osLoginUrl}
             data-event="login_click"
             title={nav.clientLoginHint}
-            className="top-link hidden text-[0.8125rem] xl:inline-flex"
+            className="top-link top-link-light hidden text-[0.8125rem] xl:inline-flex"
           >
             {nav.clientLogin}
             <span className="arrow-pass" aria-hidden>
@@ -125,7 +125,7 @@ export function SiteHeader({ locale, nav, whatsappText }: { locale: Locale; nav:
           <button
             ref={menuBtn}
             type="button"
-            className="menu-btn -mr-2 inline-flex h-11 w-11 items-center justify-center rounded-[2px] text-on-dark lg:hidden"
+            className="menu-btn -mr-2 inline-flex h-11 w-11 items-center justify-center rounded-[2px] text-ink lg:hidden"
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? nav.close : nav.menu}
@@ -141,18 +141,18 @@ export function SiteHeader({ locale, nav, whatsappText }: { locale: Locale; nav:
         id="mobile-menu"
         ref={panel}
         hidden={!open}
-        className="fixed inset-x-0 bottom-0 top-[4.5rem] overflow-y-auto border-t border-navy-line bg-navy lg:hidden"
+        className="fixed inset-x-0 bottom-0 top-[4.5rem] overflow-y-auto border-t border-line bg-app lg:hidden"
       >
         <div className="flex min-h-full flex-col px-5 pb-10 pt-6 sm:px-8">
-          <LanguageSwitch label={nav.language} className="mb-6" />
+          <LanguageSwitch label={nav.language} onDark={false} className="mb-6" />
           <nav aria-label="Mobile">
-            <ul className="divide-y divide-navy-line border-y border-navy-line">
+            <ul className="divide-y divide-line border-y border-line">
               {NAV.map((k, i) => (
                 <li key={k}>
                   <Link
                     href={href(k, locale)}
                     aria-current={active === k ? "page" : undefined}
-                    className="enter flex items-center justify-between py-4 font-serif text-2xl text-on-dark"
+                    className="enter flex items-center justify-between py-4 font-serif text-2xl text-ink"
                     style={{ animationDelay: `${i * 30}ms` }}
                   >
                     {labels[k]}
@@ -163,21 +163,21 @@ export function SiteHeader({ locale, nav, whatsappText }: { locale: Locale; nav:
             </ul>
           </nav>
           <div className="mt-8 flex flex-col gap-3">
-            <Button href={href("contact", locale)} variant="brass" size="lg" event="cta_schedule_click">
+            <Button href={href("contact", locale)} size="lg" notch="strong" event="cta_schedule_click">
               {nav.schedule}
             </Button>
             {wa ? (
-              <Button href={wa} variant="ghost-dark" size="lg" icon="none" leading={<MessageCircle className="h-4 w-4" />} event="cta_whatsapp_click">
+              <Button href={wa} variant="secondary" size="lg" icon="none" leading={<MessageCircle className="h-4 w-4" />} event="cta_whatsapp_click">
                 WhatsApp
               </Button>
             ) : null}
             {site.phone ? (
-              <Button href={`tel:${site.phone}`} variant="ghost-dark" size="lg" icon="none" leading={<Phone className="h-4 w-4" />}>
+              <Button href={`tel:${site.phone}`} variant="secondary" size="lg" icon="none" leading={<Phone className="h-4 w-4" />}>
                 {site.phoneDisplay}
               </Button>
             ) : null}
           </div>
-          <a href={site.osLoginUrl} data-event="login_click" className="mt-auto inline-flex items-center gap-1 pt-10 text-sm text-on-dark-3">
+          <a href={site.osLoginUrl} data-event="login_click" className="mt-auto inline-flex items-center gap-1 pt-10 text-sm text-ink-2">
             {nav.clientLoginHint}
             <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
           </a>

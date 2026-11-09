@@ -1,8 +1,8 @@
 import { Check } from "lucide-react";
 import { PageHero } from "@/components/sections/PageHero";
 import { FinalCta } from "@/components/sections/FinalCta";
-import { ImageSlot } from "@/components/ui/ImageSlot";
-import { Button } from "@/components/ui/Button";
+import { SegmentComposition } from "@/components/sections/SegmentComposition";
+import { ModuleButton } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Layout";
 import { getDict } from "@/content";
 import { href, type Locale } from "@/lib/i18n";
@@ -19,7 +19,9 @@ export function WhoWeServeView({ locale }: { locale: Locale }) {
             <Container>
               <div className="grid items-center gap-12 lg:grid-cols-12">
                 <div className={cn("lg:col-span-5", i % 2 === 1 && "lg:order-2 lg:col-start-8")}>
-                  <ImageSlot ratio="4/5" label={t.common.photoPending} />
+                  <div className="flex aspect-square items-center justify-center border border-line bg-surface">
+                    <SegmentComposition segment={s.id as "families" | "business" | "crossborder" | "retirement"} className="h-4/5 w-4/5" />
+                  </div>
                 </div>
                 <div className={cn("lg:col-span-6", i % 2 ? "lg:order-1" : "lg:col-start-7")}>
                   <p className="text-sm tabular-nums text-ink-3">{String(i + 1).padStart(2, "0")}</p>
@@ -36,9 +38,9 @@ export function WhoWeServeView({ locale }: { locale: Locale }) {
                     ))}
                   </ul>
                   <div className="mt-10">
-                    <Button href={href("contact", locale)} variant="secondary" event="cta_schedule_click">
+                    <ModuleButton href={href("contact", locale)} event="cta_schedule_click">
                       {t.common.talkToTeam}
-                    </Button>
+                    </ModuleButton>
                   </div>
                 </div>
               </div>

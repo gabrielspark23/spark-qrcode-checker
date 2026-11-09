@@ -1,8 +1,7 @@
 import { PageHero } from "@/components/sections/PageHero";
 import { ProcessSteps } from "@/components/sections/ProcessSteps";
 import { FinalCta } from "@/components/sections/FinalCta";
-import { BrandMark } from "@/components/brand/BrandMark";
-import { ImageSlot } from "@/components/ui/ImageSlot";
+import { LogoMark } from "@/components/brand/Logo";
 import { Container, Section, SectionHeader } from "@/components/ui/Layout";
 import { getDict } from "@/content";
 import type { Locale } from "@/lib/i18n";
@@ -40,7 +39,7 @@ export function AboutView({ locale }: { locale: Locale }) {
 
       <section className="on-dark bg-navy-soft py-20 text-on-dark sm:py-24" aria-label={a.quote}>
         <Container narrow className="text-center">
-          <BrandMark className="mx-auto h-10 w-10" />
+          <LogoMark className="mx-auto h-14 w-auto" />
           <blockquote className="mt-8 font-serif text-[clamp(1.5rem,1.2rem+1.4vw,2.25rem)] italic leading-snug">
             “{a.quote}”
           </blockquote>
@@ -74,9 +73,8 @@ export function AboutView({ locale }: { locale: Locale }) {
           <SectionHeader id="where-title" title={a.whereTitle} />
           <div className="grid gap-8 md:grid-cols-2">
             {a.where.map((w) => (
-              <div key={w.city}>
-                <ImageSlot ratio="16/9" label={t.common.photoPending.replace("4:5", "16:9")} />
-                <h3 className="h3 mt-6">{w.city}</h3>
+              <div key={w.city} className="border-t-2 border-brass pt-6">
+                <h3 className="h2">{w.city}</h3>
                 <p className="mt-2 text-ink-2">{w.body}</p>
               </div>
             ))}

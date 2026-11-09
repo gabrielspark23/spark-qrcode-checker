@@ -65,41 +65,6 @@ export default function StyleguidePage() {
       </nav>
 
 
-      <Section id="c-variantes" tone="white" bordered labelledBy="sg-cvar">
-        <Container>
-          <SectionHeader
-            id="sg-cvar"
-            eyebrow="Decisão"
-            title="C no botão — escolha a variação"
-            intro="Todas já no estado de hover. A variação E é a aplicada no site."
-          />
-          <div className="grid gap-8 md:grid-cols-2">
-            {[
-              { k: "E", d: "Escolhida: C na lateral (só o arco entra), atravessa topo e base, aberto para a direita; V bem separado.", st: {} },
-              { k: "A", d: "Faixa fina perto da borda, nasce no alto e corta a base (versão anterior).", st: { "--c-cx": "9px", "--c-cy": "0.64", "--c-k": "1.1", "--vn-x": "2.3rem" } },
-              { k: "B", d: "Faixa fina centrada na altura: o C atravessa o topo e a base, aberto para a direita (borda).", st: { "--c-cx": "2px", "--c-cy": "0.5", "--c-k": "1.25", "--vn-x": "2.75rem" } },
-              { k: "C", d: "C inteiro dentro do cartão, menor, abertura para a direita; o V à esquerda dele.", st: { "--c-cx": "26px", "--c-cy": "0.55", "--c-k": "0.95", "--vn-x": "3.4rem" } },
-              { k: "D", d: "C maior dentro do cartão com o V sobre o centro (a versão de que você não gostou).", st: { "--c-cx": "calc(6px + var(--vn-h) * 0.315 * 1.1)", "--c-cy": "0.62", "--c-k": "1.1", "--vn-x": "calc(6px + var(--vn-h) * 0.346)" } },
-            ].map((v) => (
-              <div key={v.k} className="border border-line bg-app p-8">
-                <p className="eyebrow text-ink-3">Variação {v.k}</p>
-                <div className="mt-6 flex flex-col items-start gap-6">
-                  <span className="btn btn-shield btn-lg vn vn-strong is-demo" style={v.st as React.CSSProperties}>
-                    <span>Schedule a conversation</span>
-                  </span>
-                  <span className="on-dark inline-flex bg-navy p-4">
-                    <span className="btn btn-brass vn vn-strong is-demo" style={v.st as React.CSSProperties}>
-                      <span>Schedule a conversation</span>
-                    </span>
-                  </span>
-                </div>
-                <p className="mt-6 text-sm text-ink-2">{v.d}</p>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </Section>
-
       <Section id="marca" tone="light" labelledBy="sg-brand">
         <Container>
           <SectionHeader

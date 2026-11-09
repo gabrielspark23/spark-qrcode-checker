@@ -35,7 +35,7 @@ export function SiteHeader({ locale, nav, whatsappText }: { locale: Locale; nav:
       let dark = 0;
       for (const fx of [0.2, 0.5, 0.8]) {
         const stack = document.elementsFromPoint(window.innerWidth * fx, y);
-        const under = stack.find((el) => !header?.contains(el));
+        const under = stack.find((el) => !header?.contains(el) && !el.closest(".route-loader"));
         if (under?.closest(".on-dark, [data-tone='dark']")) dark++;
       }
       const headerDark = dark >= 2;
@@ -49,7 +49,7 @@ export function SiteHeader({ locale, nav, whatsappText }: { locale: Locale; nav:
           const r = item.getBoundingClientRect();
           const under = document
             .elementsFromPoint(r.left + r.width / 2, y)
-            .find((el) => !header.contains(el));
+            .find((el) => !header.contains(el) && !el.closest(".route-loader"));
           tone = under?.closest(".on-dark, [data-tone='dark']") ? "dark" : "light";
         }
         item.dataset.tone = tone;
@@ -59,9 +59,18 @@ export function SiteHeader({ locale, nav, whatsappText }: { locale: Locale; nav:
       if (!raf) raf = requestAnimationFrame(probe);
     };
     probe();
+    // Mede de novo quando o loading entre páginas sai (e logo após a página montar),
+    // para o tom dos textos mudar com a transição assim que se entra na página.
+    const mo = new MutationObserver(req);
+    mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-loader"] });
+    const t1 = window.setTimeout(req, 150);
+    const t2 = window.setTimeout(req, 1500);
     window.addEventListener("scroll", req, { passive: true });
     window.addEventListener("resize", req);
     return () => {
+      mo.disconnect();
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
       cancelAnimationFrame(raf);
       window.removeEventListener("scroll", req);
       window.removeEventListener("resize", req);

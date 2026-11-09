@@ -1600,3 +1600,37 @@ html[data-loader="leaving"] .route-loader {
     transform: scale(0.94);
   }
 }
+
+/* ---- V-Notch forte: o C da Vincit vazado no canto direito (hover/foco) ----
+   Máscara em duas camadas: tudo visível, menos o C (anel com contraforma e abertura a 42°).
+   O C nasce de um ponto e cresce junto com o entalhe em V; largura e texto não mudam. */
+@property --vn-cs {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+.vn-strong {
+  --vn-c-size: 14px;
+  -webkit-mask:
+    linear-gradient(#000 0 0),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20.32 5.59A10.5 10.5 0 1 0 20.32 18.41L17.96 16.28A6.4 6.4 0 1 1 17.96 7.72Z' fill='black'/%3E%3C/svg%3E") no-repeat right 0.55rem center / var(--vn-cs) var(--vn-cs);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20.32 5.59A10.5 10.5 0 1 0 20.32 18.41L17.96 16.28A6.4 6.4 0 1 1 17.96 7.72Z' fill='black'/%3E%3C/svg%3E") no-repeat right 0.55rem center / var(--vn-cs) var(--vn-cs);
+  mask-composite: exclude;
+  transition-property: --vn-d, --vn-w, --vn-c, --vn-cs, color, background-color, border-color;
+}
+.vn-strong:focus-visible {
+  --vn-cs: var(--vn-c-size);
+}
+@media (hover: hover) {
+  .vn-strong:hover {
+    --vn-cs: var(--vn-c-size);
+  }
+}
+@media (hover: none) {
+  .vn-strong:active {
+    --vn-cs: var(--vn-c-size);
+  }
+}

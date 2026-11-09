@@ -469,6 +469,7 @@ export const en = {
     success: {
       title: "Thank you. We received your message.",
       body: "Here is what happens next:",
+      home: "Back to home",
       steps: [
         "A member of our team reviews your message.",
         "We reply within one business day to schedule a conversation.",

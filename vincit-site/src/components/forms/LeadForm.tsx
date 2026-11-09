@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useId, useRef, useState } from "react";
+import { useId, useRef, useState } from "react";
 import { CircleAlert, RotateCcw } from "lucide-react";
 import { SendMark } from "./SendMark";
+import { SuccessTakeover } from "./SuccessTakeover";
 import { Button } from "@/components/ui/Button";
 import { track } from "@/components/layout/EventDelegate";
 import { ASSETS, CONSENT_TEXT_VERSION, TOPICS, validateLead, type FieldErrors, type LeadPayload } from "@/lib/lead";
@@ -31,16 +32,7 @@ export function LeadForm({ locale, t }: { locale: Locale; t: Dict }) {
   const id = (n: string) => `${uid}-${n}`;
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<FieldErrors>({});
-  const successRef = useRef<HTMLDivElement>(null);
-  // a confirmação ocupa o lugar do formulário: leva a leitura até ela
-  useEffect(() => {
-    if (status !== "success") return;
-    const el = successRef.current;
-    if (!el) return;
-    el.focus({ preventScroll: true });
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    el.scrollIntoView({ block: "center", behavior: reduce ? "auto" : "smooth" });
-  }, [status]);
+  const [takeover, setTakeover] = useState<{ stage: HTMLElement; origin: { x: number; y: number } } | null>(null);
   const [started, setStarted] = useState(false);
   const [messageLen, setMessageLen] = useState(0);
   const summaryRef = useRef<HTMLDivElement>(null);
@@ -103,9 +95,16 @@ export function LeadForm({ locale, t }: { locale: Locale; t: Dict }) {
         return;
       }
       if (!res.ok) throw new Error(String(res.status));
-      setStatus("done"); // escudo se preenche: confirmação visual
+      setStatus("done"); // logo cheia → sai → "Enviado"
       track("form_submit", { topic: payload.topic ?? "" });
-      await wait(950);
+      await wait(1350);
+      // o círculo de confirmação nasce do botão e cobre a seção inteira
+      const btn = form.querySelector<HTMLElement>("button[type=submit]");
+      const stage = (form.closest("[data-contact-stage]") as HTMLElement | null) ?? form.parentElement!;
+      const sr = stage.getBoundingClientRect();
+      const br = btn?.getBoundingClientRect();
+      const origin = br ? { x: br.left + br.width / 2 - sr.left, y: br.top + br.height / 2 - sr.top } : { x: sr.width / 2, y: sr.height / 2 };
+      setTakeover({ stage, origin });
       setStatus("success");
       return;
     } catch {
@@ -115,25 +114,7 @@ export function LeadForm({ locale, t }: { locale: Locale; t: Dict }) {
     }
   }
 
-  if (status === "success") {
-    return (
-      <div ref={successRef} tabIndex={-1} className="border border-line bg-surface p-8 outline-none sm:p-10" role="status" aria-live="polite">
-        <span className="success-mark inline-flex h-14 w-14 items-center justify-center rounded-full border border-brass/50 text-ink">
-          <SendMark state="done" />
-        </span>
-        <h3 className="h3 mt-6">{f.success.title}</h3>
-        <p className="mt-3 text-ink-2">{f.success.body}</p>
-        <ol className="mt-6 space-y-4">
-          {f.success.steps.map((step, i) => (
-            <li key={step} className="flex gap-4">
-              <span className="text-sm tabular-nums text-ink-3">{String(i + 1).padStart(2, "0")}</span>
-              <span className="text-[0.9375rem]">{step}</span>
-            </li>
-          ))}
-        </ol>
-      </div>
-    );
-  }
+
 
   const busy = status === "submitting" || status === "done";
   const errorCount = Object.keys(errors).length;
@@ -151,6 +132,7 @@ export function LeadForm({ locale, t }: { locale: Locale; t: Dict }) {
     ) : null;
 
   return (
+    <>
     <form
       ref={formRef}
       noValidate
@@ -300,15 +282,26 @@ export function LeadForm({ locale, t }: { locale: Locale; t: Dict }) {
         <Button
           type="submit"
           size="lg"
-          disabled={busy}
-          className={cn("lead-submit", busy && "btn-sending", status === "done" && "btn-sent")}
-          icon={busy ? "none" : "arrow"}
-          leading={busy ? <SendMark state={status === "done" ? "done" : "sending"} /> : undefined}
+          disabled={busy || status === "success"}
+          className={cn("lead-submit", (busy || status === "success") && "btn-sending", (status === "done" || status === "success") && "btn-sent")}
+          icon={busy || status === "success" ? "none" : "arrow"}
         >
-          {status === "done" ? f.sent : busy ? f.sending : f.submit}
+          {busy || status === "success" ? (
+            <>
+              {/* só a logo: enche em loop; ao concluir, pulsa e sai, e "Enviado" entra */}
+              <span className="send-slot" aria-hidden>
+                <SendMark state={status === "submitting" ? "sending" : "done"} />
+              </span>
+              <span className={status === "submitting" ? "sr-only" : "sent-label"}>{status === "submitting" ? f.sending : f.sent}</span>
+            </>
+          ) : (
+            f.submit
+          )}
         </Button>
         <span className="sr-only" role="status" aria-live="polite">{busy ? (status === "done" ? f.sent : f.sending) : ""}</span>
       </div>
     </form>
+    {takeover ? <SuccessTakeover stage={takeover.stage} origin={takeover.origin} locale={locale} t={t} /> : null}
+    </>
   );
 }

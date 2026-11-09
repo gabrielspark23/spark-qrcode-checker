@@ -1959,4 +1959,45 @@ html[data-loader="leaving"] .route-loader {
 }
 .btn.lead-submit { min-width: 15.5rem; justify-content: center; }
 @media (max-width: 639px) { .btn.lead-submit { width: 100%; } }
-.success-mark .send-mark { width: 1.7rem; height: 1.95rem; }
+
+/* ---- Envio: só a logo no botão; ao concluir, pulsa, sai e "Enviado" entra ---- */
+.btn.lead-submit .send-slot {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+.btn.lead-submit .send-mark { width: 1.6rem; height: 1.85rem; }
+.btn-sent .send-mark-done {
+  animation: send-pop 420ms var(--ease-out), send-exit 380ms var(--ease-in-out) 520ms forwards;
+}
+@keyframes send-exit {
+  to { opacity: 0; scale: 0.4; translate: 0 -6px; }
+}
+.btn-sent .sent-label { animation: rise 420ms var(--ease-out) 820ms both; }
+
+/* ---- Confirmação em tela cheia (Contato) ---- */
+.takeover {
+  clip-path: circle(0px at var(--ox) var(--oy));
+  animation: takeover-open 1050ms var(--ease-in-out) forwards;
+}
+@keyframes takeover-open {
+  to { clip-path: circle(160vmax at var(--ox) var(--oy)); }
+}
+.takeover .tk-mark { opacity: 0; animation: tk-mark 700ms var(--ease-out) 1300ms forwards; }
+@keyframes tk-mark {
+  from { opacity: 0; scale: 0.7; }
+  to { opacity: 1; scale: 1; }
+}
+.takeover .tk-in { animation: rise 600ms var(--ease-out) both; }
+.takeover .tk-1 { animation-delay: 1450ms; }
+.takeover .tk-2 { animation-delay: 1550ms; }
+.takeover .tk-3 { animation-delay: 1650ms; }
+.takeover .tk-4 { animation-delay: 1750ms; }
+@media (prefers-reduced-motion: reduce) {
+  .takeover { animation: none; clip-path: none; }
+  .takeover .tk-mark, .takeover .tk-in { animation: none; opacity: 1; }
+  .btn-sent .send-mark-done { animation: none; opacity: 0; }
+  .btn-sent .sent-label { animation: none; }
+}

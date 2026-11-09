@@ -1668,3 +1668,30 @@ html[data-loader="leaving"] .route-loader {
   opacity: 1;
   transition: background-color var(--dur-base) var(--ease-out);
 }
+
+/* ---- Liderança: o cartão se inverte quando o LinkedIn recebe o mouse/foco ---- */
+.leader-card,
+.leader-card :is(.lc-num, .lc-name, .lc-role, .lc-link) {
+  transition:
+    background-color var(--dur-base) var(--ease-out),
+    color var(--dur-base) var(--ease-out);
+}
+.leader-card:has(.lc-link:hover, .lc-link:focus-visible) {
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+}
+.leader-card:has(.lc-link:hover, .lc-link:focus-visible) .lc-num {
+  color: var(--text-muted);
+}
+.leader-card:has(.lc-link:hover, .lc-link:focus-visible) .lc-name {
+  color: var(--text-primary);
+}
+.leader-card:has(.lc-link:hover, .lc-link:focus-visible) .lc-role {
+  color: var(--text-secondary); /* latão sobre branco não tem contraste: vira tinta */
+}
+.leader-card:has(.lc-link:hover, .lc-link:focus-visible) .lc-link {
+  color: var(--text-primary);
+}
+.leader-card .lc-link:focus-visible {
+  outline-color: var(--primary);
+}

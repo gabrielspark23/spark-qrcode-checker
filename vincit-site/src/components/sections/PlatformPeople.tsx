@@ -30,16 +30,16 @@ export function PlatformPeople({ locale, t }: { locale: Locale; t: Dict }) {
           </div>
           <ul className="mt-10 grid gap-px border border-navy-line bg-navy-line sm:grid-cols-2 lg:grid-cols-4">
             {t.team.people.map((p, i) => (
-              <li key={p.name} className="flex flex-col bg-navy-soft p-8">
-                <span className="text-xs tabular-nums text-on-dark-3">{String(i + 1).padStart(2, "0")}</span>
-                <p className="mt-10 font-serif text-2xl leading-tight">{p.name}</p>
-                <p className="eyebrow mt-3 text-brass">{p.role}</p>
+              <li key={p.name} className="leader-card flex flex-col bg-navy-soft p-8">
+                <span className="lc-num text-xs tabular-nums text-on-dark-3">{String(i + 1).padStart(2, "0")}</span>
+                <p className="lc-name mt-10 font-serif text-2xl leading-tight">{p.name}</p>
+                <p className="lc-role eyebrow mt-3 text-brass">{p.role}</p>
                 <a
                   href={p.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`LinkedIn — ${p.name}`}
-                  className="link-arrow mt-auto self-start pt-8 text-sm text-on-dark-2 hover:text-on-dark"
+                  className="lc-link link-arrow mt-auto self-start pt-8 text-sm text-on-dark-2 hover:text-on-dark"
                 >
                   <span>LinkedIn</span>
                   <ArrowUpRight className="h-4 w-4" strokeWidth={1.75} aria-hidden />

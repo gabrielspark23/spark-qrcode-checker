@@ -34,7 +34,7 @@ export function LanguageSwitch({ label, className, onDark = true }: { label: str
             data-event={l === current ? undefined : "lang_switch"}
             onClick={(e) => go(l, e)}
             className={cn(
-              "rounded-[2px] px-1 py-1 transition-colors duration-150",
+              "lang-opt rounded-[2px] px-1 py-1",
               l === current
                 ? onDark ? "text-on-dark" : "text-ink"
                 : onDark ? "text-on-dark-3 hover:text-on-dark" : "text-ink-3 hover:text-ink",

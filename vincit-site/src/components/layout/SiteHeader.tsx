@@ -93,7 +93,7 @@ export function SiteHeader({ locale, nav, whatsappText }: { locale: Locale; nav:
                 <Link
                   href={href(k, locale)}
                   aria-current={active === k ? "page" : undefined}
-                  className={cn("nav-link hover:text-on-dark", active === k && "text-on-dark")}
+                  className={cn("nav-link transition-colors hover:text-on-dark", active === k && "text-on-dark")}
                 >
                   {labels[k]}
                 </Link>
@@ -104,25 +104,28 @@ export function SiteHeader({ locale, nav, whatsappText }: { locale: Locale; nav:
 
         <div className="ml-auto flex items-center gap-4 lg:ml-0">
           <LanguageSwitch label={nav.language} className="hidden sm:flex" />
-          <Button href={href("contact", locale)} variant="brass" size="sm" event="cta_schedule_click" className="hidden sm:inline-flex">
+          <Button href={href("contact", locale)} variant="brass-invert" size="sm" event="cta_schedule_click" className="hidden sm:inline-flex">
             {nav.schedule}
           </Button>
-          <Button href={href("contact", locale)} variant="brass" size="sm" icon="none" event="cta_schedule_click" className="sm:hidden">
+          <Button href={href("contact", locale)} variant="brass-invert" size="sm" icon="none" event="cta_schedule_click" className="sm:hidden">
             {nav.scheduleShort}
           </Button>
           <a
             href={site.osLoginUrl}
             data-event="login_click"
             title={nav.clientLoginHint}
-            className="hidden items-center gap-1 text-[0.8125rem] text-on-dark-3 transition-colors duration-150 hover:text-on-dark xl:inline-flex"
+            className="top-link hidden text-[0.8125rem] xl:inline-flex"
           >
             {nav.clientLogin}
-            <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
+            <span className="arrow-pass" aria-hidden>
+              <ArrowUpRight strokeWidth={1.75} />
+              <ArrowUpRight strokeWidth={1.75} />
+            </span>
           </a>
           <button
             ref={menuBtn}
             type="button"
-            className="-mr-2 inline-flex h-11 w-11 items-center justify-center rounded-[2px] text-on-dark lg:hidden"
+            className="menu-btn -mr-2 inline-flex h-11 w-11 items-center justify-center rounded-[2px] text-on-dark lg:hidden"
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? nav.close : nav.menu}

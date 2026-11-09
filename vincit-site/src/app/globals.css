@@ -390,9 +390,13 @@
   /* Link de navegação: sublinhado de latão que cresce do centro */
   .nav-link {
     position: relative;
+    display: inline-block;
     padding-block: 0.5rem;
-    transition: color var(--dur-fast) var(--ease-out);
+    transition-property: color, transform;
+    transition-duration: var(--dur-base);
+    transition-timing-function: var(--ease-out);
   }
+  /* Filete de latão: entra pela esquerda e sai pela direita (segue o cursor) */
   .nav-link::after {
     content: "";
     position: absolute;
@@ -402,11 +406,97 @@
     height: 2px;
     background: var(--color-gold);
     transform: scaleX(0);
+    transform-origin: right center;
     transition: transform var(--dur-base) var(--ease-out);
+  }
+  .nav-link:hover {
+    transform: translateY(-1px);
   }
   .nav-link:hover::after,
   .nav-link[aria-current="page"]::after {
     transform: scaleX(1);
+    transform-origin: left center;
+  }
+
+  /* Botão do topo: latão que se inverte para grafite com contorno e texto latão */
+  .btn-brass-invert {
+    --btn-bg: var(--color-gold);
+    --btn-fg: var(--color-navy);
+    --btn-border: var(--color-gold);
+    --btn-sweep: var(--color-navy);
+    --btn-fg-hover: var(--color-gold);
+    --btn-border-hover: var(--color-gold);
+  }
+
+  /* Link discreto do topo (Client Login): cor + seta diagonal em passagem */
+  .top-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding-block: 0.5rem;
+    color: var(--text-on-dark-muted);
+    transition: color var(--dur-base) var(--ease-out);
+  }
+  .top-link:hover {
+    color: var(--text-on-dark);
+  }
+  .top-link .arrow-pass {
+    position: relative;
+    display: inline-flex;
+    width: 0.875rem;
+    height: 0.875rem;
+    overflow: hidden;
+  }
+  .top-link .arrow-pass > svg {
+    position: absolute;
+    inset: 0;
+    width: 0.875rem;
+    height: 0.875rem;
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+  .top-link .arrow-pass > svg:last-child {
+    transform: translate(-130%, 130%);
+    color: var(--color-gold);
+  }
+  .top-link:hover .arrow-pass > svg:first-child {
+    transform: translate(130%, -130%);
+  }
+  .top-link:hover .arrow-pass > svg:last-child {
+    transform: translate(0, 0);
+  }
+
+  /* Seletor de idioma: marcador de latão desliza para o idioma em hover */
+  .lang-opt {
+    position: relative;
+    transition: color var(--dur-base) var(--ease-out);
+  }
+  .lang-opt::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -0.125rem;
+    width: 1rem;
+    height: 2px;
+    margin-left: -0.5rem;
+    background: var(--color-gold);
+    transform: scaleX(0);
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+  .lang-opt:hover::after,
+  .lang-opt[aria-current="true"]::after {
+    transform: scaleX(1);
+  }
+
+  /* Botão de menu (mobile): as linhas giram levemente no hover */
+  .menu-btn svg {
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+  .menu-btn:hover svg {
+    transform: rotate(90deg);
+  }
+  .menu-btn:active svg {
+    transform: rotate(90deg) scale(0.92);
   }
 
   /* Cartão: elevação por borda, hover escurece a borda e sobe o filete */

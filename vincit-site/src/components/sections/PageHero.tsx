@@ -122,3 +122,23 @@ export function PageHero({
     </section>
   );
 }
+
+/** Órbita viva do Sobre, posicionada no canto inferior esquerdo (abertura "stagger"). */
+export function OrbitArt() {
+  const ink = "var(--text-primary)";
+  return (
+    <svg viewBox="0 0 520 520" fill="none" className="enter-draw pointer-events-none absolute -bottom-56 -left-40 hidden h-[30rem] w-[30rem] opacity-80 md:block" aria-hidden>
+      <circle className="draw-line" pathLength={1} cx="250" cy="260" r="210" stroke="var(--color-gold)" strokeOpacity="0.7" transform="rotate(-120 250 260)" />
+      <g className="orbit-spin orbit-a">
+        <circle className="draw-line d2" pathLength={1} cx="290" cy="240" r="170" stroke={ink} strokeOpacity="0.18" />
+      </g>
+      <g className="orbit-spin orbit-b">
+        <circle className="draw-line d3" pathLength={1} cx="320" cy="225" r="120" stroke={ink} strokeOpacity="0.12" />
+      </g>
+      <g className="orbit-spin orbit-dot">
+        <circle className="fade-node" cx="250" cy="50" r="5" fill="var(--color-gold)" />
+        <circle className="orbit-halo" cx="250" cy="50" r="5" stroke="var(--color-gold)" />
+      </g>
+    </svg>
+  );
+}

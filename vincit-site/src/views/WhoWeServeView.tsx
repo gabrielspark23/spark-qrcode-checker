@@ -1,5 +1,5 @@
 import { Check } from "lucide-react";
-import { PageHero } from "@/components/sections/PageHero";
+import { EditorialHero } from "@/components/sections/EditorialHero";
 import { ModuleButton } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Layout";
 import { getDict } from "@/content";
@@ -12,7 +12,23 @@ export function WhoWeServeView({ locale }: { locale: Locale }) {
   const t = getDict(locale);
   return (
     <>
-      <PageHero eyebrow={t.serve.eyebrow} title={t.serve.title} intro={t.serve.intro} motif="none" size="statement" />
+      <EditorialHero
+        eyebrow={t.serve.eyebrow}
+        title={t.serve.title}
+        intro={t.serve.intro}
+        aside={
+          <ol className="border-t border-line-soft">
+            {t.segments.map((s, i) => (
+              <li key={s.id} className="border-b border-line-soft">
+                <a href={`#${s.id}`} className="ed-index flex items-baseline gap-4 py-3 text-[0.9375rem]">
+                  <span className="text-xs tabular-nums text-ink-3">{String(i + 1).padStart(2, "0")}</span>
+                  <span>{s.title}</span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        }
+      />
       {t.segments.map((s, i) => (
         <section
           key={s.id}

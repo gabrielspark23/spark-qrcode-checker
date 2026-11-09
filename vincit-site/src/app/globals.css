@@ -2253,24 +2253,55 @@ form ::selection { background: rgb(194 162 99 / 0.35); color: var(--text-primary
   color: var(--sc-main);
   transition: background-color 700ms var(--ease-out);
 }
+/* tons: valor final (T) misturado ao claro conforme --f (0 = claro, 1 = tom cheio) */
+.sc-chapter[data-tone="dark"],
+.sc-chapter[data-tone="gold"] {
+  --f: 1;
+  --p: calc(var(--f) * 100%);
+  --sc-bg: var(--bg-app);
+  --sc-bg-active: var(--bg-app);
+  --sc-main: color-mix(in srgb, var(--t-main) var(--p), var(--text-primary));
+  --sc-sub: color-mix(in srgb, var(--t-sub) var(--p), var(--text-secondary));
+  --sc-muted: color-mix(in srgb, var(--t-muted) var(--p), var(--text-muted));
+  --sc-line: color-mix(in srgb, var(--t-line) var(--p), var(--border-soft));
+  --sc-rule-on: color-mix(in srgb, var(--t-rule) var(--p), var(--color-gold));
+  --sc-accent: color-mix(in srgb, var(--t-accent) var(--p), var(--color-gold));
+}
 .sc-chapter[data-tone="dark"] {
-  --sc-bg: var(--color-navy);
-  --sc-bg-active: #1d2027;
-  --sc-main: var(--text-on-dark);
-  --sc-sub: rgb(245 245 244 / 0.74);
-  --sc-muted: rgb(245 245 244 / 0.55);
-  --sc-line: rgb(245 245 244 / 0.14);
+  --t-bg: var(--color-navy);
+  --t-bg-active: #1d2027;
+  --t-main: #f5f5f4;
+  --t-sub: rgb(245 245 244 / 0.74);
+  --t-muted: rgb(245 245 244 / 0.55);
+  --t-line: rgb(245 245 244 / 0.14);
+  --t-rule: var(--color-gold);
+  --t-accent: var(--color-gold);
 }
 .sc-chapter[data-tone="gold"] {
-  --sc-bg: var(--color-gold);
-  --sc-bg-active: #b9985a;
-  --sc-main: #16181d;
-  --sc-sub: rgb(22 24 29 / 0.8);
-  --sc-muted: rgb(22 24 29 / 0.62);
-  --sc-line: rgb(22 24 29 / 0.22);
-  --sc-rule-on: #16181d;
-  --sc-accent: #16181d;
+  --t-bg: var(--color-gold);
+  --t-bg-active: #b9985a;
+  --t-main: #16181d;
+  --t-sub: rgb(22 24 29 / 0.8);
+  --t-muted: rgb(22 24 29 / 0.62);
+  --t-line: rgb(22 24 29 / 0.22);
+  --t-rule: #16181d;
+  --t-accent: #16181d;
 }
+/* a superfície de cor cresce a partir da base, no ritmo da rolagem */
+.sc-chapter[data-tone="dark"]::before,
+.sc-chapter[data-tone="gold"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--t-bg);
+  clip-path: circle(calc(var(--f) * 150%) at 50% 100%);
+  transition: background-color 700ms var(--ease-out);
+  pointer-events: none;
+}
+.sc-chapter[data-tone="dark"][data-active]::before,
+.sc-chapter[data-tone="gold"][data-active]::before { background: var(--t-bg-active); }
+.sc-chapter > div { position: relative; }
 /* escuros e dourados sobem sobre o anterior com cantos arredondados */
 .sc-chapter[data-tone="dark"],
 .sc-chapter[data-tone="gold"] { margin-top: -1.75rem; border-radius: 1.75rem 1.75rem 0 0; z-index: 1; }
@@ -2333,3 +2364,16 @@ form ::selection { background: rgb(194 162 99 / 0.35); color: var(--text-primary
   .sc-root[data-motion] .sc-panel[data-open] li:nth-child(3) { transition-delay: 140ms; }
   .sc-root[data-motion] .sc-panel[data-open] li:nth-child(4) { transition-delay: 210ms; }
 }
+
+/* ---- Aberturas editoriais (páginas internas): o título entra por máscara ---- */
+.ed-hero .ed-line { overflow: hidden; }
+@media (prefers-reduced-motion: no-preference) {
+  .ed-hero .ed-line { animation: ed-in 900ms var(--ease-out) 120ms both; }
+  .ed-hero .ed-line-2 { animation-delay: 300ms; }
+}
+@keyframes ed-in {
+  from { clip-path: inset(0 0 100% 0); translate: 0 0.35em; }
+  to { clip-path: inset(0 0 0 0); translate: 0 0; }
+}
+.ed-index { color: var(--text-primary); transition: color 240ms var(--ease-out), padding 300ms var(--ease-out); }
+.ed-index:hover, .ed-index:focus-visible { color: var(--color-gold); padding-left: 0.5rem; }

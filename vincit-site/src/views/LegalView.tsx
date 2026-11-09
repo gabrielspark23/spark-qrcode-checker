@@ -1,4 +1,4 @@
-import { PageHero } from "@/components/sections/PageHero";
+import { EditorialHero } from "@/components/sections/EditorialHero";
 import { Container } from "@/components/ui/Layout";
 import { getDict } from "@/content";
 import type { Locale } from "@/lib/i18n";
@@ -10,7 +10,7 @@ export function LegalView({ locale, kind }: { locale: Locale; kind: "disclosures
   const title = kind === "disclosures" ? l.disclosuresTitle : l.privacyTitle;
   return (
     <>
-      <PageHero eyebrow="Vincit Capital" title={title} />
+      <EditorialHero eyebrow="Vincit Capital" title={title} variant="compact" />
       <section className="bg-app py-16 sm:py-24">
         <Container narrow>
           <div className="space-y-10">

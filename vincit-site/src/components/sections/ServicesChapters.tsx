@@ -34,6 +34,8 @@ const TONES: Tone[] = ["light", "gold", "light", "dark", "light", "dark"];
  *   situações típicas e "o que fazemos" com expansão controlada.
  * - Superfícies alternadas (claro, latão, claro, grafite, claro, grafite) para ritmo e leitura; cada capítulo sobe
  *   sobre o capítulo anterior com cantos arredondados (mesma transição do Manifesto na Home).
+ * - Os capítulos em grafite e latão ganham a cor com a rolagem: a superfície cresce a partir da base
+ *   e o texto acompanha (color-mix), em vez de já chegarem prontos.
  * - Rolagem: o filete do capítulo se desenha, o título se revela por máscara (direção alterna entre capítulos)
  *   e a superfície do capítulo ativo muda de leve. Sem JS ou com movimento reduzido: tudo visível e aberto.
  */
@@ -63,8 +65,11 @@ export function ServicesChapters({ services, labels }: { services: Service[]; la
       raf = 0;
       const line = window.innerHeight * 0.4;
       let a = -1;
+      const vh = window.innerHeight;
       chapters.forEach((c, i) => {
         const r = c.getBoundingClientRect();
+        // capítulos em grafite/latão: a cor chega com a rolagem (0 → 1 entre 95% e 40% da tela)
+        if (!reduce && c.dataset.tone !== "light") c.style.setProperty("--f", Math.min(1, Math.max(0, (vh * 0.95 - r.top) / (vh * 0.55))).toFixed(4));
         const p = Math.min(1, Math.max(0, (line - r.top) / r.height));
         cells[i]?.style.setProperty("--sp", p.toFixed(4));
         if (r.top <= line && r.bottom > line) a = i;

@@ -23,12 +23,14 @@ export function TeamView({ locale }: { locale: Locale }) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personLd).replace(/</g, "\\u003c") }} />
       {/* Topo: grafite, tela dividida com a foto da equipe (publicada em vincitcapital.com.br) */}
       <section className="on-dark relative grid overflow-hidden bg-navy text-on-dark lg:min-h-[44rem] lg:grid-cols-2" aria-labelledby="page-title">
-        <Container className="relative flex flex-col justify-end pb-16 pt-36 sm:pt-44 lg:mr-0 lg:max-w-none lg:pl-[max(2rem,calc((100vw-80rem)/2+2rem))] lg:pr-16">
-          <Eyebrow onDark className="enter">{tm.eyebrow}</Eyebrow>
-          <h1 id="page-title" className="h1 mt-6 max-w-[14ch] text-[clamp(2.5rem,1.8rem+2.6vw,4rem)]">{tm.title}</h1>
-          <p className="lead mt-6 max-w-[46ch] text-on-dark-2">{tm.intro}</p>
+        <Container className="ed-hero relative flex flex-col items-end justify-between gap-16 pb-16 pt-36 text-right sm:pt-44 lg:order-2 lg:ml-0 lg:max-w-none lg:pl-16 lg:pr-[max(2rem,calc((100vw-80rem)/2+2rem))]">
+          <Eyebrow onDark className="enter flex-row-reverse">{tm.eyebrow}</Eyebrow>
+          <div className="flex flex-col items-end">
+            <h1 id="page-title" className="display ed-line max-w-[11ch] text-[clamp(2.75rem,1.6rem+3.8vw,5.25rem)] leading-[1]">{tm.title}</h1>
+            <p className="mt-8 max-w-[38ch] border-t border-navy-line pt-6 text-[1.0625rem] leading-relaxed text-on-dark-2">{tm.intro}</p>
+          </div>
         </Container>
-        <div className="relative aspect-[4/3] lg:aspect-auto">
+        <div className="relative aspect-[4/3] lg:order-1 lg:aspect-auto">
           <Image
             src="/images/team-vincit.webp"
             alt={locale === "pt" ? "Equipe da Vincit Capital no escritório" : "The Vincit Capital team at the office"}

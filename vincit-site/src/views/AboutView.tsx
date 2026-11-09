@@ -1,4 +1,5 @@
-import { PageHero } from "@/components/sections/PageHero";
+import { EditorialHero } from "@/components/sections/EditorialHero";
+import { OrbitArt } from "@/components/sections/PageHero";
 import { ProcessSteps } from "@/components/sections/ProcessSteps";
 import { ValuesList } from "@/components/sections/ValuesList";
 import { StoryTimeline } from "@/components/sections/StoryTimeline";
@@ -15,7 +16,7 @@ export function AboutView({ locale }: { locale: Locale }) {
   const m = a.manifesto;
   return (
     <>
-      <PageHero eyebrow={a.eyebrow} title={a.title} motif="orbit" size="statement" />
+      <EditorialHero eyebrow={a.eyebrow} title={a.title} variant="stagger" art={<OrbitArt />} />
 
       {/* História: linha do tempo */}
       <section className="bg-app py-20 sm:py-28" aria-label={a.eyebrow}>

@@ -101,7 +101,7 @@ export function GlobeSection({ t, staticGlobe }: { t: Dict; staticGlobe: ReactNo
 
           <div className="relative lg:col-span-7">
             {/* parte do globo ultrapassa a área visível */}
-            <div ref={stage} className="relative mx-auto aspect-square w-full max-w-[34rem] lg:-mr-40 lg:ml-0 lg:w-[46rem] lg:max-w-none xl:-mr-24">
+            <div ref={stage} data-globe-stage className="relative mx-auto aspect-square w-full max-w-[34rem] lg:-mr-40 lg:ml-0 lg:w-[46rem] lg:max-w-none xl:-mr-24">
               <div className={cn("absolute inset-0 transition-opacity duration-500", ready && "opacity-0")}>{staticGlobe}</div>
               {load ? <GlobeInteractive label={g.label} onReady={onReady} /> : null}
             </div>

@@ -39,6 +39,16 @@ export const en = {
     pending: "Pending decision",
   },
   home: {
+    chapters: [
+      { id: "perspective-title", label: "Perspective" },
+      { id: "globe-title", label: "Two countries" },
+      { id: "expertise-title", label: "Expertise" },
+      { id: "serve-title", label: "Who we serve" },
+      { id: "process-title", label: "How we work" },
+      { id: "platform-title", label: "People" },
+      { id: "final-title", label: "Conversation" },
+    ],
+    chaptersLabel: "Chapters",
     hero: {
       eyebrow: "Financial planning · Brazil & United States",
       titleA: "Financial planning built around your life,",

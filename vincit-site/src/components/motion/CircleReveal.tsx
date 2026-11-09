@@ -12,14 +12,14 @@ import { cn } from "@/lib/cn";
  *
  * - Nada é fixado (sem sticky, sem altura extra): o círculo cresce enquanto a seção sobe
  *   pela tela, no ritmo do próprio scroll, com um amortecimento leve para não parecer mecânico.
- * - Começa com ~80% do raio final, centro em 68% × 65% da seção (assimétrico), e sobe até 60% × 42%.
+ * - Começa com ~35% do raio final, centro em 68% × 65% da seção (assimétrico), e sobe até 60% × 42%.
  * - Duas camadas com o mesmo layout: na borda da máscara o texto troca de cor, nunca some.
  * - Sem JS ou com prefers-reduced-motion: seção grafite comum, marcos já desenhados.
  */
 
 const START = { x: 0.68, y: 0.65 };
 const END = { x: 0.6, y: 0.42 };
-const START_RATIO = 0.8; // começa com ~80% do raio necessário para cobrir a área
+const START_RATIO = 0.35; // começa com ~35% do raio final (pedido do cliente: começar menor)
 const TRAVEL = 0.6; // fração da altura da tela em que a cobertura acontece
 const SMOOTH = 0.2; // amortecimento por quadro (0 = parado, 1 = sem amortecimento)
 

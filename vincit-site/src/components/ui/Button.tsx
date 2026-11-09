@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/cn";
 
-type Variant = "primary" | "brass" | "brass-invert" | "secondary" | "ghost-dark";
+type Variant = "primary" | "brass" | "brass-invert" | "secondary" | "ghost-dark" | "shield";
 type Size = "sm" | "md" | "lg";
 type Icon = "arrow" | "external" | "none";
 

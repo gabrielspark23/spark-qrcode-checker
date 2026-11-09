@@ -37,6 +37,16 @@ export const pt: Dict = {
     pending: "Decisão em aberto",
   },
   home: {
+    chapters: [
+      { id: "perspective-title", label: "Visão" },
+      { id: "globe-title", label: "Dois países" },
+      { id: "expertise-title", label: "Atuação" },
+      { id: "serve-title", label: "Para quem" },
+      { id: "process-title", label: "Como trabalhamos" },
+      { id: "platform-title", label: "Pessoas" },
+      { id: "final-title", label: "Conversa" },
+    ],
+    chaptersLabel: "Capítulos",
     hero: {
       eyebrow: "Planejamento financeiro · Brasil e Estados Unidos",
       titleA: "Planejamento em torno da sua vida,",

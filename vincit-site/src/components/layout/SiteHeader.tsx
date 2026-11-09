@@ -66,7 +66,9 @@ export function SiteHeader({ locale, nav, whatsappText }: { locale: Locale; nav:
     privacy: "",
   };
   const wa = whatsappHref(whatsappText);
-  const solid = scrolled || open;
+  // Páginas cujo topo é grafite: o header já entra com a superfície clara (legibilidade)
+  const darkTop = active === "services" || active === "team" || active === "contact";
+  const solid = scrolled || open || darkTop;
 
   return (
     <header
@@ -87,15 +89,18 @@ export function SiteHeader({ locale, nav, whatsappText }: { locale: Locale; nav:
         </Link>
 
         <nav aria-label="Main" className="ml-auto hidden lg:block">
-          <ul className="flex items-center gap-1 text-[0.9375rem]">
+          <ul className="flex items-center gap-0.5 text-[0.9375rem]">
             {NAV.map((k) => (
               <li key={k}>
                 <Link
                   href={href(k, locale)}
                   aria-current={active === k ? "page" : undefined}
-                  className="vn-link"
+                  className="nav-v"
                 >
                   {labels[k]}
+                  <svg className="nav-v-mark" viewBox="0 0 9 9" fill="none" aria-hidden>
+                    <path d="M0.5 1 4.5 8 8.5 1" stroke="var(--color-gold)" strokeWidth="1.5" pathLength={1} />
+                  </svg>
                 </Link>
               </li>
             ))}
@@ -104,10 +109,10 @@ export function SiteHeader({ locale, nav, whatsappText }: { locale: Locale; nav:
 
         <div className="ml-auto flex items-center gap-4 lg:ml-0">
           <LanguageSwitch label={nav.language} onDark={false} className="hidden sm:flex" />
-          <Button href={href("contact", locale)} size="sm" notch="strong" event="cta_schedule_click" className="hidden sm:inline-flex">
+          <Button href={href("contact", locale)} variant="shield" size="sm" notch="strong" event="cta_schedule_click" className="hidden sm:inline-flex">
             {nav.schedule}
           </Button>
-          <Button href={href("contact", locale)} size="sm" notch="soft" icon="none" event="cta_schedule_click" className="sm:hidden">
+          <Button href={href("contact", locale)} variant="shield" size="sm" notch="soft" icon="none" event="cta_schedule_click" className="sm:hidden">
             {nav.scheduleShort}
           </Button>
           <a

@@ -18,7 +18,7 @@ export function FinalCta({ locale, t }: { locale: Locale; t: Dict }) {
             <p className="lead mt-4 max-w-[46ch] text-ink-2">{t.home.final.body}</p>
           </div>
           <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center lg:col-span-5 lg:justify-end">
-            <Button href={href("contact", locale)} size="lg" notch="strong" event="cta_schedule_click">
+            <Button href={href("contact", locale)} variant="shield" size="lg" notch="strong" event="cta_schedule_click">
               {t.nav.schedule}
             </Button>
             {wa ? (

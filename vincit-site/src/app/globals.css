@@ -1094,3 +1094,271 @@ details[open] .faq-icon {
 .top-link-light:hover {
   color: var(--text-primary);
 }
+
+/* ==================================================================
+   HEADER v2 — animação de marca
+   ================================================================== */
+
+/* Link: um filete nasce das duas pontas e converge no centro, onde se forma o V
+   (braços a 66°). É o gesto da marca: dois lados que se encontram em um ponto. */
+.nav-v {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 2.75rem;
+  padding: 0 0.75rem;
+  color: var(--text-secondary);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.nav-v::before,
+.nav-v::after {
+  content: "";
+  position: absolute;
+  bottom: 0.55rem;
+  height: 1.5px;
+  width: calc(50% - 0.75rem - 4px);
+  background: var(--color-gold);
+  transform: scaleX(0);
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.nav-v::before {
+  left: 0.75rem;
+  transform-origin: left center;
+}
+.nav-v::after {
+  right: 0.75rem;
+  transform-origin: right center;
+}
+.nav-v .nav-v-mark {
+  position: absolute;
+  left: 50%;
+  bottom: calc(0.55rem - 7px);
+  width: 9px;
+  height: 9px;
+  margin-left: -4.5px;
+  overflow: visible;
+}
+.nav-v .nav-v-mark path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 120ms var(--ease-out) 0ms;
+}
+.nav-v:is(:hover, :focus-visible, [aria-current="page"]) {
+  color: var(--text-primary);
+}
+.nav-v:is(:hover, :focus-visible, [aria-current="page"])::before,
+.nav-v:is(:hover, :focus-visible, [aria-current="page"])::after {
+  transform: scaleX(1);
+}
+.nav-v:is(:hover, :focus-visible, [aria-current="page"]) .nav-v-mark path {
+  stroke-dashoffset: 0;
+  transition-delay: 140ms;
+}
+.nav-v:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 0;
+}
+@media (hover: none) {
+  .nav-v:hover:not([aria-current="page"])::before,
+  .nav-v:hover:not([aria-current="page"])::after {
+    transform: scaleX(0);
+  }
+}
+
+/* CTA do header: V-Notch + escudo de latão que nasce da ponta e se expande */
+.btn-shield {
+  --btn-bg: var(--primary);
+  --btn-fg: #ffffff;
+  --btn-border: var(--primary);
+  --btn-sweep: var(--color-gold);
+  --btn-fg-hover: var(--color-navy);
+  --btn-border-hover: var(--color-gold);
+}
+.btn-shield::before {
+  transform: none;
+  clip-path: polygon(50% 100%, 50% 100%, 50% 100%, 50% 100%, 50% 100%, 50% 100%);
+  transition: clip-path 220ms var(--ease-out);
+}
+.btn-shield:is(:hover, :focus-visible)::before {
+  transform: none;
+  /* silhueta de escudo: topo reto, ombros, ponta embaixo — grande o bastante para cobrir */
+  clip-path: polygon(50% 260%, -40% 110%, -45% 20%, -40% -40%, 140% -40%, 145% 20%);
+}
+.btn-shield:is(:hover, :focus-visible) {
+  color: var(--color-navy);
+}
+@media (hover: none) {
+  .btn-shield:hover::before {
+    clip-path: polygon(50% 100%, 50% 100%, 50% 100%, 50% 100%, 50% 100%, 50% 100%);
+  }
+  .btn-shield:active::before {
+    clip-path: polygon(50% 260%, -40% 110%, -45% 20%, -40% -40%, 140% -40%, 145% 20%);
+  }
+}
+
+/* ---- Loading entre páginas: escudo que se desenha e se preenche ---- */
+.route-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  background: var(--bg-app);
+  animation: loader-in 160ms var(--ease-out) both;
+}
+html[data-loader="leaving"] .route-loader {
+  animation: loader-out 300ms var(--ease-in-out) both;
+}
+.route-loader-mark {
+  width: 4.5rem;
+  height: auto;
+}
+.route-loader-outline {
+  stroke-dasharray: 1;
+  animation: line-draw 460ms var(--ease-in-out) both;
+}
+.route-loader-rise {
+  transform-box: view-box;
+  transform: translateY(100%);
+  animation: loader-rise 700ms var(--ease-in-out) 160ms both;
+}
+@keyframes loader-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes loader-out {
+  from { clip-path: circle(150% at 50% 50%); }
+  to { clip-path: circle(0% at 50% 50%); }
+}
+@keyframes loader-rise {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+/* ---- Herói: frentes que convergem no plano ------------------------ */
+.hero-node circle,
+.hero-node text {
+  transition:
+    r var(--dur-base) var(--ease-out),
+    fill var(--dur-base) var(--ease-out);
+}
+.hero-pulse {
+  opacity: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero-link {
+    stroke-dasharray: 1;
+    animation: line-draw 700ms var(--ease-in-out) both;
+  }
+  .hero-pulse {
+    offset-rotate: 0deg;
+    animation: hero-pulse 3.2s var(--ease-in-out) 1.6s infinite;
+  }
+  .hero-pulse-2 {
+    animation-delay: 2.1s;
+  }
+  .hero-apex-ring {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: apex-breathe 3.2s var(--ease-in-out) 1.6s infinite;
+  }
+}
+@keyframes hero-pulse {
+  0% { offset-distance: 0%; opacity: 0; }
+  12% { opacity: 1; }
+  78% { offset-distance: 100%; opacity: 1; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+@keyframes apex-breathe {
+  0%, 70% { transform: scale(1); stroke-opacity: 0.6; }
+  85% { transform: scale(1.5); stroke-opacity: 0.15; }
+  100% { transform: scale(1); stroke-opacity: 0.6; }
+}
+
+/* ---- Índice de capítulos (Home, ≥ 1440 px) ------------------------ */
+.chapter-rail {
+  display: none;
+}
+@media (min-width: 1440px) {
+  .chapter-rail {
+    display: block;
+    position: fixed;
+    left: 1.5rem;
+    top: 50%;
+    z-index: 40;
+    transform: translate(-0.5rem, -50%);
+    opacity: 0;
+    pointer-events: none;
+    mix-blend-mode: difference;
+    color: #ffffff;
+    transition:
+      opacity 300ms var(--ease-out),
+      transform 300ms var(--ease-out);
+  }
+  .chapter-rail.is-shown {
+    opacity: 1;
+    transform: translate(0, -50%);
+    pointer-events: auto;
+  }
+}
+.chapter-rail ol {
+  position: relative;
+  display: grid;
+  gap: 0.25rem;
+  padding-left: 0.875rem;
+}
+.chapter-rail ol::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.4rem;
+  bottom: 0.4rem;
+  width: 1px;
+  background: currentColor;
+  opacity: 0.35;
+}
+.chapter-rail button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 1.75rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: inherit;
+  opacity: 0.55;
+  cursor: pointer;
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+.chapter-rail button:hover,
+.chapter-rail button:focus-visible,
+.chapter-rail button[aria-current] {
+  opacity: 1;
+}
+.chapter-num {
+  width: 1.25rem;
+  font-variant-numeric: tabular-nums;
+}
+.chapter-v {
+  width: 0.625rem;
+  height: 0.625rem;
+}
+.chapter-v path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset var(--dur-base) var(--ease-out);
+}
+.chapter-rail button[aria-current] .chapter-v path {
+  stroke-dashoffset: 0;
+}
+.chapter-label {
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: max-width 260ms var(--ease-out);
+}
+.chapter-rail:hover .chapter-label,
+.chapter-rail:focus-within .chapter-label {
+  max-width: 10rem;
+}

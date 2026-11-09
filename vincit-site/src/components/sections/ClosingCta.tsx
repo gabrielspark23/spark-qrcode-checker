@@ -29,7 +29,7 @@ export function ClosingCta({ locale, t }: { locale: Locale; t: Dict }) {
           <h2 id="final-title" className="display text-[clamp(2.75rem,1.8rem+3.6vw,4.75rem)]">{t.home.final.title}</h2>
           <p className="lead mt-6 max-w-[42ch] text-ink-2">{t.home.final.body}</p>
           <div className="mt-12 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-            <Button href={href("contact", locale)} size="lg" notch="strong" event="cta_schedule_click">
+            <Button href={href("contact", locale)} variant="shield" size="lg" notch="strong" event="cta_schedule_click">
               {t.nav.schedule}
             </Button>
             {wa ? (

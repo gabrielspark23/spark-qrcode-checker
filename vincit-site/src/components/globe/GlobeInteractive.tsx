@@ -1,17 +1,18 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import type { Feature, FeatureCollection, Geometry } from "geojson";
-import type { GeoPermissibleObjects } from "d3-geo";
-import { CAXIAS_DO_SUL, GLOBE_EVENT, ISO_BRAZIL, ISO_USA, PORTO_ALEGRE, SAN_DIEGO, VIEWS, type GlobeTarget } from "./config";
+import { CAXIAS_DO_SUL, GLOBE_EVENT, PORTO_ALEGRE, SAN_DIEGO, VIEWS, type GlobeTarget } from "./config";
 
 type Rot = [number, number, number];
 const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+const R = Math.PI / 180;
 
 /**
- * Globo interativo (canvas). Carregado sob demanda, só em dispositivos capazes.
- * - Arrastar gira; setas do teclado giram; botões externos focam EUA/Brasil ou voltam à vista inicial.
- * - Movimento automático muito sutil (oscila ±7°), pausado durante a interação e fora da tela.
+ * Globo interativo em pontos (canvas), carregado sob demanda em aparelhos capazes.
+ * - Terra como malha de pontos: Brasil em latão, EUA em tom quente claro, resto em grafite claro.
+ * - Esfera em traço fino + um segundo anel deslocado (o círculo "offset" da marca).
+ * - Arco San Diego → Porto Alegre com um pulso que percorre a rota; anéis respiram nos escritórios.
+ * - Arrastar e setas giram; botões externos focam (com zoom) San Diego, Porto Alegre, Caxias do Sul.
  */
 export default function GlobeInteractive({ label, onReady }: { label: string; onReady: () => void }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -23,26 +24,23 @@ export default function GlobeInteractive({ label, onReady }: { label: string; on
     let cleanup = () => {};
 
     (async () => {
-      const [{ geoOrthographic, geoPath, geoGraticule10 }, { feature }, worldMod] = await Promise.all([
-        import("d3-geo"),
-        import("topojson-client"),
-        import("world-atlas/countries-110m.json"),
-      ]);
+      const [{ geoOrthographic, geoPath, geoInterpolate }, dotsMod] = await Promise.all([import("d3-geo"), import("./dots.json")]);
       if (disposed) return;
-      const world = (worldMod as { default?: unknown }).default ?? worldMod;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const topo = world as any;
-      const countries = feature(topo, topo.objects.countries) as unknown as FeatureCollection<Geometry>;
-      const brazil = countries.features.find((f) => String(f.id) === ISO_BRAZIL) as Feature<Geometry>;
-      const usa = countries.features.find((f) => String(f.id) === ISO_USA) as Feature<Geometry>;
-      const others = countries.features.filter((f) => f !== brazil && f !== usa);
-      const arc: GeoPermissibleObjects = { type: "LineString", coordinates: [SAN_DIEGO, PORTO_ALEGRE] };
-      const graticule = geoGraticule10();
+      const raw = ((dotsMod as { default?: number[] }).default ?? dotsMod) as number[];
+      const n = raw.length / 3;
+      // pré-cálculo em radianos
+      const lam = new Float32Array(n), sinPhi = new Float32Array(n), cosPhi = new Float32Array(n), tag = new Uint8Array(n);
+      for (let i = 0; i < n; i++) {
+        const lon = raw[i * 3] / 10, lat = raw[i * 3 + 1] / 10;
+        lam[i] = lon * R; sinPhi[i] = Math.sin(lat * R); cosPhi[i] = Math.cos(lat * R); tag[i] = raw[i * 3 + 2];
+      }
+      const interp = geoInterpolate(SAN_DIEGO, PORTO_ALEGRE);
 
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
       const proj = geoOrthographic().clipAngle(90);
       const path = geoPath(proj, ctx);
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
       let w = 0;
       let rot: Rot = [...VIEWS.reset.rotate];
@@ -54,7 +52,6 @@ export default function GlobeInteractive({ label, onReady }: { label: string; on
       let tween: { from: Rot; to: Rot; z0: number; z1: number; t0: number; dur: number } | null = null;
       let visible = true;
       let raf = 0;
-      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
       const resize = () => {
         const rect = canvas.getBoundingClientRect();
@@ -66,38 +63,75 @@ export default function GlobeInteractive({ label, onReady }: { label: string; on
         proj.translate([w / 2, w / 2]);
       };
 
-      const draw = () => {
-        proj.rotate(rot).scale((w / 2 - 4) * zoom);
+      const front = (lonlat: [number, number]) => {
+        const [l0, p0] = [-rot[0] * R, -rot[1] * R];
+        return Math.sin(p0) * Math.sin(lonlat[1] * R) + Math.cos(p0) * Math.cos(lonlat[1] * R) * Math.cos(lonlat[0] * R - l0) > 0;
+      };
+
+      const draw = (now: number) => {
+        const radius = (w / 2 - 6) * zoom;
+        proj.rotate(rot).scale(radius);
         ctx.clearRect(0, 0, w, w);
-        // com zoom, o globo é recortado pelo círculo do palco (continua um disco)
+        const c = w / 2;
         ctx.save();
-        ctx.beginPath(); ctx.arc(w / 2, w / 2, w / 2 - 4, 0, Math.PI * 2); ctx.clip();
-        ctx.beginPath(); path({ type: "Sphere" }); ctx.fillStyle = "#1c1f25"; ctx.fill();
-        ctx.strokeStyle = "#2a2e37"; ctx.lineWidth = 1; ctx.stroke();
-        ctx.beginPath(); path(graticule); ctx.strokeStyle = "rgba(245,245,244,0.05)"; ctx.stroke();
-        ctx.beginPath(); others.forEach((f) => path(f)); ctx.fillStyle = "#2a2e37"; ctx.fill();
-        ctx.strokeStyle = "#16181d"; ctx.lineWidth = 0.5; ctx.stroke();
-        ctx.beginPath(); path(usa); ctx.fillStyle = active === "us" ? "#3d414d" : "#343843"; ctx.fill();
-        ctx.strokeStyle = active === "us" ? "rgba(245,245,244,0.7)" : "rgba(245,245,244,0.35)"; ctx.lineWidth = active === "us" ? 1.2 : 0.8; ctx.stroke();
-        const brActive = active === "poa" || active === "cxs";
-        ctx.beginPath(); path(brazil); ctx.fillStyle = brActive ? "rgba(194,162,99,0.36)" : "rgba(194,162,99,0.28)"; ctx.fill();
-        ctx.strokeStyle = "#c2a263"; ctx.lineWidth = 1; ctx.stroke();
-        ctx.beginPath(); path(arc); ctx.strokeStyle = "#c2a263"; ctx.lineWidth = 1.5; ctx.stroke();
-        const ring = (lonlat: [number, number], dot: boolean, on = false) => {
-          const [lam, phi] = proj.rotate();
-          // visível só no hemisfério da frente
-          const toRad = Math.PI / 180;
-          const cosc = Math.sin(-phi * toRad) * Math.sin(lonlat[1] * toRad) + Math.cos(-phi * toRad) * Math.cos(lonlat[1] * toRad) * Math.cos((lonlat[0] + lam) * toRad);
-          if (cosc < 0) return;
-          const p = proj(lonlat);
+        ctx.beginPath(); ctx.arc(c, c, w / 2 - 4, 0, Math.PI * 2); ctx.clip();
+
+        // pontos (projeção ortográfica direta, mais rápida que d3 por ponto)
+        const l0 = -rot[0] * R, p0 = -rot[1] * R;
+        const sp0 = Math.sin(p0), cp0 = Math.cos(p0);
+        const dotR = Math.min(3, 1.25 * Math.pow(zoom, 0.7));
+        const fills = ["rgba(176,178,186,0.62)", "#c2a263", "rgba(232,228,221,0.95)"];
+        for (let pass = 0; pass < 3; pass++) {
+          ctx.fillStyle = fills[pass];
+          ctx.beginPath();
+          for (let i = 0; i < n; i++) {
+            if (tag[i] !== pass) continue;
+            const dl = lam[i] - l0;
+            const cosc = sp0 * sinPhi[i] + cp0 * cosPhi[i] * Math.cos(dl);
+            if (cosc <= 0) continue;
+            const x = c + radius * cosPhi[i] * Math.sin(dl);
+            const y = c - radius * (cp0 * sinPhi[i] - sp0 * cosPhi[i] * Math.cos(dl));
+            if (x < -4 || x > w + 4 || y < -4 || y > w + 4) continue;
+            // pontos perto da borda encolhem: sensação de volume sem sombra
+            const r = dotR * (0.45 + 0.55 * cosc);
+            ctx.moveTo(x + r, y);
+            ctx.arc(x, y, r, 0, Math.PI * 2);
+          }
+          ctx.fill();
+        }
+
+        // arco + pulso que percorre a rota
+        ctx.beginPath(); path({ type: "LineString", coordinates: [SAN_DIEGO, PORTO_ALEGRE] });
+        ctx.strokeStyle = "rgba(194,162,99,0.6)"; ctx.lineWidth = 1.25; ctx.stroke();
+        if (!reduced) {
+          const t = ((now / 3600) % 1);
+          const seg: [number, number][] = [];
+          for (let k = 0; k <= 12; k++) seg.push(interp(Math.max(0, Math.min(1, t - 0.14 + (k / 12) * 0.14))) as [number, number]);
+          ctx.beginPath(); path({ type: "LineString", coordinates: seg });
+          ctx.strokeStyle = "#d4bc8b"; ctx.lineWidth = 2; ctx.stroke();
+        }
+
+        // escritórios: ponto + anel que respira
+        const breathe = reduced ? 0.5 : (Math.sin(now / 700) + 1) / 2;
+        const city = (ll: [number, number], main: boolean, on: boolean) => {
+          if (!front(ll)) return;
+          const p = proj(ll);
           if (!p) return;
-          if (on || dot) { ctx.beginPath(); ctx.arc(p[0], p[1], on ? 12 : 9, 0, Math.PI * 2); ctx.strokeStyle = on ? "rgba(194,162,99,0.9)" : "rgba(194,162,99,0.55)"; ctx.lineWidth = 1; ctx.stroke(); }
-          ctx.beginPath(); ctx.arc(p[0], p[1], dot ? 4 : 3, 0, Math.PI * 2); ctx.fillStyle = dot ? "#c2a263" : "#f5f5f4"; ctx.fill();
+          ctx.beginPath(); ctx.arc(p[0], p[1], (on ? 13 : 9) + breathe * 3, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(194,162,99,${on ? 0.85 : 0.35 + 0.25 * (1 - breathe)})`; ctx.lineWidth = 1; ctx.stroke();
+          ctx.beginPath(); ctx.arc(p[0], p[1], main ? 3.5 : 2.6, 0, Math.PI * 2);
+          ctx.fillStyle = main ? "#c2a263" : "#f5f5f4"; ctx.fill();
         };
-        ring(SAN_DIEGO, true, active === "us");
-        ring(CAXIAS_DO_SUL, false, active === "cxs");
-        ring(PORTO_ALEGRE, true, active === "poa");
+        city(SAN_DIEGO, true, active === "us");
+        city(CAXIAS_DO_SUL, false, active === "cxs");
+        city(PORTO_ALEGRE, true, active === "poa");
         ctx.restore();
+
+        // esfera: traço fino + anel deslocado (o círculo "offset" da marca)
+        ctx.beginPath(); ctx.arc(c, c, w / 2 - 4, 0, Math.PI * 2);
+        ctx.strokeStyle = "#2a2e37"; ctx.lineWidth = 1; ctx.stroke();
+        ctx.beginPath(); ctx.arc(c + w * 0.028, c - w * 0.022, w / 2 - 4, 0, Math.PI * 2);
+        ctx.strokeStyle = "rgba(194,162,99,0.22)"; ctx.stroke();
       };
 
       const loop = (now: number) => {
@@ -108,24 +142,23 @@ export default function GlobeInteractive({ label, onReady }: { label: string; on
           rot = tween.from.map((v, i) => v + (tween!.to[i] - v) * e) as Rot;
           zoom = tween.z0 + (tween.z1 - tween.z0) * e;
           if (k >= 1) { base = [...tween.to]; tween = null; }
-        } else if (!dragging && !reduced && now - lastInteract > 3500) {
-          // deriva muito sutil em torno da vista atual
-          if (zoom < 1.05) rot = [base[0] + Math.sin(now / 5200) * 7, base[1], 0];
+        } else if (!dragging && !reduced && zoom < 1.05 && now - lastInteract > 3500) {
+          rot = [base[0] + Math.sin(now / 6000) * 6, base[1], 0];
         }
-        draw();
-        if (visible && !disposed && (!reduced || tween || dragging)) raf = requestAnimationFrame(loop);
+        draw(now);
+        if (visible && !disposed && !reduced) raf = requestAnimationFrame(loop);
+        else if (visible && !disposed && (tween || dragging)) raf = requestAnimationFrame(loop);
       };
       const kick = () => { if (!raf) raf = requestAnimationFrame(loop); };
 
       const goTo = (target: GlobeTarget) => {
         active = target;
         const v = VIEWS[target];
-        tween = { from: [...rot], to: [...v.rotate], z0: zoom, z1: v.zoom, t0: performance.now(), dur: reduced ? 1 : 900 };
+        tween = { from: [...rot], to: [...v.rotate], z0: zoom, z1: v.zoom, t0: performance.now(), dur: reduced ? 1 : 1000 };
         lastInteract = performance.now();
         kick();
       };
 
-      // Arrastar
       let start: { x: number; y: number; rot: Rot } | null = null;
       const onDown = (e: PointerEvent) => {
         dragging = true; tween = null;
@@ -169,7 +202,7 @@ export default function GlobeInteractive({ label, onReady }: { label: string; on
       io.observe(canvas);
       ro.observe(canvas);
       resize();
-      draw();
+      draw(performance.now());
       canvas.dataset.ready = "";
       onReady();
       kick();

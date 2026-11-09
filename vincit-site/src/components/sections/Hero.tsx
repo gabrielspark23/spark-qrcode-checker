@@ -19,6 +19,7 @@ export function Hero({ locale, t }: { locale: Locale; t: Dict }) {
           usLabel={pt ? "EUA · SAN DIEGO" : "U.S. · SAN DIEGO"}
           brLabel={pt ? "BRASIL" : "BRAZIL"}
           planLabel={pt ? "UM PLANO" : "ONE PLAN"}
+          disciplines={h.index}
         />
       </div>
 
@@ -33,7 +34,7 @@ export function Hero({ locale, t }: { locale: Locale; t: Dict }) {
           </h1>
           <p className="lead enter enter-2 mt-8 max-w-[50ch] text-ink-2">{h.subtitle}</p>
           <div className="enter enter-3 mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
-            <Button href={href("contact", locale)} size="lg" notch="strong" event="cta_schedule_click">
+            <Button href={href("contact", locale)} variant="shield" size="lg" notch="strong" event="cta_schedule_click">
               {t.nav.schedule}
             </Button>
             {wa ? (
@@ -51,6 +52,7 @@ export function Hero({ locale, t }: { locale: Locale; t: Dict }) {
             usLabel={pt ? "EUA · SAN DIEGO" : "U.S. · SAN DIEGO"}
             brLabel={pt ? "BRASIL" : "BRAZIL"}
             planLabel={pt ? "UM PLANO" : "ONE PLAN"}
+            disciplines={h.index}
           />
         </div>
 

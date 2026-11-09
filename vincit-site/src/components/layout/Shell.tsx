@@ -3,6 +3,7 @@ import "@/app/globals.css";
 import { SiteHeader } from "./SiteHeader";
 import { SiteFooter } from "./SiteFooter";
 import { EventDelegate } from "./EventDelegate";
+import { RouteLoader } from "./RouteLoader";
 import { getDict } from "@/content";
 import { htmlLang, type Locale } from "@/lib/i18n";
 import { orgJsonLd } from "@/lib/meta";
@@ -21,6 +22,7 @@ export function Shell({ locale, children }: { locale: Locale; children: ReactNod
         </main>
         <SiteFooter locale={locale} t={t} />
         <EventDelegate />
+        <RouteLoader />
       </body>
     </html>
   );

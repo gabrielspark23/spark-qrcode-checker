@@ -13,9 +13,9 @@ export const ISO_USA = "840";
 export type View = { rotate: [number, number, number]; zoom: number };
 export const VIEWS = {
   reset: { rotate: [86, -2, 0], zoom: 1 },
-  us: { rotate: [112, -28, 0], zoom: 1.6 },
-  poa: { rotate: [51.2, 30, 0], zoom: 3.2 },
-  cxs: { rotate: [51.2, 29.2, 0], zoom: 3.2 },
+  us: { rotate: [112, -30, 0], zoom: 1.5 },
+  poa: { rotate: [51.2, 30, 0], zoom: 2.3 },
+  cxs: { rotate: [51.2, 29.2, 0], zoom: 2.3 },
 } satisfies Record<string, View>;
 
 export type GlobeTarget = keyof typeof VIEWS;

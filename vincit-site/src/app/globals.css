@@ -2378,41 +2378,40 @@ form ::selection { background: rgb(194 162 99 / 0.35); color: var(--text-primary
 .ed-index { color: var(--text-primary); transition: color 240ms var(--ease-out), padding 300ms var(--ease-out); }
 .ed-index:hover, .ed-index:focus-visible { color: var(--color-gold); padding-left: 0.5rem; }
 
-/* ---- Confirmação premium: latão abre do botão, a pedra cobre e fica o cartão ---- */
-.takeover-card { background: var(--color-gold); color: var(--text-primary); }
-.takeover-card .tk-stone { position: absolute; inset: 0; background: var(--bg-app); }
-.tk-card { background: var(--color-gold); border-radius: 3rem 0.5rem 3rem 0.5rem; }
-.tk-card-rule {
-  position: absolute; inset: 0;
-  border: 1px solid rgb(22 24 29 / 0.35);
-  border-radius: 3rem 0.5rem 3rem 0.5rem;
-  translate: -0.9rem 0.9rem;
-  pointer-events: none;
+/* ---- Confirmação: carta assinada sobre a pedra ---- */
+.takeover-letter { background: var(--color-gold); color: var(--text-primary); }
+.takeover-letter .tk-stone { position: absolute; inset: 0; background: #e9e5dd; }
+.tk-letter {
+  background: #fbfaf7;
+  rotate: -0.8deg;
+  box-shadow: 0 2px 0 rgb(22 24 29 / 0.04), 0 40px 80px -40px rgb(22 24 29 / 0.45), 0 18px 30px -24px rgb(22 24 29 / 0.25);
 }
-.takeover-card .tk-title .tk-line { overflow: hidden; padding-bottom: 0.06em; }
-.takeover-card .tk-mark-line { stroke-dasharray: 1; stroke-dashoffset: 0; }
-.tk-btn {
-  display: inline-flex; align-items: center; min-height: 3rem; padding: 0 1.5rem;
-  border-radius: 9999px; background: #16181d; color: var(--color-gold);
-  font-size: 0.9375rem; font-weight: 600;
-  transition: background-color 300ms var(--ease-out), color 300ms var(--ease-out);
+@media (max-width: 639px) { .tk-letter { rotate: 0deg; } }
+/* grão de papel, bem sutil */
+.tk-letter-grain {
+  position: absolute; inset: 0; pointer-events: none; opacity: 0.7;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .25 0 0 0 0 .2 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
-.tk-btn:hover, .tk-btn:focus-visible { background: var(--color-gold); color: #16181d; }
-.takeover-card a:focus-visible, .tk-btn:focus-visible { outline: 2px solid #16181d; outline-offset: 3px; }
+/* filete interno em latão: moldura de papelaria fina */
+.tk-letter-edge { position: absolute; inset: 0.75rem; border: 1px solid rgb(194 162 99 / 0.55); pointer-events: none; }
+@media (min-width: 640px) { .tk-letter-edge { inset: 1.125rem; } }
+.tk-sign path { stroke-dasharray: 1; stroke-dashoffset: 0; }
 @media (prefers-reduced-motion: no-preference) {
-  .takeover-card .tk-stone { animation: tk-curtain 1000ms var(--ease-in-out) 1050ms both; }
-  .takeover-card .tk-card { animation: tk-card 900ms var(--ease-out) 1500ms both; }
-  .takeover-card .tk-card-rule { animation: tk-fade 700ms var(--ease-out) 2100ms both; }
-  .takeover-card .tk-mark { opacity: 1; animation: none; }
-  .takeover-card .tk-mark-line { animation: tk-draw 900ms var(--ease-in-out) 1900ms both; }
-  .takeover-card .tk-mark-fill { animation: tk-fade 600ms var(--ease-out) 2600ms both; }
-  .takeover-card .tk-title .tk-line { animation: ed-in 1000ms var(--ease-out) 1700ms both; }
-  .takeover-card .tk-title .tk-line-2 { animation-delay: 1900ms; }
-  .takeover-card .tk-1 { animation-delay: 1600ms; }
-  .takeover-card .tk-2 { animation-delay: 2200ms; }
-  .takeover-card .tk-4 { animation-delay: 2400ms; }
+  .takeover-letter .tk-stone { animation: tk-curtain 900ms var(--ease-in-out) 1000ms both; }
+  .takeover-letter .tk-letter { animation: tk-paper 1500ms cubic-bezier(0.22, 0.8, 0.24, 1) 1500ms both; }
+  .takeover-letter .tk-letter-edge { animation: tk-fade 800ms var(--ease-out) 2300ms both; }
+  .takeover-letter .tk-l1 { animation: rise 800ms var(--ease-out) 2200ms both; }
+  .takeover-letter .tk-l2 { animation: rise 800ms var(--ease-out) 2450ms both; }
+  .takeover-letter .tk-l3 { animation: rise 700ms var(--ease-out) 2800ms both; }
+  .takeover-letter .tk-sign path { animation: tk-draw 1600ms var(--ease-in-out) 3000ms both; }
+  .takeover-letter .tk-actions { animation: rise 700ms var(--ease-out) 3600ms both; }
+}
+@keyframes tk-paper {
+  0% { opacity: 0; translate: 6% 70vh; rotate: 9deg; scale: 0.94; box-shadow: 0 0 0 rgb(22 24 29 / 0); }
+  12% { opacity: 1; }
+  70% { translate: 0 -0.6rem; rotate: -1.6deg; scale: 1.005; }
+  100% { opacity: 1; translate: 0 0; rotate: -0.8deg; scale: 1; }
 }
 @keyframes tk-curtain { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
-@keyframes tk-card { from { clip-path: inset(0 0 100% 0 round 3rem 0.5rem 3rem 0.5rem); translate: 0 1.5rem; } to { clip-path: inset(0 0 0 0 round 3rem 0.5rem 3rem 0.5rem); translate: 0 0; } }
 @keyframes tk-fade { from { opacity: 0; } to { opacity: 1; } }
 @keyframes tk-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }

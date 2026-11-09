@@ -4,9 +4,8 @@ import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { MARK_PATH, MARK_VIEWBOX, SHIELD_OUTLINE_PATH } from "@/lib/brand-geometry";
+import { MARK_PATH, MARK_VIEWBOX } from "@/lib/brand-geometry";
 import { href, type Locale } from "@/lib/i18n";
-import { site } from "@/lib/site";
 import type { Dict } from "@/content";
 
 /**
@@ -49,72 +48,63 @@ export function SuccessTakeover({
 
   const first = name?.trim().split(/\s+/)[0];
   const date = new Intl.DateTimeFormat(locale === "pt" ? "pt-BR" : "en-US", { day: "numeric", month: "long", year: "numeric" }).format(new Date());
-  const thanksWord = s.thanks.replace(/[.!]$/, first ? "," : ".");
   return createPortal(
     <div
-      className="takeover takeover-card absolute inset-0 z-30"
+      className="takeover takeover-letter absolute inset-0 z-30"
       data-tone="light"
       style={{ "--ox": `${origin.x}px`, "--oy": `${origin.y}px` } as React.CSSProperties}
       role="status"
       aria-live="polite"
     >
-      {/* a pedra cobre o latão de cima para baixo; o latão "se recolhe" e fica só o cartão */}
       <span className="tk-stone" aria-hidden />
 
-      <div className="relative flex min-h-svh items-center px-5 pb-20 pt-28 sm:px-12 sm:pt-32">
-        <div className="mx-auto grid w-full max-w-6xl items-center gap-14 lg:grid-cols-12 lg:gap-10">
-          {/* esquerda: o agradecimento */}
-          <div className="lg:col-span-6">
-            <p className="tk-in tk-1 eyebrow flex items-center gap-3 text-ink-3">
-              <span className="h-px w-8 bg-brass" aria-hidden />
-              {s.receivedOn} · {date}
-            </p>
-            <h2 ref={titleRef} tabIndex={-1} className="tk-title display mt-8 leading-[0.92] outline-none">
-              <span className="tk-line block text-[clamp(3.5rem,2rem+6vw,7.5rem)]">{thanksWord}</span>
-              {first ? <span className="tk-line tk-line-2 block text-[clamp(3.5rem,2rem+6vw,7.5rem)] text-[#8a6d3b]">{first}.</span> : null}
-            </h2>
-            <p className="tk-in tk-2 mt-8 max-w-[36ch] text-[1.125rem] leading-relaxed text-ink-2">{s.received}</p>
-
-            <div className="tk-in tk-4 mt-12 flex flex-wrap items-center gap-x-8 gap-y-5">
-              <button type="button" onClick={onReset} className="tk-btn">
-                <span>{s.again}</span>
-              </button>
-              <Link href={href("home", locale)} className="link-arrow text-ink">
-                <span>{s.home}</span>
-                <ArrowUpRight className="h-4 w-4" strokeWidth={1.75} aria-hidden />
-              </Link>
-              <a href={site.instagram} target="_blank" rel="noopener noreferrer" className="link-arrow text-ink-2 hover:text-ink">
-                <span>@vincit.capital</span>
-                <ArrowUpRight className="h-4 w-4" strokeWidth={1.75} aria-hidden />
-              </a>
-            </div>
-          </div>
-
-          {/* direita: o cartão em latão */}
-          <div className="relative lg:col-span-5 lg:col-start-8">
-            <span className="tk-card-rule" aria-hidden />
-            <div className="tk-card relative p-8 text-[#16181d] sm:p-10">
-              <div className="flex items-start justify-between gap-6">
-                <svg viewBox={MARK_VIEWBOX} className="tk-mark h-14 w-auto" aria-hidden>
-                  <path className="tk-mark-line" d={SHIELD_OUTLINE_PATH} pathLength={1} fill="none" stroke="#16181d" strokeWidth="7" />
-                  <path className="tk-mark-fill" d={MARK_PATH} fill="#16181d" />
+      <div className="relative flex min-h-svh flex-col items-center justify-center px-4 pb-16 pt-28 sm:px-8 sm:pt-32">
+        {/* a carta */}
+        <article className="tk-letter relative w-full max-w-[52rem]">
+          <span className="tk-letter-grain" aria-hidden />
+          <span className="tk-letter-edge" aria-hidden />
+          <div className="relative px-7 py-10 sm:px-16 sm:py-16 lg:px-20 lg:py-20">
+            {/* timbre */}
+            <header className="flex flex-col gap-5 border-b border-[#c2a263] pb-7 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-center gap-4">
+                <svg viewBox={MARK_VIEWBOX} className="h-12 w-auto" aria-hidden>
+                  <path d={MARK_PATH} fill="var(--color-gold)" />
                 </svg>
-                <span className="text-right text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#16181d]/70">Vincit<br />Capital</span>
+                <span className="text-[0.8125rem] font-semibold uppercase tracking-[0.28em]">Vincit Capital</span>
               </div>
-              <p className="mt-10 font-serif text-[1.5rem] leading-snug">{s.note}</p>
-              <p className="mt-5 text-sm tracking-wide text-[#16181d]/75">{s.signature}</p>
+              <span className="text-[0.75rem] font-semibold uppercase tracking-[0.2em] text-ink-3">San Diego · {date}</span>
+            </header>
 
-              <p className="mt-10 border-t border-[#16181d]/25 pt-6 text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-[#16181d]/70">{s.body}</p>
-              <ol className="mt-5 space-y-4">
-                {s.steps.map((step, i) => (
-                  <li key={step} className="flex gap-4 text-[0.9375rem] leading-relaxed">
-                    <span className="font-serif text-lg tabular-nums leading-snug">{String(i + 1).padStart(2, "0")}</span>
-                    <span>{step}</span>
-                  </li>
-                ))}
-              </ol>
-            </div>
+            <h2 ref={titleRef} tabIndex={-1} className="tk-l1 mt-12 font-serif text-[clamp(2.5rem,1.8rem+2.4vw,3.75rem)] leading-tight outline-none">
+              {first ? s.dear.replace("{name}", first) : s.dearNoName}
+            </h2>
+            <p className="tk-l2 mt-6 max-w-[40ch] font-serif text-[clamp(1.375rem,1.15rem+0.8vw,1.875rem)] leading-[1.5] text-[#3b3632]">
+              {s.letter}
+            </p>
+
+            <p className="tk-l3 mt-12 font-serif text-[1.25rem] italic text-[#3b3632]">{s.closing}</p>
+            <svg className="tk-sign mt-2 -ml-1 w-[16rem] sm:w-[19rem]" viewBox="0 0 300 90" fill="none" aria-hidden>
+              <path
+                pathLength={1}
+                d="M8 62 C30 20 46 18 44 44 C42 64 30 70 40 56 C56 30 70 30 66 52 C64 66 78 60 90 44 C100 30 104 50 112 54 C126 60 132 30 146 34 C160 38 150 62 168 58 C186 54 196 26 214 30 C232 34 220 64 246 58 C262 54 272 44 292 40"
+                stroke="#a68545"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+              />
+            </svg>
+            <p className="tk-l3 mt-1 text-[0.75rem] font-semibold uppercase tracking-[0.22em] text-ink-3">{s.signature}</p>
           </div>
+        </article>
+
+        {/* ações, fora da carta */}
+        <div className="tk-actions mt-12 flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
+          <Link href={href("home", locale)} className="link-arrow text-ink">
+            <span>{s.home}</span>
+            <ArrowUpRight className="h-4 w-4" strokeWidth={1.75} aria-hidden />
+          </Link>
+          <button type="button" onClick={onReset} className="link-arrow text-ink-2 hover:text-ink">
+            <span>{s.again}</span>
+          </button>
         </div>
       </div>
     </div>,

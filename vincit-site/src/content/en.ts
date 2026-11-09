@@ -56,6 +56,7 @@ export const en = {
       titleB: "not just your money.",
       subtitle:
         "Independent, bilingual wealth and protection planning for families and business owners between Brazil and the United States.",
+      photoAlt: "Three generations of a family sitting on the beach, watching the sunset over the ocean.",
       index: ["Planning", "Protection", "Wealth & Retirement", "Tax Strategy", "Offshore & Cross-Border", "Estate & Trust"],
       indexLabel: "One plan, six disciplines",
       facts: [

@@ -1732,3 +1732,44 @@ html[data-loader="leaving"] .route-loader {
 @media (prefers-reduced-motion: reduce) {
   .manifesto-btn, .manifesto-ring, .manifesto-play img { transition: none !important; }
 }
+
+/* ---- Herói editorial: fotografia larga alinhada ao texto e sangrando à direita ---- */
+.hero-photo-wrap {
+  margin-left: max(1.25rem, calc((100vw - 80rem) / 2 + 1.25rem));
+}
+@media (min-width: 640px) {
+  .hero-photo-wrap { margin-left: max(2rem, calc((100vw - 80rem) / 2 + 2rem)); }
+}
+.hero-photo {
+  --hp: 0;
+  aspect-ratio: 4 / 5;
+  border-radius: 2px 0 0 2px;
+}
+@media (min-width: 640px) {
+  .hero-photo { aspect-ratio: auto; height: clamp(22rem, 66vh, 44rem); }
+}
+.hero-photo-img {
+  top: -7%;
+  height: 114%;
+  object-position: 50% 62%;
+  translate: 0 calc(var(--hp) * 6%);
+  will-change: translate;
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* entrada: a moldura abre de baixo para cima e a foto assenta; espera o loader da marca */
+  .hero-photo { animation: hero-mask 1300ms var(--ease-in-out) 450ms both; }
+  .hero-photo-img { animation: hero-settle 1800ms var(--ease-out) 450ms both; }
+  .hero-title > span { animation: rise 700ms var(--ease-out) both; }
+  .hero-title > span + span { animation-delay: 90ms; }
+}
+@keyframes hero-mask {
+  from { clip-path: inset(100% 0 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes hero-settle {
+  from { scale: 1.06; }
+  to { scale: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-photo-img { translate: none; }
+}

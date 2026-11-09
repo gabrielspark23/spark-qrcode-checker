@@ -95,3 +95,20 @@ Editorial Luxury + Geometric Brand Language + Scroll-Driven Storytelling".
 - Sobre: seção "Nosso manifesto" com o vídeo oficial do YouTube (`wVIGLRQBq4U`, canal Vincit Capital).
   Capa servida pelo site; o player (youtube-nocookie) só carrega no clique. **Confirmar com o Ricardo** o
   uso no site americano.
+
+## 9. Home editorial — novo herói (referência Glenmede)
+
+- Herói: título serifado à esquerda (3 linhas), posicionamento + convite à direita alinhados à base do título;
+  fotografia larga abaixo, alinhada ao texto e sangrando até a borda direita. Saiu a peça geométrica com os
+  seis serviços (`HeroComposition`, removido). Headline e posicionamento aprovados mantidos, sem itálico.
+- Movimento: máscara de baixo para cima + foto assentando de 1,06 → 1 na entrada; parallax curto (~6%) na rolagem.
+  Movimento reduzido: foto parada.
+- Fotografia escolhida: **"Family Enjoying Sunset on Sandy Beach"**, iddea photo (pexels.com/@alena),
+  https://www.pexels.com/photo/family-enjoying-sunset-on-sandy-beach-32936536/ — 6720×4480, Licença Pexels
+  (uso comercial gratuito, sem atribuição obrigatória; proibido sugerir endosso das pessoas retratadas).
+  Arquivos: `public/images/hero-life.webp` (larga) e `hero-life-portrait.webp` (4:5, celular).
+- Alternativas avaliadas: costa na hora dourada (Pixabay via Pexels, 276918); terraço moderno com vista para o mar
+  (Ben Mack, 6775268) — **descartado**: o perfil do autor pede contato para uso comercial. Arquitetura pura foi
+  descartada a pedido do cliente.
+- Ordem da Home mantida (o círculo leva ao globo, como aprovado). A ordem do briefing (Quem somos → Expertise →
+  Quem atendemos → C-Reveal → Globo → Processo) fica como proposta.

@@ -54,6 +54,7 @@ export const pt: Dict = {
       titleB: "não apenas do seu dinheiro.",
       subtitle:
         "Planejamento patrimonial e de proteção, independente e bilíngue, para famílias e empresários entre o Brasil e os Estados Unidos.",
+      photoAlt: "Três gerações de uma família sentadas na praia, olhando o pôr do sol sobre o mar.",
       index: ["Planejamento", "Proteção", "Patrimônio e Aposentadoria", "Estratégia Tributária", "Offshore e Cross-Border", "Sucessão e Trust"],
       indexLabel: "Um plano, seis frentes",
       facts: [

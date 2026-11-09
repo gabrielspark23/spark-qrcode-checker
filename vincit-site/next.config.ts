@@ -3,6 +3,9 @@ import type { NextConfig } from "next";
 const OS_LOGIN_URL = process.env.NEXT_PUBLIC_OS_LOGIN_URL ?? "https://vincit-os.vercel.app/login";
 
 const nextConfig: NextConfig = {
+  // O site vive dentro de outro repositório: fixa a raiz aqui para o Turbopack
+  // não observar o repositório pai inteiro (causava estouro de memória no dev).
+  turbopack: { root: process.cwd() },
   experimental: {
     // Duas root layouts (EN e PT) → 404 global com <html> próprio.
     globalNotFound: true,

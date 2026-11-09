@@ -1655,8 +1655,8 @@ html[data-loader="leaving"] .route-loader {
   transition: background-color var(--dur-base) var(--ease-out);
 }
 
-/* ---- Liderança: o cartão se inverte quando o LinkedIn recebe o mouse/foco ----
-   Um círculo claro nasce do próprio link (canto inferior esquerdo) e cresce até cobrir o cartão;
+/* ---- Liderança: o cartão se inverte no hover/foco do cartão (nome, cargo ou LinkedIn) ----
+   Hover/foco no cartão inteiro: um círculo claro nasce do canto do link e cresce até cobrir o cartão;
    o texto troca de cor quando a borda do círculo passa por ele: link → cargo → nome → número.
    Na saída o círculo recolhe mais rápido e o texto volta na ordem inversa. */
 .leader-card {
@@ -1684,26 +1684,26 @@ html[data-loader="leaving"] .route-loader {
 .leader-card .lc-role { transition-delay: 120ms; }
 .leader-card .lc-link { transition-delay: 180ms; }
 
-.leader-card:has(.lc-link:hover, .lc-link:focus-visible)::before {
+.leader-card:is(:hover, :focus-within)::before {
   clip-path: circle(150% at var(--lc-o));
   transition: clip-path 900ms var(--ease-in-out);
 }
 /* entrada: acompanha a borda do círculo, de baixo para cima */
-.leader-card:has(.lc-link:hover, .lc-link:focus-visible) .lc-link { color: var(--text-primary); transition-delay: 150ms; }
-.leader-card:has(.lc-link:hover, .lc-link:focus-visible) .lc-role { color: var(--text-secondary); transition-delay: 260ms; } /* latão sobre branco não tem contraste */
-.leader-card:has(.lc-link:hover, .lc-link:focus-visible) .lc-name { color: var(--text-primary); transition-delay: 330ms; }
-.leader-card:has(.lc-link:hover, .lc-link:focus-visible) .lc-num { color: var(--text-muted); transition-delay: 420ms; }
+.leader-card:is(:hover, :focus-within) .lc-link { color: var(--text-primary); transition-delay: 150ms; }
+.leader-card:is(:hover, :focus-within) .lc-role { color: var(--text-secondary); transition-delay: 260ms; } /* latão sobre branco não tem contraste */
+.leader-card:is(:hover, :focus-within) .lc-name { color: var(--text-primary); transition-delay: 330ms; }
+.leader-card:is(:hover, :focus-within) .lc-num { color: var(--text-muted); transition-delay: 420ms; }
 .leader-card .lc-link:focus-visible {
   outline-color: var(--primary);
 }
 @media (prefers-reduced-motion: reduce) {
   .leader-card::before,
-  .leader-card:has(.lc-link:hover, .lc-link:focus-visible)::before {
+  .leader-card:is(:hover, :focus-within)::before {
     clip-path: none;
     opacity: 0;
     transition: opacity 200ms linear;
   }
-  .leader-card:has(.lc-link:hover, .lc-link:focus-visible)::before { opacity: 1; }
+  .leader-card:is(:hover, :focus-within)::before { opacity: 1; }
   .leader-card :is(.lc-num, .lc-name, .lc-role, .lc-link) { transition-delay: 0ms !important; }
 }
 

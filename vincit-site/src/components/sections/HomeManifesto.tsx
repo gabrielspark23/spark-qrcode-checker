@@ -3,11 +3,14 @@ import { ManifestoVideo } from "./ManifestoVideo";
 import type { Locale } from "@/lib/i18n";
 import type { Dict } from "@/content";
 
-/** Fechamento da Home: o manifesto da Vincit sobre o fundo claro — frase à esquerda, vídeo oficial à direita. */
+/**
+ * Fechamento da Home: o manifesto da Vincit sobre o fundo claro — frase à esquerda, vídeo oficial à direita.
+ * A faixa clara sobe um pouco sobre o grafite com cantos superiores arredondados: transição suave, sem quina.
+ */
 export function HomeManifesto({ locale, t }: { locale: Locale; t: Dict }) {
   const m = t.about.manifesto;
   return (
-    <section className="bg-app py-24 sm:py-32" aria-labelledby="manifesto-home-title">
+    <section className="relative z-10 -mt-7 rounded-t-[1.75rem] bg-app py-24 sm:-mt-10 sm:rounded-t-[2.5rem] sm:py-32" aria-labelledby="manifesto-home-title">
       <Container>
         <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-4">

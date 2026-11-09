@@ -2236,11 +2236,63 @@ form ::selection { background: rgb(194 162 99 / 0.35); color: var(--text-primary
 .sc-cell[data-active] .sc-cell-bar { opacity: 1; }
 
 /* capítulo: superfície muda quando está em leitura */
-.sc-chapter { background: var(--bg-app); transition: background-color 700ms var(--ease-out); }
-.sc-chapter[data-active] { background: #f4f1eb; }
-.sc-rule { position: absolute; left: 0; right: 0; top: 0; height: 1px; background: var(--border-soft); transform-origin: left; }
+/* superfícies dos capítulos: cada tom define fundo, texto, filetes e acento */
+.sc-chapter {
+  position: relative;
+  --sc-bg: var(--bg-app);
+  --sc-bg-active: #f4f1eb;
+  --sc-main: var(--text-primary);
+  --sc-sub: var(--text-secondary);
+  --sc-muted: var(--text-muted);
+  --sc-line: var(--border-soft);
+  --sc-rule-on: var(--color-gold);
+  --sc-accent: var(--color-gold);
+  background: var(--sc-bg);
+  color: var(--sc-main);
+  transition: background-color 700ms var(--ease-out);
+}
+.sc-chapter[data-tone="dark"] {
+  --sc-bg: var(--color-navy);
+  --sc-bg-active: #1d2027;
+  --sc-main: var(--text-on-dark);
+  --sc-sub: rgb(245 245 244 / 0.74);
+  --sc-muted: rgb(245 245 244 / 0.55);
+  --sc-line: rgb(245 245 244 / 0.14);
+}
+.sc-chapter[data-tone="gold"] {
+  --sc-bg: var(--color-gold);
+  --sc-bg-active: #b9985a;
+  --sc-main: #16181d;
+  --sc-sub: rgb(22 24 29 / 0.8);
+  --sc-muted: rgb(22 24 29 / 0.62);
+  --sc-line: rgb(22 24 29 / 0.22);
+  --sc-rule-on: #16181d;
+  --sc-accent: #16181d;
+}
+/* escuros e dourados sobem sobre o anterior com cantos arredondados */
+.sc-chapter[data-tone="dark"],
+.sc-chapter[data-tone="gold"] { margin-top: -1.75rem; border-radius: 1.75rem 1.75rem 0 0; z-index: 1; }
+.sc-chapter[data-tone="light"]:not(:nth-of-type(1)) { margin-top: -1.75rem; border-radius: 1.75rem 1.75rem 0 0; z-index: 1; }
+@media (min-width: 640px) {
+  .sc-chapter[data-tone="dark"],
+  .sc-chapter[data-tone="gold"],
+  .sc-chapter[data-tone="light"]:not(:nth-of-type(1)) { margin-top: -2.5rem; border-radius: 2.5rem 2.5rem 0 0; }
+}
+.sc-chapter > div { padding-top: 1.25rem; }
+.sc-chapter[data-active] { background: var(--sc-bg-active); }
+.sc-main { color: var(--sc-main); }
+.sc-sub { color: var(--sc-sub); }
+.sc-muted { color: var(--sc-muted); }
+.sc-divider { border-color: var(--sc-line); }
+.sc-rule { position: absolute; left: 0; right: 0; top: 0; height: 1px; background: var(--sc-line); transform-origin: left; }
 .sc-from-right .sc-rule { transform-origin: right; }
-.sc-chapter[data-active] .sc-rule { background: var(--color-gold); }
+.sc-chapter[data-active] .sc-rule { background: var(--sc-rule-on); }
+.sc-chapter .sc-toggle { color: var(--sc-main); }
+.sc-chapter .sc-toggle-icon { border-color: var(--sc-line); }
+.sc-chapter[data-tone="dark"] .sc-toggle:hover .sc-toggle-icon,
+.sc-chapter[data-tone="dark"] .sc-toggle:focus-visible .sc-toggle-icon { background: var(--color-gold); border-color: var(--color-gold); color: #16181d; }
+.sc-chapter[data-tone="gold"] .sc-toggle:focus-visible,
+.sc-chapter[data-tone="gold"] a:focus-visible { outline-color: #16181d; }
 .sc-title { overflow: hidden; padding-bottom: 0.12em; }
 
 /* "o que fazemos": expansão controlada (sem JS fica aberto) */
@@ -2249,7 +2301,6 @@ form ::selection { background: rgb(194 162 99 / 0.35); color: var(--text-primary
 .sc-root[data-js] .sc-panel { grid-template-rows: 0fr; transition: grid-template-rows 560ms var(--ease-in-out); }
 .sc-root[data-js] .sc-panel[data-open] { grid-template-rows: 1fr; }
 .sc-root:not([data-js]) .sc-toggle { display: none; }
-.sc-toggle { color: var(--text-primary); }
 .sc-toggle-icon { position: relative; width: 1.75rem; height: 1.75rem; border-radius: 9999px; border: 1px solid var(--border-rule); transition: background-color 300ms var(--ease-out), border-color 300ms var(--ease-out); }
 .sc-toggle-icon::before, .sc-toggle-icon::after { content: ""; position: absolute; left: 50%; top: 50%; width: 0.7rem; height: 1px; background: currentColor; translate: -50% -50%; transition: rotate 360ms var(--ease-out); }
 .sc-toggle-icon::after { rotate: 90deg; }

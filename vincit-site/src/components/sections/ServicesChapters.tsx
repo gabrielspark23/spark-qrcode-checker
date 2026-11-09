@@ -19,12 +19,18 @@ type Labels = {
 
 const num = (i: number) => String(i + 1).padStart(2, "0");
 
+/** Superfícies em sequência: pedra clara → grafite → latão (o dourado escuro da marca, com texto grafite). */
+const TONES = ["light", "dark", "gold"] as const;
+type Tone = (typeof TONES)[number];
+
 /**
  * Serviços como capítulos de uma mesma estrutura (inspiração editorial em grade, adaptada à Vincit).
  * - Faixa grafite com os seis capítulos: no desktop fica fixa sob o header; a célula do capítulo em leitura
  *   acende e um filete de latão mostra o progresso daquele capítulo.
  * - Cada capítulo: linha de metadados, título serifado enorme (fixo à esquerda) e, à direita, visão geral,
  *   situações típicas e "o que fazemos" com expansão controlada.
+ * - Superfícies alternadas (pedra clara, grafite, latão) para ritmo e leitura; as escuras e douradas sobem
+ *   sobre o capítulo anterior com cantos arredondados (mesma transição do Manifesto na Home).
  * - Rolagem: o filete do capítulo se desenha, o título se revela por máscara (direção alterna entre capítulos)
  *   e a superfície do capítulo ativo muda de leve. Sem JS ou com movimento reduzido: tudo visível e aberto.
  */
@@ -105,20 +111,22 @@ export function ServicesChapters({ services, labels }: { services: Service[]; la
 
 function Chapter({ s, i, active, labels }: { s: Service; i: number; active: boolean; labels: Labels }) {
   const [open, setOpen] = useState(false);
+  const tone: Tone = TONES[i % TONES.length];
   const panel = useId();
   return (
     <section
       id={s.id}
       aria-labelledby={`${s.id}-title`}
-      className={cn("sc-chapter scroll-mt-24 lg:scroll-mt-40", i % 2 ? "sc-from-right" : "sc-from-left")}
+      className={cn("sc-chapter scroll-mt-24 lg:scroll-mt-40", i % 2 ? "sc-from-right" : "sc-from-left", tone === "dark" && "on-dark")}
+      data-tone={tone}
       data-active={active || undefined}
     >
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         {/* metadados, sobre um filete que se desenha */}
-        <div className="sc-meta relative grid grid-cols-2 py-4 text-xs uppercase tracking-[0.14em] text-ink-3 lg:grid-cols-12">
+        <div className="sc-meta relative grid grid-cols-2 py-4 text-xs uppercase tracking-[0.14em] sc-muted lg:grid-cols-12">
           <span className="sc-rule" aria-hidden />
           <span className="lg:col-span-5">
-            {labels.service} — <span className="tabular-nums text-ink">{num(i)}</span>
+            {labels.service} — <span className="tabular-nums sc-main">{num(i)}</span>
           </span>
           <span className="justify-self-end lg:col-span-7 lg:justify-self-start lg:pl-10">{s.brand}</span>
         </div>
@@ -129,33 +137,33 @@ function Chapter({ s, i, active, labels }: { s: Service; i: number; active: bool
               <h2 id={`${s.id}-title`} className="sc-title font-serif text-[clamp(2.75rem,1.6rem+3.6vw,5.5rem)] leading-[0.98]">
                 <span className="sc-title-in block">{s.title}</span>
               </h2>
-              <p className="sc-short mt-6 max-w-[34ch] text-[1.0625rem] leading-relaxed text-ink-2">{s.short}</p>
+              <p className="sc-short mt-6 max-w-[34ch] text-[1.0625rem] leading-relaxed sc-sub">{s.short}</p>
             </div>
           </div>
 
-          <div className="sc-body lg:col-span-7 lg:border-l lg:border-line-soft lg:pl-10">
-            <p className="sc-item eyebrow text-ink-3">{labels.overview}</p>
+          <div className="sc-body sc-divider lg:col-span-7 lg:border-l lg:pl-10">
+            <p className="sc-item eyebrow sc-muted">{labels.overview}</p>
             <p className="sc-item mt-4 max-w-[58ch] font-serif text-[clamp(1.25rem,1.05rem+0.6vw,1.5rem)] leading-snug">{s.body}</p>
 
             <div className="sc-item mt-12 grid gap-10 sm:grid-cols-2">
               <div>
-                <p className="eyebrow border-b border-line-soft pb-3 text-ink-3">{labels.situations}</p>
+                <p className="eyebrow sc-divider border-b pb-3 sc-muted">{labels.situations}</p>
                 <ul className="mt-5 space-y-4">
                   {s.situations.map((x) => (
-                    <li key={x} className="text-[0.9375rem] leading-relaxed text-ink-2">{x}</li>
+                    <li key={x} className="text-[0.9375rem] leading-relaxed sc-sub">{x}</li>
                   ))}
                 </ul>
               </div>
 
               <div>
-                <p className="eyebrow border-b border-line-soft pb-3 text-ink-3">{labels.whatWeDo}</p>
+                <p className="eyebrow sc-divider border-b pb-3 sc-muted">{labels.whatWeDo}</p>
                 <div id={panel} className="sc-panel" data-open={open || undefined}>
                   <div className="sc-panel-inner">
                   <ul className="space-y-4 pt-5">
                     {s.whatWeDo.map((x) => (
                       <li key={x} className="flex gap-3 text-[0.9375rem] leading-relaxed">
                         <svg viewBox="0 0 16 16" className="mt-1.5 h-3 w-3 shrink-0" fill="none" aria-hidden>
-                          <path d="M2 3 8 13.5 14 3" stroke="var(--color-gold)" strokeWidth="1.75" />
+                          <path d="M2 3 8 13.5 14 3" stroke="var(--sc-accent)" strokeWidth="1.75" />
                         </svg>
                         {x}
                       </li>
@@ -177,7 +185,7 @@ function Chapter({ s, i, active, labels }: { s: Service; i: number; active: bool
             </div>
 
             <div className="sc-item mt-12">
-              <ModuleButton href={labels.contactHref} event="cta_schedule_click" ariaLabel={`${labels.talk}: ${s.title}`}>
+              <ModuleButton href={labels.contactHref} tone={tone === "dark" ? "dark" : tone === "gold" ? "ink" : "light"} event="cta_schedule_click" ariaLabel={`${labels.talk}: ${s.title}`}>
                 {labels.talk}
               </ModuleButton>
             </div>

@@ -405,6 +405,7 @@ export const en = {
     eyebrow: "Contact",
     title: "Let’s talk about your plan.",
     intro: "Tell us a little about you. A member of our team will reply within one business day, in English or Portuguese.",
+    followTitle: "Follow Vincit",
     formTitle: "Send us a message",
     scheduleTitle: "Prefer to pick a time?",
     scheduleBody: "Choose a free slot for a 30-minute conversation.",

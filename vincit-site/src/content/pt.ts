@@ -402,6 +402,7 @@ export const pt: Dict = {
     eyebrow: "Contato",
     title: "Vamos conversar sobre o seu plano.",
     intro: "Conte um pouco sobre você. Alguém da nossa equipe responde em até um dia útil, em português ou inglês.",
+    followTitle: "Acompanhe a Vincit",
     formTitle: "Envie uma mensagem",
     scheduleTitle: "Prefere escolher um horário?",
     scheduleBody: "Escolha um horário livre para uma conversa de 30 minutos.",

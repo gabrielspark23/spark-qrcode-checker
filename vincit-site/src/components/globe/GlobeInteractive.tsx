@@ -120,7 +120,7 @@ export default function GlobeInteractive({
         const breathe = reduced ? 0.5 : (Math.sin(now / 700) + 1) / 2;
         const font = getComputedStyle(canvas).fontFamily || "sans-serif";
         // no Sul do Brasil os dois escritórios ficam a ~95 km: anéis enxutos para não se fundirem
-        let cityLabels = 1;
+        let cityLabels = decorative ? 0 : 1; // globo decorativo (Contato): sem rótulos
         const ring = (on: boolean, main: boolean) => (on ? 9 : main ? 6 : 5);
         const city = (ll: [number, number], name: string, main: boolean, on: boolean, dir: [number, number]) => {
           const cosc = sp0 * Math.sin(ll[1] * R) + cp0 * Math.cos(ll[1] * R) * Math.cos(ll[0] * R - l0);
@@ -159,7 +159,7 @@ export default function GlobeInteractive({
         cityLabels = 1 - lens; // na lente os nomes aparecem ampliados
         city(CAXIAS_DO_SUL, "Caxias do Sul", false, active === "cxs", [d, -d]);
         city(PORTO_ALEGRE, "Porto Alegre", true, active === "poa", [d, d]);
-        cityLabels = 1;
+        cityLabels = decorative ? 0 : 1;
 
         if (lens > 0 && pa && cx) {
           const mx = (pa[0] + cx[0]) / 2, my = (pa[1] + cx[1]) / 2;

@@ -1,4 +1,4 @@
-import { CalendarDays, MessageCircle } from "lucide-react";
+import { ArrowUpRight, CalendarDays, MessageCircle } from "lucide-react";
 import { LeadForm } from "@/components/forms/LeadForm";
 import { GlobeAmbient } from "@/components/globe/GlobeAmbient";
 import { Button, ModuleButton } from "@/components/ui/Button";
@@ -20,6 +20,24 @@ export function ContactView({ locale }: { locale: Locale }) {
           <Eyebrow onDark>{c.eyebrow}</Eyebrow>
           <h1 id="page-title" className="h1 mt-6 max-w-[14ch]">{c.title}</h1>
           <p className="lead mt-6 max-w-[40ch] text-on-dark-2">{c.intro}</p>
+          <div className="mt-12 border-t border-navy-line pt-6 sm:max-w-sm">
+            <p className="eyebrow text-on-dark-3">{c.followTitle}</p>
+            <ul className="mt-4 space-y-3">
+              <li>
+                <a href={site.instagram} target="_blank" rel="noopener noreferrer" className="link-arrow font-serif text-2xl text-on-dark" data-event="social_instagram_click">
+                  <span>@vincit.capital</span>
+                  <ArrowUpRight className="h-4 w-4" strokeWidth={1.75} aria-hidden />
+                  <span className="sr-only">(Instagram)</span>
+                </a>
+              </li>
+              <li>
+                <a href={site.linkedin} target="_blank" rel="noopener noreferrer" className="link-arrow text-sm text-on-dark-2 hover:text-on-dark" data-event="social_linkedin_click">
+                  <span>LinkedIn</span>
+                  <ArrowUpRight className="h-4 w-4" strokeWidth={1.75} aria-hidden />
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
 

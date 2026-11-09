@@ -1600,9 +1600,10 @@ html[data-loader="leaving"] .route-loader {
 }
 
 /* ---- V-Notch forte: o C da Vincit recortado no cartão (hover/foco) ----
-   Um traço de C grande, recortado do dourado: o centro fica perto da borda direita, a ~72%
+   Uma FAIXA fina em C atravessa o dourado e o separa em partes (não arranca o dourado): o centro fica perto da borda direita, a ~72%
    da altura, e o raio passa da altura do botão — o arco nasce no alto e desce cortando a BASE
-   do cartão, como o V corta o topo. A abertura do C fica voltada para fora (direita).
+   do cartão, como o V corta o topo. A abertura do C fica para o lado (direita), dentro do
+   cartão, como na logo; o V fica sobre o centro do C.
    Cresce a partir do centro; largura e texto não mudam. */
 @property --vn-cs {
   syntax: "<length>";
@@ -1611,31 +1612,29 @@ html[data-loader="leaving"] .route-loader {
 }
 .vn-strong {
   --vn-h: 3rem; /* altura do botão */
-  --vn-c-size: calc(var(--vn-h) * 1.45);
-  --vn-x: 2.6rem; /* o V se afasta da borda para não colidir com o C */
+  --vn-c-size: calc(var(--vn-h) * 1.1);
+  --vn-x: calc(6px + var(--vn-h) * 0.346); /* V sobre o centro do C, como na logo */
   --vn-depth: 16px;
-  padding-right: 4.25rem;
+  padding-right: 3.6rem;
   -webkit-mask:
     linear-gradient(#000 0 0),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M32.63 8.62A17 17 0 1 0 32.63 31.38L28.32 27.49A11.2 11.2 0 1 1 28.32 12.51Z' fill='black'/%3E%3C/svg%3E") no-repeat right calc(10px - var(--vn-cs) / 2) top calc(var(--vn-h) * 0.72 - var(--vn-cs) / 2) / var(--vn-cs) var(--vn-cs);
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M32.63 8.62A17 17 0 1 0 32.63 31.38L30.33 29.30A13.9 13.9 0 1 1 30.33 10.70Z' fill='black'/%3E%3C/svg%3E") no-repeat right calc(6px - var(--vn-cs) * 0.185) top calc(var(--vn-h) * 0.62 - var(--vn-cs) / 2) / var(--vn-cs) var(--vn-cs);
   -webkit-mask-composite: xor;
   mask:
     linear-gradient(#000 0 0),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M32.63 8.62A17 17 0 1 0 32.63 31.38L28.32 27.49A11.2 11.2 0 1 1 28.32 12.51Z' fill='black'/%3E%3C/svg%3E") no-repeat right calc(10px - var(--vn-cs) / 2) top calc(var(--vn-h) * 0.72 - var(--vn-cs) / 2) / var(--vn-cs) var(--vn-cs);
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M32.63 8.62A17 17 0 1 0 32.63 31.38L30.33 29.30A13.9 13.9 0 1 1 30.33 10.70Z' fill='black'/%3E%3C/svg%3E") no-repeat right calc(6px - var(--vn-cs) * 0.185) top calc(var(--vn-h) * 0.62 - var(--vn-cs) / 2) / var(--vn-cs) var(--vn-cs);
   mask-composite: exclude;
   transition-property: --vn-d, --vn-w, --vn-c, --vn-cs, color, background-color, border-color;
 }
 .vn-strong.btn-sm {
   --vn-h: 2.5rem;
-  --vn-x: 2.2rem;
   --vn-depth: 13px;
-  padding-right: 3.6rem;
+  padding-right: 3.1rem;
 }
 .vn-strong.btn-lg {
   --vn-h: 3.5rem;
-  --vn-x: 3rem;
   --vn-depth: 19px;
-  padding-right: 4.9rem;
+  padding-right: 4.1rem;
 }
 .vn-strong:focus-visible {
   --vn-cs: var(--vn-c-size);

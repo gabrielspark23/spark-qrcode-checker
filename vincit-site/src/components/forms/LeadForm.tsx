@@ -33,7 +33,7 @@ export function LeadForm({ locale, t }: { locale: Locale; t: Dict }) {
   const id = (n: string) => `${uid}-${n}`;
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<FieldErrors>({});
-  const [takeover, setTakeover] = useState<{ stage: HTMLElement; origin: { x: number; y: number } } | null>(null);
+  const [takeover, setTakeover] = useState<{ stage: HTMLElement; origin: { x: number; y: number }; name?: string } | null>(null);
   const [started, setStarted] = useState(false);
   const [messageLen, setMessageLen] = useState(0);
   const summaryRef = useRef<HTMLDivElement>(null);
@@ -105,7 +105,7 @@ export function LeadForm({ locale, t }: { locale: Locale; t: Dict }) {
       const sr = stage.getBoundingClientRect();
       const br = btn?.getBoundingClientRect();
       const origin = br ? { x: br.left + br.width / 2 - sr.left, y: br.top + br.height / 2 - sr.top } : { x: sr.width / 2, y: sr.height / 2 };
-      setTakeover({ stage, origin });
+      setTakeover({ stage, origin, name: payload.name });
       setStatus("success");
       return;
     } catch {
@@ -291,6 +291,7 @@ export function LeadForm({ locale, t }: { locale: Locale; t: Dict }) {
       <SuccessTakeover
         stage={takeover.stage}
         origin={takeover.origin}
+        name={takeover.name}
         locale={locale}
         t={t}
         onReset={() => {

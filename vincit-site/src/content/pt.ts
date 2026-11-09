@@ -469,6 +469,11 @@ export const pt: Dict = {
     },
     success: {
       title: "Obrigado. Recebemos a sua mensagem.",
+      thanks: "Obrigado.",
+      thanksName: "Obrigado, {name}.",
+      received: "Recebemos a sua mensagem.",
+      note: "É um privilégio fazer parte dos seus planos. Alguém da nossa equipe vai cuidar pessoalmente do seu pedido.",
+      signature: "— Equipe Vincit Capital",
       body: "O que acontece agora:",
       again: "Enviar outra mensagem",
       home: "Voltar ao início",

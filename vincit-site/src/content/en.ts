@@ -472,6 +472,11 @@ export const en = {
     },
     success: {
       title: "Thank you. We received your message.",
+      thanks: "Thank you.",
+      thanksName: "Thank you, {name}.",
+      received: "We received your message.",
+      note: "It is a privilege to be part of your plans. A member of our team will personally take care of your request.",
+      signature: "— The Vincit Capital team",
       body: "Here is what happens next:",
       again: "Send another message",
       home: "Back to home",

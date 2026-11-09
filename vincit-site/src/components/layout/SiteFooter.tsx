@@ -88,10 +88,7 @@ export function SiteFooter({ locale, t }: { locale: Locale; t: Dict }) {
               <p className={cn("max-w-[24ch] font-serif text-[clamp(1.5rem,1.2rem+1vw,2rem)] leading-snug", c.text)}>
                 {f.statement}
               </p>
-              <div className={cn("mt-8 flex max-w-lg flex-col gap-3 rounded-[28px] border p-2 sm:flex-row sm:items-center sm:rounded-full sm:pl-6", c.pill)}>
-                <span className={cn("px-4 pt-2 text-sm sm:flex-1 sm:p-0", c.text2)}>
-                  {f.pill}
-                </span>
+              <div className="mt-8">
                 <Button href={href("contact", locale)} variant={light ? "shield" : "brass-invert"} event="cta_schedule_click" className="btn-pill rounded-full">
                   {t.nav.schedule}
                 </Button>

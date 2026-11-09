@@ -500,7 +500,6 @@ export const pt: Dict = {
   },
   footer: {
     statement: "Um plano para a sua vida entre o Brasil e os Estados Unidos.",
-    pill: "30 minutos · sem compromisso · português ou inglês",
     tagline: "Planejamento financeiro independente e bilíngue entre o Brasil e os Estados Unidos.",
     navigation: "Navegação",
     services: "Serviços",

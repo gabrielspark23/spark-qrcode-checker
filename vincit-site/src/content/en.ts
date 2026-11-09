@@ -503,7 +503,6 @@ export const en = {
   },
   footer: {
     statement: "One plan for your life between Brazil and the United States.",
-    pill: "30 minutes · no commitment · English or Portuguese",
     tagline: "Independent, bilingual financial planning between Brazil and the United States.",
     navigation: "Navigation",
     services: "Services",

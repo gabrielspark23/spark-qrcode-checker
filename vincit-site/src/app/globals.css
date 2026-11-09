@@ -1615,7 +1615,7 @@ html[data-loader="leaving"] .route-loader {
   --vn-chamfer: 0px;
   --m-h: calc(var(--vn-h) * 1.16); /* altura da marca: passa do topo e da base */
   --m-w: calc(var(--m-h) * 0.774); /* proporção do V+C oficial */
-  --m-right: calc(var(--vn-h) * 0.18);
+  --m-right: calc(var(--vn-h) * -0.05); /* encostada no canto: corta também a borda direita */
   padding-right: calc(var(--m-w) + var(--m-right) + 0.9rem);
   -webkit-mask:
     linear-gradient(#000 0 0),

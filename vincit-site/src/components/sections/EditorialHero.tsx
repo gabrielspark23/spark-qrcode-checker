@@ -64,7 +64,7 @@ export function EditorialHero({
           <h1
             id="page-title"
             className={cn(
-              "display ed-line self-end text-right",
+              "display ed-line order-first self-end text-right lg:order-none",
               compact ? "text-[clamp(2.5rem,1.6rem+3vw,4.5rem)] leading-[1.02] lg:col-span-9" : "text-[clamp(2.75rem,1.4rem+5vw,6.5rem)] leading-[0.98] lg:col-span-8",
             )}
           >

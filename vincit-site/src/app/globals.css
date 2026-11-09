@@ -1834,7 +1834,7 @@ html[data-loader="leaving"] .route-loader {
 .story-tl[data-enhanced] li[data-on] .tl-text { opacity: 1; translate: 0 0; }
 
 /* ---- Sobre: valores com fundo em latão que acompanha a rolagem (fundo e fonte na mesma borda) ---- */
-.values-list li { --ve: 0; --vx: 0; }
+.values-list li { --ve: 0; }
 .values-list .value-base .v-num { color: var(--text-muted); }
 .values-list .value-base .v-title { color: var(--text-primary); }
 .values-list .value-base .v-body { color: var(--text-secondary); }
@@ -1845,7 +1845,7 @@ html[data-loader="leaving"] .route-loader {
   align-items: center;
   background: var(--color-gold);
   color: #16181d;
-  clip-path: inset(0 calc((1 - var(--ve)) * 100%) 0 calc(var(--vx) * 100%));
+  clip-path: inset(0 calc((1 - var(--ve)) * 100%) 0 0);
   pointer-events: none;
 }
 .values-list .value-gold > div { width: 100%; }

@@ -17,8 +17,8 @@ function Row({ v, i }: { v: Value; i: number }) {
 
 /**
  * Valores do Sobre. Conforme a rolagem, o fundo de cada linha se preenche de latão da esquerda para a direita
- * e, quando a linha sobe para fora da zona de leitura, o latão sai pela esquerda — uma parte em destaque por vez.
- * A camada dourada repete o mesmo conteúdo com texto grafite e é recortada pela mesma borda: fundo e cor da
+ * em sequência.
+ * Cada barra se completa e fica; a próxima só começa depois. A camada dourada repete o mesmo conteúdo com texto grafite e é recortada pela mesma borda: fundo e cor da
  * fonte mudam juntos, sem descompasso. Sem JS ou com movimento reduzido: linhas comuns, sem destaque.
  */
 export function ValuesList({ values }: { values: Value[] }) {
@@ -31,17 +31,22 @@ export function ValuesList({ values }: { values: Value[] }) {
     const rows = Array.from(el.querySelectorAll<HTMLElement>("li"));
     let raf = 0;
     const clamp = (v: number) => Math.min(1, Math.max(0, v));
+    const done = rows.map(() => 0); // progresso já alcançado: a barra não volta
     const paint = () => {
       raf = 0;
       const vh = window.innerHeight;
-      rows.forEach((li) => {
+      let prevFull = true;
+      rows.forEach((li, i) => {
         const r = li.getBoundingClientRect();
         const mid = r.top + r.height / 2;
-        const enter = clamp((vh * 0.82 - mid) / (vh * 0.24)); // preenche ao chegar perto do meio
-        const exit = clamp((vh * 0.4 - mid) / (vh * 0.2)); // esvazia pela esquerda ao subir
-        li.style.setProperty("--ve", enter.toFixed(4));
-        li.style.setProperty("--vx", exit.toFixed(4));
+        const target = clamp((vh * 0.85 - mid) / (vh * 0.22));
+        // em sequência: só avança quando a anterior completou; depois de completa, fica
+        if (prevFull) done[i] = Math.max(done[i], target);
+        li.style.setProperty("--ve", done[i].toFixed(4));
+        prevFull = done[i] >= 1;
       });
+      if (done.some((d) => d < 1)) return;
+      window.removeEventListener("scroll", req); // tudo preenchido: não precisa mais ouvir a rolagem
     };
     const req = () => { if (!raf) raf = requestAnimationFrame(paint); };
     paint();

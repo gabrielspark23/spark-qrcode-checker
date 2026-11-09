@@ -1541,8 +1541,8 @@ html[data-loader="leaving"] .route-loader {
 
 /* ---- Equipe: escudo desgastado ao fundo ----------------------------- */
 .worn-shield {
-  color: var(--text-primary);
-  opacity: 0.06;
+  color: var(--color-brass, #c2a263);
+  opacity: 0.16;
   will-change: transform;
 }
 

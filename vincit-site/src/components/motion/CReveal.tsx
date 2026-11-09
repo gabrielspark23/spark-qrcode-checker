@@ -12,7 +12,7 @@ import { useEffect, useRef } from "react";
  *   (a base do escudo oficial) — é o que faz o desenho ser lido como um C.
  *
  * Fases (vinculadas à posição real de scroll, sem fixar a página):
- * A. entrada: o C aparece pela direita já em ~80% da escala final, abertura e contraforma nítidas;
+ * A. entrada: o C desliza pela lateral direita já em ~80% da escala final, abertura e contraforma nítidas;
  * B. expansão: o C cresce e sobe para a esquerda; a contraforma se contrai e se desloca;
  *    a abertura se fecha aos poucos;
  * C. conclusão: contraforma e abertura somem, o grafite cobre 100% da faixa — e a seção
@@ -33,12 +33,12 @@ type Shape = { cx: number; cy: number; R: number; ix: number; iy: number; r: num
  * 0,7–1: contraforma e abertura fecham; o grafite se expande até cobrir a janela inteira.
  */
 function shapeAt(e: number, W: number, vh: number, mobile: boolean): Shape {
-  const Rc = mobile ? 0.62 * W : Math.min(0.36 * W, 0.62 * vh);
-  const f = easeInOut(clamp(e / 0.7));
-  const g = easeInOut(clamp((e - 0.7) / 0.3));
-  // fase A/B
-  const ax = lerp((mobile ? 0.72 : 0.7) * W, (mobile ? 0.6 : 0.64) * W, f);
-  const ay = lerp(0.8 * vh, 0.56 * vh, f);
+  const Rc = mobile ? 0.6 * W : Math.min(0.34 * W, 0.5 * vh);
+  const f = easeInOut(clamp(e / 0.72));
+  const g = easeInOut(clamp((e - 0.72) / 0.28));
+  // fase A/B: entra pela lateral direita (desliza na horizontal) e cresce de 80% a 100%
+  const ax = lerp((mobile ? 1.35 : 1.2) * W, (mobile ? 0.58 : 0.62) * W, f);
+  const ay = lerp(0.62 * vh, 0.54 * vh, f);
   const aR = lerp(0.8 * Rc, Rc, f);
   // fase C: cresce até cobrir os cantos
   const ex = 0.58 * W;
@@ -47,12 +47,12 @@ function shapeAt(e: number, W: number, vh: number, mobile: boolean): Shape {
   const cx = lerp(ax, ex, g);
   const cy = lerp(ay, ey, g);
   const R = lerp(aR, cover, g);
-  // contraforma: deslocada para a direita/alto, contrai (0,56 → 0,36 do raio) e some na fase C
-  const ir = aR * lerp(0.56, 0.36, f) * (1 - g);
-  const ix = ax + aR * 0.16;
-  const iy = ay - aR * 0.05;
-  // abertura: começa no ângulo da base do escudo, fecha até ~24° e some na fase C
-  const half = lerp(SHIELD_BASE, 24, f) * (1 - g);
+  // contraforma grande e nítida; contrai um pouco na fase B e some na fase C
+  const ir = aR * lerp(0.58, 0.44, f) * (1 - g);
+  const ix = ax + aR * 0.14;
+  const iy = ay - aR * 0.03;
+  // abertura: começa no ângulo da base do escudo (42°), fecha até ~30° e some na fase C
+  const half = lerp(SHIELD_BASE, 30, f) * (1 - g);
   return { cx, cy, R, ix, iy, r: ir, half };
 }
 
@@ -91,8 +91,9 @@ export function CReveal({ id = "c-reveal" }: { id?: string }) {
     const target = () => {
       const r = el.getBoundingClientRect();
       const vh = window.innerHeight;
-      // 0: a faixa ocupa ~45% inferior da tela · 1: a base da faixa chega à base da tela
-      return clamp((0.55 * vh - r.top) / (r.height - 0.45 * vh));
+      // 0: a faixa já ocupa ~75% inferior da tela (o C entra inteiro, sem corte) ·
+      // 1: a base da faixa chega à base da tela
+      return clamp((0.25 * vh - r.top) / (r.height - 0.75 * vh));
     };
     const paint = (p: number) => {
       const e = clamp(p / 0.94); // conclui um pouco antes do fim da faixa
@@ -142,11 +143,11 @@ export function CReveal({ id = "c-reveal" }: { id?: string }) {
   // Estado estático (servidor, sem JS, movimento reduzido): C a meio caminho, base já em grafite.
   const SW = 1440;
   const SH = 900;
-  const st = shapeAt(0.5, SW, SH, false);
+  const st = shapeAt(0.6, SW, SH, false);
   const maskId = `${id}-mask`;
 
   return (
-    <div ref={host} className="c-reveal relative h-[95svh] w-full overflow-hidden sm:h-[110svh]" aria-hidden>
+    <div ref={host} className="c-reveal relative h-[130svh] w-full overflow-hidden sm:h-[150svh]" aria-hidden>
       <svg ref={svg} className="absolute inset-0 h-full w-full" viewBox={`0 0 ${SW} ${SH}`} preserveAspectRatio="xMidYMid slice">
         <defs>
           <mask id={maskId} maskUnits="userSpaceOnUse" x="-10000" y="-10000" width="20000" height="20000">

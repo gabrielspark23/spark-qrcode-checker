@@ -1,17 +1,22 @@
-import { MARK_PARTS, MARK_VIEWBOX, SHIELD_OUTLINE_PATH } from "@/lib/brand-geometry";
+import { useId } from "react";
+import { MARK_PATH, MARK_VIEWBOX } from "@/lib/brand-geometry";
 
 /**
- * Marca da Vincit dentro do botão de envio.
- * - "sending": o contorno do escudo se desenha em loop (um traço de latão que percorre a silhueta) e o V respira.
- * - "done": o escudo se preenche de latão e o V fica em grafite — confirmação antes da tela de sucesso.
+ * A logo oficial da Vincit (escudo + V + círculo) no botão de envio — mesma linguagem do carregamento entre páginas.
+ * - "sending": a logo apagada se enche de latão de baixo para cima, em loop suave.
+ * - "done": a logo fica cheia e dá um leve pulso — confirmação antes da tela de sucesso.
  */
 export function SendMark({ state }: { state: "sending" | "done" }) {
+  const clip = `send-fill-${useId().replace(/:/g, "")}`;
   return (
     <svg viewBox={MARK_VIEWBOX} className={`send-mark send-mark-${state}`} aria-hidden>
-      <path className="sm-fill" d={SHIELD_OUTLINE_PATH} />
-      <path className="sm-track" d={SHIELD_OUTLINE_PATH} pathLength={1} />
-      <path className="sm-run" d={SHIELD_OUTLINE_PATH} pathLength={1} />
-      <path className="sm-v" d={MARK_PARTS.v} />
+      <defs>
+        <clipPath id={clip}>
+          <rect className="sm-rise" x="0" y="0" width="520" height="520" />
+        </clipPath>
+      </defs>
+      <path className="sm-base" d={MARK_PATH} />
+      <path className="sm-gold" d={MARK_PATH} clipPath={`url(#${clip})`} />
     </svg>
   );
 }

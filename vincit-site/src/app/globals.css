@@ -1773,3 +1773,90 @@ html[data-loader="leaving"] .route-loader {
 @media (prefers-reduced-motion: reduce) {
   .hero-photo-img { translate: none; }
 }
+
+/* ---- Sobre: órbita viva no herói (círculos deslocados girando + ponto percorrendo o anel) ---- */
+.orbit-spin { transform-box: view-box; transform-origin: 250px 260px; }
+.orbit-halo { fill: none; stroke-width: 1; transform-box: fill-box; transform-origin: center; opacity: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .orbit-a { animation: orbit-turn 48s linear 1.4s infinite; }
+  .orbit-b { animation: orbit-turn 34s linear 1.4s infinite reverse; }
+  .orbit-dot { animation: orbit-turn 22s linear 1.4s infinite; }
+  .orbit-halo { animation: orbit-halo 2.8s var(--ease-out) 1.6s infinite; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .orbit-a, .orbit-b, .orbit-dot, .orbit-halo { animation: none !important; }
+}
+@keyframes orbit-turn { to { transform: rotate(360deg); } }
+@keyframes orbit-halo {
+  0% { opacity: 0.7; transform: scale(1); }
+  100% { opacity: 0; transform: scale(3.4); }
+}
+
+/* ---- Sobre: linha do tempo (trilho, progresso em latão, marcos em V) ---- */
+.story-tl { --tl: 1; }
+.story-tl .tl-rail,
+.story-tl .tl-fill {
+  position: absolute;
+  left: 7.5px;
+  top: 1.6rem;
+  bottom: 0.6rem;
+  width: 1px;
+}
+.story-tl .tl-rail { background: var(--border-soft, #e7e5e4); }
+.story-tl .tl-fill {
+  background: var(--color-gold);
+  transform-origin: top;
+  transform: scaleY(var(--tl));
+}
+/* marco: 16px centrado no trilho, alinhado ao meio da primeira linha do texto; fundo tapa o trilho */
+.story-tl .tl-mark {
+  position: absolute;
+  left: 0;
+  top: calc(0.5lh - 10px);
+  width: 16px;
+  height: 20px;
+  padding: 2px 0;
+  background: var(--bg-app);
+  display: block;
+}
+.story-tl .tl-mark svg { width: 16px; height: 16px; display: block; stroke: var(--color-gold); }
+
+.story-tl[data-enhanced] .tl-mark path {
+  stroke: var(--border-soft);
+  transition: stroke 400ms var(--ease-out);
+}
+.story-tl[data-enhanced] li[data-on] .tl-mark path { stroke: var(--color-gold); }
+.story-tl[data-enhanced] .tl-text {
+  opacity: 0.38;
+  translate: 0 6px;
+  transition: opacity 600ms var(--ease-out), translate 600ms var(--ease-out);
+}
+.story-tl[data-enhanced] li[data-on] .tl-text { opacity: 1; translate: 0 0; }
+
+/* ---- Sobre: valores com barras de latão que se preenchem na rolagem ---- */
+.values-list li { --vp: 1; }
+.values-list .value-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  background: var(--border-soft);
+}
+.values-list .value-bar::after {
+  content: "";
+  position: absolute;
+  inset: -0.5px 0;
+  background: var(--color-gold);
+  transform-origin: left;
+  transform: scaleX(var(--vp));
+}
+.values-list:not([data-enhanced]) .value-bar::after { transform: scaleX(1); opacity: 0.55; }
+.values-list[data-enhanced] .value-title {
+  opacity: calc(0.25 + var(--vp) * 0.75);
+  translate: calc((1 - var(--vp)) * 2.5rem) 0;
+}
+.values-list[data-enhanced] .value-body {
+  opacity: calc(var(--vp) * 1.4 - 0.4);
+}
+.values-list .value-end .value-bar::after { transform: scaleX(1); opacity: 0; }

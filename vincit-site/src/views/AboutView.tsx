@@ -1,5 +1,7 @@
 import { PageHero } from "@/components/sections/PageHero";
 import { ProcessSteps } from "@/components/sections/ProcessSteps";
+import { ValuesList } from "@/components/sections/ValuesList";
+import { StoryTimeline } from "@/components/sections/StoryTimeline";
 import { ManifestoVideo } from "@/components/sections/ManifestoVideo";
 import { LogoMark } from "@/components/brand/Logo";
 import { Container } from "@/components/ui/Layout";
@@ -18,17 +20,7 @@ export function AboutView({ locale }: { locale: Locale }) {
       {/* História: linha do tempo */}
       <section className="bg-app py-20 sm:py-28" aria-label={a.eyebrow}>
         <Container>
-          <ol className="relative grid gap-14 lg:ml-[16.66%] lg:max-w-3xl">
-            <span className="absolute bottom-2 left-[7px] top-2 w-px bg-line-soft" aria-hidden />
-            {a.story.map((p, i) => (
-              <li key={i} className="relative pl-12">
-                <svg className="absolute left-0 top-1.5 h-4 w-4" viewBox="0 0 16 16" fill="none" aria-hidden>
-                  <path d="M1.5 2 8 14 14.5 2" stroke="var(--color-gold)" strokeWidth="1.5" />
-                </svg>
-                <p className={i === 0 ? "font-serif text-[clamp(1.375rem,1.1rem+1vw,1.875rem)] leading-snug" : "text-[1.0625rem] leading-relaxed text-ink-2"}>{p}</p>
-              </li>
-            ))}
-          </ol>
+          <StoryTimeline items={a.story} />
         </Container>
       </section>
 
@@ -75,15 +67,7 @@ export function AboutView({ locale }: { locale: Locale }) {
       <section className="bg-app py-20 sm:py-28" aria-labelledby="values-title">
         <Container>
           <h2 id="values-title" className="eyebrow text-ink-3">{a.valuesTitle}</h2>
-          <ul className="mt-8 border-t border-line-soft">
-            {t.values.map((v, i) => (
-              <li key={v.title} className="grid items-baseline gap-4 border-b border-line-soft py-8 md:grid-cols-12">
-                <span className="text-xs tabular-nums text-ink-3 md:col-span-1">{String(i + 1).padStart(2, "0")}</span>
-                <h3 className="font-serif text-[clamp(2.25rem,1.6rem+2.6vw,4rem)] leading-none md:col-span-6">{v.title}</h3>
-                <p className="text-[1.0625rem] text-ink-2 md:col-span-5">{v.body}</p>
-              </li>
-            ))}
-          </ul>
+          <ValuesList values={t.values} />
         </Container>
       </section>
 

@@ -56,10 +56,20 @@ function MotifArt({ motif, dark }: { motif: Motif; dark: boolean }) {
       ) : null}
       {motif === "orbit" ? (
         <>
+          {/* órbita viva: os círculos deslocados giram devagar em torno do centro do anel de latão
+              (sentidos opostos), e um ponto de latão percorre o anel. Parado com movimento reduzido. */}
           <circle className="draw-line" pathLength={1} cx="250" cy="260" r="210" stroke="var(--color-gold)" strokeOpacity="0.7" transform="rotate(-120 250 260)" />
-          <circle className="draw-line d2" pathLength={1} cx="290" cy="240" r="170" stroke={ink} strokeOpacity="0.2" />
-          <circle className="draw-line d3" pathLength={1} cx="320" cy="225" r="120" stroke={ink} strokeOpacity="0.12" />
-          <circle className="fade-node" cx="250" cy="50" r="5" fill="var(--color-gold)" />
+          <g className="orbit-spin orbit-a">
+            <circle className="draw-line d2" pathLength={1} cx="290" cy="240" r="170" stroke={ink} strokeOpacity="0.22" />
+            <circle className="fade-node" cx="290" cy="70" r="3" fill={ink} fillOpacity="0.35" />
+          </g>
+          <g className="orbit-spin orbit-b">
+            <circle className="draw-line d3" pathLength={1} cx="320" cy="225" r="120" stroke={ink} strokeOpacity="0.14" />
+          </g>
+          <g className="orbit-spin orbit-dot">
+            <circle className="fade-node" cx="250" cy="50" r="5" fill="var(--color-gold)" />
+            <circle className="orbit-halo" cx="250" cy="50" r="5" stroke="var(--color-gold)" />
+          </g>
         </>
       ) : null}
     </svg>

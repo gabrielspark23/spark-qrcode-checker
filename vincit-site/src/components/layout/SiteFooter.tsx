@@ -92,7 +92,7 @@ export function SiteFooter({ locale, t }: { locale: Locale; t: Dict }) {
                 <span className={cn("px-4 pt-2 text-sm sm:flex-1 sm:p-0", c.text2)}>
                   {f.pill}
                 </span>
-                <Button href={href("contact", locale)} variant={light ? "shield" : "brass-invert"} event="cta_schedule_click" className="rounded-full">
+                <Button href={href("contact", locale)} variant={light ? "shield" : "brass-invert"} event="cta_schedule_click" className="btn-pill rounded-full">
                   {t.nav.schedule}
                 </Button>
               </div>

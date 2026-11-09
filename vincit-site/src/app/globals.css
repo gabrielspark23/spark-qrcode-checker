@@ -2090,3 +2090,23 @@ form ::selection { background: rgb(194 162 99 / 0.35); color: var(--text-primary
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M2 3 8 13.5 14 3' stroke='%23c2a263' stroke-width='2'/%3E%3C/svg%3E");
 }
 .bcheck:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 2px; }
+
+/* ---- Botão em pílula (rodapé): círculo que nasce da seta, em vez do varrido retangular ---- */
+.btn.btn-pill::before {
+  border-radius: inherit;
+  transform: none;
+  clip-path: circle(0% at calc(100% - 1.75rem) 50%);
+  transition: clip-path 560ms var(--ease-in-out);
+}
+.btn.btn-pill:hover::before,
+.btn.btn-pill:focus-visible::before {
+  transform: none;
+  clip-path: circle(150% at calc(100% - 1.75rem) 50%);
+}
+.btn.btn-pill { transition: color 260ms var(--ease-out) 0ms, border-color 260ms var(--ease-out), transform var(--dur-base) var(--ease-out); }
+.btn.btn-pill:hover,
+.btn.btn-pill:focus-visible { transition-delay: 140ms, 140ms, 0ms; }
+@media (prefers-reduced-motion: reduce) {
+  .btn.btn-pill::before { clip-path: none; opacity: 0; transition: opacity 200ms linear; }
+  .btn.btn-pill:hover::before, .btn.btn-pill:focus-visible::before { clip-path: none; opacity: 1; }
+}

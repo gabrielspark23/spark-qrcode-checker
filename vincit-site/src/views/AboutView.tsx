@@ -1,6 +1,5 @@
 import { PageHero } from "@/components/sections/PageHero";
 import { ProcessSteps } from "@/components/sections/ProcessSteps";
-import { FinalCta } from "@/components/sections/FinalCta";
 import { LogoMark } from "@/components/brand/Logo";
 import { Container } from "@/components/ui/Layout";
 import { getDict } from "@/content";
@@ -88,7 +87,6 @@ export function AboutView({ locale }: { locale: Locale }) {
           </ul>
         </Container>
       </section>
-      <FinalCta locale={locale} t={t} />
     </>
   );
 }

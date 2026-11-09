@@ -1,7 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import { WornShield } from "@/components/brand/WornShield";
-import { FinalCta } from "@/components/sections/FinalCta";
 import { Container, Eyebrow } from "@/components/ui/Layout";
 import { getDict } from "@/content";
 import { site } from "@/lib/site";
@@ -92,7 +91,6 @@ export function TeamView({ locale }: { locale: Locale }) {
           </div>
         </Container>
       </section>
-      <FinalCta locale={locale} t={t} />
     </>
   );
 }

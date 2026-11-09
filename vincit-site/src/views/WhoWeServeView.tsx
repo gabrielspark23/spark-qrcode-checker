@@ -1,6 +1,5 @@
 import { Check } from "lucide-react";
 import { PageHero } from "@/components/sections/PageHero";
-import { FinalCta } from "@/components/sections/FinalCta";
 import { ModuleButton } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Layout";
 import { getDict } from "@/content";
@@ -48,7 +47,6 @@ export function WhoWeServeView({ locale }: { locale: Locale }) {
           </Container>
         </section>
       ))}
-      <FinalCta locale={locale} t={t} />
     </>
   );
 }

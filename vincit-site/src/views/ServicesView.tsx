@@ -1,6 +1,5 @@
 import { Check } from "lucide-react";
 import { PageHero } from "@/components/sections/PageHero";
-import { FinalCta } from "@/components/sections/FinalCta";
 import { ServicesIndex } from "@/components/sections/ServicesIndex";
 import { ServiceIcon } from "@/components/brand/ServiceIcon";
 import { ModuleButton } from "@/components/ui/Button";
@@ -67,7 +66,6 @@ export function ServicesView({ locale }: { locale: Locale }) {
           </div>
         </Container>
       </section>
-      <FinalCta locale={locale} t={t} />
     </>
   );
 }

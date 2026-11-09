@@ -1860,3 +1860,22 @@ html[data-loader="leaving"] .route-loader {
   opacity: calc(var(--vp) * 1.4 - 0.4);
 }
 .values-list .value-end .value-bar::after { transform: scaleX(1); opacity: 0; }
+
+/* ---- Sobre: "Onde estamos" com mapa pontilhado ao fundo ---- */
+.where-map-bg {
+  position: absolute;
+  inset: -6% 0 -6% 0;
+  background: url("/where-map.svg") no-repeat right 4% center / auto 112%;
+  -webkit-mask-image: linear-gradient(to right, transparent 18%, #000 62%);
+  mask-image: linear-gradient(to right, transparent 18%, #000 62%);
+  pointer-events: none;
+}
+@media (max-width: 767px) {
+  .where-map-bg {
+    background-position: right -4rem bottom 2rem;
+    background-size: 150% auto;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 30%, #000 70%);
+    mask-image: linear-gradient(to bottom, transparent 30%, #000 70%);
+    opacity: 0.5;
+  }
+}

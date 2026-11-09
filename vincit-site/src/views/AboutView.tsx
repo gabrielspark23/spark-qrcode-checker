@@ -78,8 +78,10 @@ export function AboutView({ locale }: { locale: Locale }) {
         </Container>
       </section>
 
-      <section className="border-t border-line bg-surface-muted py-20 sm:py-24" aria-labelledby="where-title">
-        <Container>
+      <section className="where-map relative overflow-hidden border-t border-line bg-surface-muted py-20 sm:py-24" aria-labelledby="where-title">
+        {/* mapa pontilhado das Américas (mesmos dados do globo), no tom do fundo, com as três praças em latão */}
+        <span className="where-map-bg" aria-hidden />
+        <Container className="relative">
           <h2 id="where-title" className="h2">{a.whereTitle}</h2>
           <ul className="mt-10 grid gap-8 md:grid-cols-3">
             {t.home.globe.locations.map((l) => (

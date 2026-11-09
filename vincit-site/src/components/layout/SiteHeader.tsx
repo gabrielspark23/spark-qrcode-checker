@@ -123,11 +123,15 @@ export function SiteHeader({ locale, nav, whatsappText }: { locale: Locale; nav:
       data-tone={dark ? "dark" : "light"}
       className={cn(
         "site-header fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color,color] duration-300",
-        dark
-          ? cn("on-dark", solid ? "border-navy-line bg-navy/88 backdrop-blur-md" : "border-transparent bg-transparent")
-          : solid
-            ? "border-line bg-app/92 backdrop-blur-md"
-            : "border-transparent bg-transparent",
+        // backdrop-filter cria um "containing block" para filhos fixos: com o menu aberto ele prenderia a folha
+        // dentro do header (altura zero). Com o menu aberto, fundo sólido e sem desfoque.
+        open
+          ? "border-line bg-app"
+          : dark
+            ? cn("on-dark", solid ? "border-navy-line bg-navy/88 backdrop-blur-md" : "border-transparent bg-transparent")
+            : solid
+              ? "border-line bg-app/92 backdrop-blur-md"
+              : "border-transparent bg-transparent",
       )}
     >
       <a

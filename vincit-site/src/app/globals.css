@@ -1610,55 +1610,70 @@ html[data-loader="leaving"] .route-loader {
   inherits: false;
   initial-value: 0px;
 }
+@property --vn-vs {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
 .vn-strong {
   --vn-h: 3rem; /* altura do botão */
   /* posição do C: distância do centro até a borda direita, altura do centro e tamanho */
-  --c-cx: 9px;
-  --c-cy: 0.64;
-  --c-k: 1.1;
+  --c-cx: -4px; /* centro um pouco além da borda: só o arco esquerdo entra (lateral) */
+  --c-cy: 0.5;
+  --c-k: 1.15;
   --vn-c-size: calc(var(--vn-h) * var(--c-k));
-  --vn-x: 2.3rem;
+  /* V da logo (faixa em triângulo), bem separado do C, à esquerda dele */
+  --v-size: calc(var(--vn-h) * 0.86);
+  --v-top: calc(var(--vn-h) * 0.07);
+  --v-right: calc(var(--vn-h) * 0.62);
+  --vn-depth: 0px; /* o V agora é a faixa da logo, não o entalhe */
   --vn-depth: 16px;
-  padding-right: 3.6rem;
+  padding-right: calc(var(--vn-h) * 1.55 + 0.5rem);
   -webkit-mask:
     linear-gradient(#000 0 0),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M32.63 8.62A17 17 0 1 0 32.63 31.38L30.33 29.30A13.9 13.9 0 1 1 30.33 10.70Z' fill='black'/%3E%3C/svg%3E") no-repeat right calc(var(--c-cx) - var(--vn-cs) / 2) top calc(var(--vn-h) * var(--c-cy) - var(--vn-cs) / 2) / var(--vn-cs) var(--vn-cs);
-  -webkit-mask-composite: xor;
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M32.63 8.62A17 17 0 1 0 32.63 31.38L30.33 29.30A13.9 13.9 0 1 1 30.33 10.70Z' fill='black'/%3E%3C/svg%3E") no-repeat right calc(var(--c-cx) - var(--vn-cs) / 2) top calc(var(--vn-h) * var(--c-cy) - var(--vn-cs) / 2) / var(--vn-cs) var(--vn-cs),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M3.97 2.00L36.03 2.00L20.00 38.00ZM7.67 4.40L32.33 4.40L20.00 32.10Z' fill='black' fill-rule='evenodd'/%3E%3C/svg%3E") no-repeat right calc(var(--v-right) + (var(--v-size) - var(--vn-vs)) / 2) top calc(var(--v-top) + (var(--v-size) - var(--vn-vs)) / 2) / var(--vn-vs) var(--vn-vs);
+  -webkit-mask-composite: xor, xor;
   mask:
     linear-gradient(#000 0 0),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M32.63 8.62A17 17 0 1 0 32.63 31.38L30.33 29.30A13.9 13.9 0 1 1 30.33 10.70Z' fill='black'/%3E%3C/svg%3E") no-repeat right calc(var(--c-cx) - var(--vn-cs) / 2) top calc(var(--vn-h) * var(--c-cy) - var(--vn-cs) / 2) / var(--vn-cs) var(--vn-cs);
-  mask-composite: exclude;
-  transition-property: --vn-d, --vn-w, --vn-c, --vn-cs, color, background-color, border-color;
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M32.63 8.62A17 17 0 1 0 32.63 31.38L30.33 29.30A13.9 13.9 0 1 1 30.33 10.70Z' fill='black'/%3E%3C/svg%3E") no-repeat right calc(var(--c-cx) - var(--vn-cs) / 2) top calc(var(--vn-h) * var(--c-cy) - var(--vn-cs) / 2) / var(--vn-cs) var(--vn-cs),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M3.97 2.00L36.03 2.00L20.00 38.00ZM7.67 4.40L32.33 4.40L20.00 32.10Z' fill='black' fill-rule='evenodd'/%3E%3C/svg%3E") no-repeat right calc(var(--v-right) + (var(--v-size) - var(--vn-vs)) / 2) top calc(var(--v-top) + (var(--v-size) - var(--vn-vs)) / 2) / var(--vn-vs) var(--vn-vs);
+  mask-composite: exclude, exclude;
+  transition-property: --vn-d, --vn-w, --vn-c, --vn-cs, --vn-vs, color, background-color, border-color;
 }
 .vn-strong.btn-sm {
   --vn-h: 2.5rem;
-  --vn-depth: 13px;
-  padding-right: 3.1rem;
+  --vn-depth: 0px;
+  padding-right: calc(var(--vn-h) * 1.55 + 0.5rem);
 }
 .vn-strong.btn-lg {
   --vn-h: 3.5rem;
-  --vn-depth: 19px;
-  padding-right: 4.1rem;
+  --vn-depth: 0px;
+  padding-right: calc(var(--vn-h) * 1.55 + 0.5rem);
 }
 .vn-strong:focus-visible {
   --vn-cs: var(--vn-c-size);
+  --vn-vs: var(--v-size);
   --vn-c: 0px;
 }
 @media (hover: hover) {
   .vn-strong:hover {
     --vn-cs: var(--vn-c-size);
+    --vn-vs: var(--v-size);
     --vn-c: 0px;
   }
 }
 @media (hover: none) {
   .vn-strong:active {
     --vn-cs: var(--vn-c-size);
+    --vn-vs: var(--v-size);
     --vn-c: 0px;
   }
 }
 
 /* Estado de hover fixo, só para o quadro de comparação do styleguide */
 .vn.is-demo {
+  --vn-vs: var(--v-size);
   --vn-d: var(--vn-depth);
   --vn-w: calc(var(--vn-depth) * 0.445);
   --vn-c: 0px;

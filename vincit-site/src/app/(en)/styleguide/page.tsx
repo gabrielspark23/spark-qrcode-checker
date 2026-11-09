@@ -71,10 +71,11 @@ export default function StyleguidePage() {
             id="sg-cvar"
             eyebrow="Decisão"
             title="C no botão — escolha a variação"
-            intro="Todas já no estado de hover. Diga a letra (A, B, C ou D)."
+            intro="Todas já no estado de hover. A variação E é a aplicada no site."
           />
           <div className="grid gap-8 md:grid-cols-2">
             {[
+              { k: "E", d: "Escolhida: C na lateral (só o arco entra), atravessa topo e base, aberto para a direita; V bem separado.", st: {} },
               { k: "A", d: "Faixa fina perto da borda, nasce no alto e corta a base (versão anterior).", st: { "--c-cx": "9px", "--c-cy": "0.64", "--c-k": "1.1", "--vn-x": "2.3rem" } },
               { k: "B", d: "Faixa fina centrada na altura: o C atravessa o topo e a base, aberto para a direita (borda).", st: { "--c-cx": "2px", "--c-cy": "0.5", "--c-k": "1.25", "--vn-x": "2.75rem" } },
               { k: "C", d: "C inteiro dentro do cartão, menor, abertura para a direita; o V à esquerda dele.", st: { "--c-cx": "26px", "--c-cy": "0.55", "--c-k": "0.95", "--vn-x": "3.4rem" } },

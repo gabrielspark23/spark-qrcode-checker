@@ -5,7 +5,7 @@ import { alternatePath, localeFromPath, type Locale } from "@/lib/i18n";
 import { cn } from "@/lib/cn";
 
 /** EN | PT — mantém a página e a âncora (de /services#tax para /pt/servicos#tax). */
-export function LanguageSwitch({ label, className, onDark = true }: { label: string; className?: string; onDark?: boolean }) {
+export function LanguageSwitch({ label, className, onDark = true, inherit = false }: { label: string; className?: string; onDark?: boolean; inherit?: boolean }) {
   const pathname = usePathname() ?? "/";
   const current = localeFromPath(pathname);
 
@@ -25,7 +25,7 @@ export function LanguageSwitch({ label, className, onDark = true }: { label: str
     <nav aria-label={label} className={cn("flex items-center text-[0.8125rem] font-semibold tracking-[0.08em]", className)}>
       {(["en", "pt"] as const).map((l, i) => (
         <span key={l} className="flex items-center">
-          {i > 0 ? <span className={cn("mx-1.5", onDark ? "text-on-dark-3" : "text-line-rule")} aria-hidden>|</span> : null}
+          {i > 0 ? <span className={cn("mx-1.5", inherit ? "opacity-35" : onDark ? "text-on-dark-3" : "text-line-rule")} aria-hidden>|</span> : null}
           <a
             href={alternatePath(pathname, l)}
             hrefLang={l === "pt" ? "pt-BR" : "en"}
@@ -35,9 +35,11 @@ export function LanguageSwitch({ label, className, onDark = true }: { label: str
             onClick={(e) => go(l, e)}
             className={cn(
               "lang-opt rounded-[2px] px-1 py-1",
-              l === current
-                ? onDark ? "text-on-dark" : "text-ink"
-                : onDark ? "text-on-dark-3 hover:text-on-dark" : "text-ink-3 hover:text-ink",
+              inherit
+                ? l === current ? "opacity-100" : "opacity-55 hover:opacity-100"
+                : l === current
+                  ? onDark ? "text-on-dark" : "text-ink"
+                  : onDark ? "text-on-dark-3 hover:text-on-dark" : "text-ink-3 hover:text-ink",
             )}
           >
             {l.toUpperCase()}

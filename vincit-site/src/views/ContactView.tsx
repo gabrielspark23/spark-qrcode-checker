@@ -1,4 +1,4 @@
-import { CalendarDays, Clock, MessageCircle } from "lucide-react";
+import { CalendarDays, MessageCircle } from "lucide-react";
 import { LeadForm } from "@/components/forms/LeadForm";
 import { GlobeAmbient } from "@/components/globe/GlobeAmbient";
 import { Button, ModuleButton } from "@/components/ui/Button";
@@ -15,24 +15,12 @@ export function ContactView({ locale }: { locale: Locale }) {
   return (
     <section className="grid min-h-svh lg:grid-cols-2" aria-labelledby="page-title">
       <div className="on-dark relative flex flex-col overflow-hidden bg-navy px-5 pb-16 pt-32 text-on-dark sm:px-12 sm:pt-40 lg:sticky lg:top-0 lg:h-svh">
-        <GlobeAmbient className="absolute -bottom-40 -right-40 w-[34rem] opacity-90 sm:w-[40rem]" />
+        <GlobeAmbient className="absolute -bottom-48 -right-48 w-[40rem] sm:-bottom-56 sm:w-[52rem]" />
         <div className="relative">
           <Eyebrow onDark>{c.eyebrow}</Eyebrow>
           <h1 id="page-title" className="h1 mt-6 max-w-[14ch]">{c.title}</h1>
           <p className="lead mt-6 max-w-[40ch] text-on-dark-2">{c.intro}</p>
         </div>
-        <ul className="relative mt-12 max-w-sm border-t border-navy-line">
-          {t.home.globe.locations.map((l) => (
-            <li key={l.id} className="border-b border-navy-line py-4">
-              <p className="font-serif text-lg">{l.name}</p>
-              <p className="mt-1 text-sm text-on-dark-2">{l.role}</p>
-            </li>
-          ))}
-        </ul>
-        <p className="relative mt-6 flex items-center gap-2 text-sm text-on-dark-2">
-          <Clock className="h-4 w-4" strokeWidth={1.5} aria-hidden />
-          {c.hours}
-        </p>
       </div>
 
       <div className="bg-app px-5 pb-20 pt-12 sm:px-12 lg:pt-40">

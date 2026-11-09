@@ -1545,3 +1545,43 @@ html[data-loader="leaving"] .route-loader {
   opacity: 0.06;
   will-change: transform;
 }
+
+/* ---- Header: tom por item (segue o fundo logo abaixo de cada um) ---- */
+.tone-item {
+  color: var(--text-primary);
+  transition: color 250ms var(--ease-out);
+}
+.tone-item[data-tone="dark"] {
+  color: var(--text-on-dark);
+}
+.tone-item[data-tone="dark"] .nav-v {
+  color: var(--text-on-dark-secondary);
+}
+.tone-item[data-tone="dark"] .nav-v:is(:hover, :focus-visible, [aria-current="page"]) {
+  color: var(--text-on-dark);
+}
+.tone-item[data-tone="dark"] .btn-shield {
+  --btn-bg: var(--color-gold);
+  --btn-fg: var(--color-navy);
+  --btn-border: var(--color-gold);
+  --btn-sweep: var(--text-on-dark);
+  --btn-fg-hover: var(--color-navy);
+  --btn-border-hover: var(--text-on-dark);
+}
+.tone-item[data-tone="dark"] .btn-shield:is(:hover, :focus-visible) {
+  color: var(--color-navy);
+}
+.top-link-light.tone-item[data-tone="dark"] {
+  color: var(--text-on-dark-muted);
+}
+.top-link-light.tone-item[data-tone="dark"]:hover {
+  color: var(--text-on-dark);
+}
+.tone-item[data-tone="light"] .btn-shield {
+  --btn-bg: var(--primary);
+  --btn-fg: #ffffff;
+  --btn-border: var(--primary);
+  --btn-sweep: var(--color-gold);
+  --btn-fg-hover: var(--color-navy);
+  --btn-border-hover: var(--color-gold);
+}

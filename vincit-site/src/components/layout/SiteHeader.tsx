@@ -38,7 +38,22 @@ export function SiteHeader({ locale, nav, whatsappText }: { locale: Locale; nav:
         const under = stack.find((el) => !header?.contains(el));
         if (under?.closest(".on-dark, [data-tone='dark']")) dark++;
       }
-      setOverDark(dark >= 2);
+      const headerDark = dark >= 2;
+      setOverDark(headerDark);
+      // Header transparente: cada item segue o fundo exatamente abaixo dele (telas divididas).
+      // Header sólido: todos seguem o tom da barra.
+      const isSolid = window.scrollY > 12;
+      header?.querySelectorAll<HTMLElement>("[data-tone-item]").forEach((item) => {
+        let tone = headerDark ? "dark" : "light";
+        if (!isSolid) {
+          const r = item.getBoundingClientRect();
+          const under = document
+            .elementsFromPoint(r.left + r.width / 2, y)
+            .find((el) => !header.contains(el));
+          tone = under?.closest(".on-dark, [data-tone='dark']") ? "dark" : "light";
+        }
+        item.dataset.tone = tone;
+      });
     };
     const req = () => {
       if (!raf) raf = requestAnimationFrame(probe);
@@ -113,14 +128,14 @@ export function SiteHeader({ locale, nav, whatsappText }: { locale: Locale; nav:
         {nav.skip}
       </a>
       <div className="mx-auto flex h-[4.5rem] max-w-7xl items-center gap-6 px-5 sm:px-8">
-        <Link href={href("home", locale)} className="rounded-[2px]" aria-label="Vincit Capital — Home">
-          <Logo onDark={dark} />
+        <Link href={href("home", locale)} data-tone-item className="tone-item rounded-[2px]" aria-label="Vincit Capital — Home">
+          <Logo />
         </Link>
 
         <nav aria-label="Main" className="ml-auto hidden lg:block">
           <ul className="flex items-center gap-0.5 text-[0.9375rem]">
             {NAV.map((k) => (
-              <li key={k}>
+              <li key={k} data-tone-item className="tone-item">
                 <Link
                   href={href(k, locale)}
                   aria-current={active === k ? "page" : undefined}
@@ -137,18 +152,25 @@ export function SiteHeader({ locale, nav, whatsappText }: { locale: Locale; nav:
         </nav>
 
         <div className="ml-auto flex items-center gap-4 lg:ml-0">
-          <LanguageSwitch label={nav.language} onDark={dark} className="hidden sm:flex" />
-          <Button href={href("contact", locale)} variant="shield" size="sm" notch="strong" event="cta_schedule_click" className="hidden sm:inline-flex">
+          <span data-tone-item className="tone-item hidden sm:flex">
+            <LanguageSwitch label={nav.language} inherit />
+          </span>
+          <span data-tone-item className="tone-item hidden sm:inline-flex">
+          <Button href={href("contact", locale)} variant="shield" size="sm" notch="strong" event="cta_schedule_click">
             {nav.schedule}
           </Button>
-          <Button href={href("contact", locale)} variant="shield" size="sm" notch="soft" icon="none" event="cta_schedule_click" className="sm:hidden">
+          </span>
+          <span data-tone-item className="tone-item sm:hidden">
+          <Button href={href("contact", locale)} variant="shield" size="sm" notch="soft" icon="none" event="cta_schedule_click">
             {nav.scheduleShort}
           </Button>
+          </span>
           <a
             href={site.osLoginUrl}
             data-event="login_click"
             title={nav.clientLoginHint}
-            className="top-link top-link-light hidden text-[0.8125rem] xl:inline-flex"
+            data-tone-item
+            className="tone-item top-link top-link-light hidden text-[0.8125rem] xl:inline-flex"
           >
             {nav.clientLogin}
             <span className="arrow-pass" aria-hidden>
@@ -159,7 +181,8 @@ export function SiteHeader({ locale, nav, whatsappText }: { locale: Locale; nav:
           <button
             ref={menuBtn}
             type="button"
-            className={cn("menu-btn -mr-2 inline-flex h-11 w-11 items-center justify-center rounded-[2px] lg:hidden", dark ? "text-on-dark" : "text-ink")}
+            data-tone-item
+            className="tone-item menu-btn -mr-2 inline-flex h-11 w-11 items-center justify-center rounded-[2px] lg:hidden"
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? nav.close : nav.menu}

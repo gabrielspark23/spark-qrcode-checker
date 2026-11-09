@@ -18,12 +18,12 @@ export function LogoMark({ className, tone = "brass", title }: { className?: str
 }
 
 /** Lockup oficial: escudo + "VINCIT CAPITAL" em duas linhas. `onDark` = wordmark claro. */
-export function Logo({ onDark = false, className }: { onDark?: boolean; className?: string }) {
+export function Logo({ onDark, className }: { onDark?: boolean; className?: string }) {
   return (
     <span className={cn("inline-flex items-center gap-2", className)}>
       <LogoMark className="h-10 w-auto" />
       <svg viewBox={WORD_VIEWBOX} className="h-[1.85rem] w-auto" aria-hidden>
-        <path d={WORD_PATH} fill={onDark ? "var(--text-on-dark)" : "var(--text-primary)"} fillRule="evenodd" />
+        <path d={WORD_PATH} fill={onDark === undefined ? "currentColor" : onDark ? "var(--text-on-dark)" : "var(--text-primary)"} fillRule="evenodd" />
       </svg>
     </span>
   );

@@ -23,7 +23,7 @@ export function WhoWeServeView({ locale }: { locale: Locale }) {
           <Container>
             <div className="grid items-center gap-12 lg:grid-cols-12">
               <div className={cn("lg:col-span-9", i % 2 === 1 && "lg:col-start-4")}>
-                <p className="font-serif text-[clamp(4rem,3rem+5vw,8rem)] leading-none text-line-soft tabular-nums" aria-hidden>
+                <p className="mb-3 font-serif text-[clamp(4rem,3rem+5vw,8rem)] leading-none text-line-soft tabular-nums sm:mb-0" aria-hidden>
                   {String(i + 1).padStart(2, "0")}
                 </p>
                 <h2 id={`${s.id}-title`} className="h1 -mt-4 max-w-[14ch]">{s.title}</h2>

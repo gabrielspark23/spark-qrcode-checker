@@ -138,16 +138,22 @@ export default function GlobeInteractive({
           ctx.globalAlpha = fade * cityLabels;
           // filete diagonal + horizontal até o nome
           const reach = 18 + 10 * Math.min(1, zoom - 1);
-          const ex = p[0] + dir[0] * reach, ey = p[1] + dir[1] * reach;
-          const hx = ex + 14;
+          ctx.font = `${on ? 600 : 500} ${on ? 13 : 12}px ${font}`;
+          const tw = ctx.measureText(name).width;
+          // se o nome não cabe à direita (globo estreito, celular), o rótulo abre para a esquerda
+          const flip = p[0] + dir[0] * reach + 20 + tw > w - 8;
+          const dx = flip ? -dir[0] : dir[0];
+          const ex = p[0] + dx * reach, ey = p[1] + dir[1] * reach;
+          const hx = ex + (flip ? -14 : 14);
           const r0 = ring(on, main) + 3;
           ctx.beginPath();
-          ctx.moveTo(p[0] + dir[0] * r0, p[1] + dir[1] * r0); ctx.lineTo(ex, ey); ctx.lineTo(hx, ey);
+          ctx.moveTo(p[0] + dx * r0, p[1] + dir[1] * r0); ctx.lineTo(ex, ey); ctx.lineTo(hx, ey);
           ctx.strokeStyle = on ? "rgba(212,188,139,0.9)" : "rgba(194,162,99,0.55)"; ctx.stroke();
-          ctx.font = `${on ? 600 : 500} ${on ? 13 : 12}px ${font}`;
           ctx.textBaseline = "middle";
+          ctx.textAlign = flip ? "right" : "left";
           ctx.fillStyle = on ? "#f5f5f4" : "rgba(232,228,221,0.78)";
-          ctx.fillText(name, hx + 6, ey);
+          ctx.fillText(name, hx + (flip ? -6 : 6), ey);
+          ctx.textAlign = "left";
           ctx.globalAlpha = 1;
         };
         const d = Math.SQRT1_2;
@@ -166,7 +172,9 @@ export default function GlobeInteractive({
           const LR = Math.max(62, Math.min(86, w * 0.11)); // raio da lente
           const MAG = 5.5;
           let lx = mx + LR + 56, ly = my + LR * 0.55 + 30;
-          lx = Math.min(lx, w - LR - 12); ly = Math.min(ly, w - LR - 12);
+          // a lente precisa de espaço para os nomes (~90px à direita dela); sem espaço, abre para a esquerda
+          if (lx + LR + 90 > w) lx = Math.max(LR + 12, mx - LR - 110);
+          ly = Math.min(ly, w - LR - 12);
           ctx.globalAlpha = lens;
           // anel de captura em volta das cidades + filete até a lente
           const cap = Math.hypot(pa[0] - cx[0], pa[1] - cx[1]) / 2 + 9;

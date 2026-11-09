@@ -1545,6 +1545,7 @@ html[data-loader="leaving"] .route-loader {
   opacity: 0.16;
   will-change: transform;
 }
+@media (max-width: 639px) { .worn-shield { opacity: 0.09; } }
 
 /* ---- Header: tom por item (segue o fundo logo abaixo de cada um) ---- */
 .tone-item {

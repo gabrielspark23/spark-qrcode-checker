@@ -49,7 +49,7 @@ export function TeamView({ locale }: { locale: Locale }) {
       </section>
 
       <section className="relative overflow-hidden bg-app py-20 sm:py-28" aria-labelledby="leadership-title">
-        <WornShield className="absolute -right-24 top-10 h-[46rem] w-[40rem] sm:-right-10" />
+        <WornShield className="absolute -right-20 top-6 h-[22rem] w-[19rem] sm:-right-10 sm:top-10 sm:h-[46rem] sm:w-[40rem]" />
         <Container className="relative">
           <h2 id="leadership-title" className="eyebrow text-ink-3">{tm.leadership}</h2>
           <ol className="mt-8 border-t border-line-soft">

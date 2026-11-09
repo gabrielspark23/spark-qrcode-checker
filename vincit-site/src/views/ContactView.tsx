@@ -15,7 +15,7 @@ export function ContactView({ locale }: { locale: Locale }) {
   return (
     <section data-contact-stage className="relative grid min-h-svh lg:grid-cols-2" aria-labelledby="page-title">
       <div className="on-dark relative flex flex-col overflow-hidden bg-navy px-5 pb-16 pt-32 text-on-dark sm:px-12 sm:pt-40 lg:sticky lg:top-0 lg:h-svh">
-        <GlobeAmbient className="absolute -bottom-48 -right-48 w-[40rem] sm:-bottom-56 sm:w-[52rem]" />
+        <GlobeAmbient className="absolute -bottom-80 -right-36 w-[28rem] opacity-40 sm:-bottom-56 sm:-right-48 sm:w-[52rem] sm:opacity-100" />
         <div className="relative">
           <Eyebrow onDark>{c.eyebrow}</Eyebrow>
           <h1 id="page-title" className="h1 mt-6 max-w-[14ch]">{c.title}</h1>

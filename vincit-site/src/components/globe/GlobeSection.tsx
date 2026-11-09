@@ -65,7 +65,7 @@ export function GlobeSection({ t, staticGlobe }: { t: Dict; staticGlobe: ReactNo
 
             <ul className="mt-10 border-t border-navy-line">
               {g.locations.map((l) => (
-                <li key={l.id} className="flex items-center justify-between gap-4 border-b border-navy-line py-5">
+                <li key={l.id} className="flex flex-col items-start gap-3 border-b border-navy-line py-5 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
                   <div>
                     <p className="font-serif text-xl">{l.name}</p>
                     <p className="mt-1 text-sm text-on-dark-2">{l.role}</p>

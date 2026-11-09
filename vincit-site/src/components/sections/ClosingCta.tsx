@@ -14,8 +14,8 @@ import type { Dict } from "@/content";
 export function ClosingCta({ locale, t }: { locale: Locale; t: Dict }) {
   const wa = whatsappHref(t.common.talkWhatsApp);
   return (
-    <section className="relative overflow-hidden bg-app py-28 sm:py-40" aria-labelledby="final-title">
-      <DrawOnView className="pointer-events-none absolute -bottom-40 -right-32 h-[44rem] w-[44rem] sm:-right-16 lg:right-[-4rem]">
+    <section className="relative overflow-hidden bg-app pb-72 pt-24 sm:py-40" aria-labelledby="final-title">
+      <DrawOnView className="pointer-events-none absolute -bottom-24 -right-28 h-[24rem] w-[24rem] sm:-bottom-40 sm:-right-16 sm:h-[44rem] sm:w-[44rem] lg:right-[-4rem]">
         <svg viewBox="0 0 700 700" fill="none" className="h-full w-full" aria-hidden>
           <circle className="draw-line" pathLength={1} cx="330" cy="370" r="300" stroke="var(--color-gold)" strokeOpacity="0.75" transform="rotate(-120 330 370)" />
           <circle className="draw-line d2" pathLength={1} cx="370" cy="350" r="300" stroke="var(--text-primary)" strokeOpacity="0.1" />

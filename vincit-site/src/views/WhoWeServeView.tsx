@@ -1,16 +1,12 @@
 import { Check } from "lucide-react";
 import { PageHero } from "@/components/sections/PageHero";
 import { FinalCta } from "@/components/sections/FinalCta";
-import { MarkShards, type ShardFocus } from "@/components/brand/MarkShards";
 import { ModuleButton } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Layout";
-import { DrawOnView } from "@/components/motion/DrawOnView";
 import { getDict } from "@/content";
 import { href, type Locale } from "@/lib/i18n";
 import { cn } from "@/lib/cn";
 
-type Seg = "families" | "business" | "crossborder" | "retirement";
-const FOCUS: Record<Seg, ShardFocus> = { families: "shield", business: "all", crossborder: "v", retirement: "circle" };
 
 /** Para quem: faixas largas alternadas, número grande e a composição de cada público em destaque. */
 export function WhoWeServeView({ locale }: { locale: Locale }) {
@@ -27,7 +23,7 @@ export function WhoWeServeView({ locale }: { locale: Locale }) {
         >
           <Container>
             <div className="grid items-center gap-12 lg:grid-cols-12">
-              <div className={cn("lg:col-span-6", i % 2 === 1 && "lg:order-2 lg:col-start-7")}>
+              <div className={cn("lg:col-span-9", i % 2 === 1 && "lg:col-start-4")}>
                 <p className="font-serif text-[clamp(4rem,3rem+5vw,8rem)] leading-none text-line-soft tabular-nums" aria-hidden>
                   {String(i + 1).padStart(2, "0")}
                 </p>
@@ -48,9 +44,6 @@ export function WhoWeServeView({ locale }: { locale: Locale }) {
                   </ModuleButton>
                 </div>
               </div>
-              <DrawOnView className={cn("flex justify-center lg:col-span-5", i % 2 === 1 ? "lg:order-1 lg:col-start-1" : "lg:col-start-8")}>
-                <MarkShards focus={FOCUS[s.id as Seg]} labels={t.home.parts} className="w-72 sm:w-[24rem]" />
-              </DrawOnView>
             </div>
           </Container>
         </section>

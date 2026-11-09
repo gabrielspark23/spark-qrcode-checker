@@ -77,11 +77,11 @@ export function PlanningLine({ t }: { t: Dict }) {
   d += ` L${w} ${y}`;
 
   return (
-    <section ref={root} className="bg-surface py-24 sm:py-32" aria-labelledby="process-title">
+    <section ref={root} className="on-dark bg-navy pb-24 pt-8 text-on-dark sm:pb-32 sm:pt-12" aria-labelledby="process-title">
       <Container>
         <div className="mb-16 grid gap-6 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-7">
-            <Eyebrow>{t.home.process.eyebrow}</Eyebrow>
+            <Eyebrow onDark>{t.home.process.eyebrow}</Eyebrow>
             <h2 id="process-title" className="h1 mt-6 max-w-[18ch]">{t.home.process.title}</h2>
           </div>
         </div>
@@ -89,14 +89,14 @@ export function PlanningLine({ t }: { t: Dict }) {
         {/* Desktop: linha horizontal */}
         <div ref={lineBox} className="relative hidden h-12 md:block" aria-hidden>
           <svg className="absolute inset-0 h-full w-full overflow-visible" viewBox={`0 0 ${w} 48`} preserveAspectRatio="none">
-            <path d={d} fill="none" stroke="var(--border-soft)" strokeWidth="1" vectorEffect="non-scaling-stroke" />
-            <path d={d} fill="none" stroke="var(--text-primary)" strokeWidth="1.25" vectorEffect="non-scaling-stroke" className="plan-line" />
+            <path d={d} fill="none" stroke="var(--color-navy-line)" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+            <path d={d} fill="none" stroke="var(--text-on-dark)" strokeWidth="1.25" vectorEffect="non-scaling-stroke" className="plan-line" />
           </svg>
           {xs.map((x, i) => (
             <span
               key={i}
               data-node
-              className="plan-node absolute top-[10px] h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border border-line-rule bg-surface"
+              className="plan-node absolute top-[10px] h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border border-on-dark-3 bg-navy"
               style={{ left: `${x * 100}%` }}
             />
           ))}
@@ -104,13 +104,13 @@ export function PlanningLine({ t }: { t: Dict }) {
 
         <ol className="relative grid gap-12 md:mt-8 md:grid-cols-4 md:gap-8">
           {/* Mobile: linha vertical */}
-          <span className="absolute bottom-2 left-[5px] top-2 w-px bg-line-soft md:hidden" aria-hidden>
-            <span className="plan-line-v absolute inset-0 bg-ink" />
+          <span className="absolute bottom-2 left-[5px] top-2 w-px bg-navy-line md:hidden" aria-hidden>
+            <span className="plan-line-v absolute inset-0 bg-on-dark" />
           </span>
           {steps.map((s) => (
             <li key={s.n} className="relative pl-8 md:pl-0 md:text-center">
-              <span className="absolute left-0 top-1.5 h-[11px] w-[11px] rounded-full border border-line-rule bg-surface md:hidden" aria-hidden />
-              <p className="text-sm tabular-nums text-ink-3">{s.n}</p>
+              <span className="absolute left-0 top-1.5 h-[11px] w-[11px] rounded-full border border-on-dark-3 bg-navy md:hidden" aria-hidden />
+              <p className="text-sm tabular-nums text-on-dark-3">{s.n}</p>
               <h3 className="mt-2 font-serif text-[clamp(1.5rem,1.2rem+1vw,2rem)] leading-tight">{s.title}</h3>
             </li>
           ))}

@@ -1616,11 +1616,11 @@ html[data-loader="leaving"] .route-loader {
   padding-right: 3.75rem;
   -webkit-mask:
     linear-gradient(#000 0 0),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M24.6 4.96L18.29 8.60A6.8 6.8 0 1 0 18.29 15.40L24.6 19.04Z' fill='black'/%3E%3C/svg%3E") no-repeat right 0 center / var(--vn-cs) var(--vn-cs);
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M24.6 6.93L14.2 12L24.6 17.07Z' fill='black'/%3E%3C/svg%3E") no-repeat right 0 center / var(--vn-cs) var(--vn-cs);
   -webkit-mask-composite: xor;
   mask:
     linear-gradient(#000 0 0),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M24.6 4.96L18.29 8.60A6.8 6.8 0 1 0 18.29 15.40L24.6 19.04Z' fill='black'/%3E%3C/svg%3E") no-repeat right 0 center / var(--vn-cs) var(--vn-cs);
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M24.6 6.93L14.2 12L24.6 17.07Z' fill='black'/%3E%3C/svg%3E") no-repeat right 0 center / var(--vn-cs) var(--vn-cs);
   mask-composite: exclude;
   transition-property: --vn-d, --vn-w, --vn-c, --vn-cs, color, background-color, border-color;
 }
@@ -1645,4 +1645,32 @@ html[data-loader="leaving"] .route-loader {
 .vn-strong.btn-lg {
   --vn-c-size: 3.5rem;
   padding-right: 4.25rem;
+}
+
+/* a ponta do botão ganha a curva externa do C (sem o corte de base, que brigaria com a curva) */
+@property --vn-round {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 2px;
+}
+.vn-strong {
+  border-top-right-radius: var(--vn-round);
+  border-bottom-right-radius: var(--vn-round);
+  transition-property: --vn-d, --vn-w, --vn-c, --vn-cs, --vn-round, color, background-color, border-color;
+}
+.vn-strong:focus-visible {
+  --vn-round: 999px;
+  --vn-c: 0px;
+}
+@media (hover: hover) {
+  .vn-strong:hover {
+    --vn-round: 999px;
+    --vn-c: 0px;
+  }
+}
+@media (hover: none) {
+  .vn-strong:active {
+    --vn-round: 999px;
+    --vn-c: 0px;
+  }
 }

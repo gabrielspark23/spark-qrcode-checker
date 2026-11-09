@@ -39,7 +39,7 @@ export function SiteFooter({ locale, t }: { locale: Locale; t: Dict }) {
   const key = routeKeyFromPath(usePathname() ?? "/");
   const light = key !== null && LIGHT_FOOTER.has(key);
   const c = light
-    ? { card: "border border-line-soft bg-surface text-ink", muted: "text-ink-3 transition-colors duration-150 hover:text-ink", text2: "text-ink-2", text: "text-ink", ring: "border-line-rule text-ink-2", line: "border-line", pill: "border-line-rule" }
+    ? { card: "bg-surface text-ink", muted: "text-ink-3 transition-colors duration-150 hover:text-ink", text2: "text-ink-2", text: "text-ink", ring: "border-line-rule text-ink-2", line: "border-line", pill: "border-line-rule" }
     : { card: "on-dark bg-navy text-on-dark", muted: "text-on-dark-3 transition-colors duration-150 hover:text-on-dark", text2: "text-on-dark-2", text: "text-on-dark", ring: "border-[#4a4e58] text-on-dark-2", line: "border-navy-line", pill: "border-[#4a4e58]" };
   const muted = c.muted;
   const social = [
@@ -48,7 +48,13 @@ export function SiteFooter({ locale, t }: { locale: Locale; t: Dict }) {
   ];
 
   return (
-    <footer className="bg-app px-3 pb-3 pt-3 sm:px-5 sm:pb-5 sm:pt-5">
+    <footer
+      className={cn(
+        "px-3 pb-3 sm:px-5 sm:pb-5",
+        // rodapé claro: moldura e faixa acima em grafite — o cartão branco ganha contraste
+        light ? "on-dark bg-navy pt-16 sm:pt-24" : "bg-app pt-3 sm:pt-5",
+      )}
+    >
       <div className={cn("relative overflow-hidden rounded-[10px]", c.card)}>
         <div className="mx-auto max-w-7xl px-6 pb-8 pt-12 sm:px-12 sm:pt-16 lg:px-16">
           {/* Topo: marca | convite */}

@@ -30,23 +30,29 @@ export function ValuesList({ values }: { values: Value[] }) {
     el.dataset.enhanced = "";
     const rows = Array.from(el.querySelectorAll<HTMLElement>("li"));
     let raf = 0;
-    const clamp = (v: number) => Math.min(1, Math.max(0, v));
-    const done = rows.map(() => 0); // progresso já alcançado: a barra não volta
+    // Uma barra por vez: cada uma começa quando entra na zona de leitura E a anterior já terminou.
+    // O preenchimento leva FILL ms (transição CSS); assim, mesmo com a seção inteira na tela, a sequência acontece.
+    const FILL = 900;
+    const filledAt: number[] = rows.map(() => 0);
+    let wait = 0;
     const paint = () => {
       raf = 0;
       const vh = window.innerHeight;
-      let prevFull = true;
-      rows.forEach((li, i) => {
-        const r = li.getBoundingClientRect();
-        const mid = r.top + r.height / 2;
-        const target = clamp((vh * 0.85 - mid) / (vh * 0.22));
-        // em sequência: só avança quando a anterior completou; depois de completa, fica
-        if (prevFull) done[i] = Math.max(done[i], target);
-        li.style.setProperty("--ve", done[i].toFixed(4));
-        prevFull = done[i] >= 1;
-      });
-      if (done.some((d) => d < 1)) return;
-      window.removeEventListener("scroll", req); // tudo preenchido: não precisa mais ouvir a rolagem
+      const now = performance.now();
+      for (let i = 0; i < rows.length; i++) {
+        if (filledAt[i]) continue;
+        const prevDone = i === 0 || (filledAt[i - 1] && now - filledAt[i - 1] >= FILL - 150);
+        if (!prevDone) {
+          // a anterior ainda está preenchendo: verifica de novo quando ela terminar
+          if (!wait) wait = window.setTimeout(() => { wait = 0; req(); }, FILL - 150 - (now - filledAt[i - 1]) + 20);
+          break;
+        }
+        const r = rows[i].getBoundingClientRect();
+        if (r.top + r.height / 2 > vh * 0.82) break; // ainda abaixo da zona de leitura
+        rows[i].dataset.filled = "";
+        filledAt[i] = now;
+      }
+      if (filledAt.every(Boolean)) window.removeEventListener("scroll", req);
     };
     const req = () => { if (!raf) raf = requestAnimationFrame(paint); };
     paint();
@@ -54,6 +60,7 @@ export function ValuesList({ values }: { values: Value[] }) {
     window.addEventListener("resize", req);
     return () => {
       cancelAnimationFrame(raf);
+      window.clearTimeout(wait);
       window.removeEventListener("scroll", req);
       window.removeEventListener("resize", req);
       delete el.dataset.enhanced;

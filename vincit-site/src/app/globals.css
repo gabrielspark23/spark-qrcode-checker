@@ -1835,9 +1835,11 @@ html[data-loader="leaving"] .route-loader {
   align-items: center;
   background: var(--color-gold);
   color: #16181d;
-  clip-path: inset(0 calc((1 - var(--ve)) * 100%) 0 0);
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 900ms var(--ease-in-out);
   pointer-events: none;
 }
+.values-list li[data-filled] .value-gold { clip-path: inset(0 0 0 0); }
 .values-list .value-gold > div { width: 100%; }
 .values-list .value-gold .v-num,
 .values-list .value-gold .v-body { color: rgb(22 24 29 / 0.78); }

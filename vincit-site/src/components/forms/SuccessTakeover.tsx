@@ -96,8 +96,15 @@ export function SuccessTakeover({
 
             <p className="tk-l3 mt-12 font-serif text-[1.25rem] italic text-[#3b3632]">{s.closing}</p>
             <svg className="tk-sign mt-2 h-24 w-auto sm:h-32" viewBox={SIGNATURE_VIEWBOX} aria-hidden>
-              <path className="tk-sign-line" d={SIGNATURE_PATH} pathLength={1} fill="none" stroke="#a68545" strokeWidth="6" />
-              <path className="tk-sign-fill" d={SIGNATURE_PATH} fill="#a68545" />
+              {/* escrita: uma "caneta" larga percorre o traçado das letras e revela a tinta aos poucos */}
+              <defs>
+                <mask id="tk-sign-ink" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse" x="-2000" y="-3000" width="8000" height="8000">
+                  <path className="tk-sign-pen" d={SIGNATURE_PATH} pathLength={1} fill="none" stroke="#fff" strokeWidth="46" strokeLinecap="round" strokeLinejoin="round" />
+                </mask>
+              </defs>
+              <path className="tk-sign-fill" d={SIGNATURE_PATH} fill="#a68545" mask="url(#tk-sign-ink)" />
+              {/* a tinta assenta: a rubrica termina sólida */}
+              <path className="tk-sign-solid" d={SIGNATURE_PATH} fill="#a68545" />
               <path className="tk-sign-flourish" d={SIGNATURE_FLOURISH} pathLength={1} fill="none" stroke="#a68545" strokeWidth="18" strokeLinecap="round" />
             </svg>
             <p className="tk-l3 mt-1 text-[0.75rem] font-semibold uppercase tracking-[0.22em] text-ink-3">{s.signature}</p>

@@ -2395,7 +2395,7 @@ form ::selection { background: rgb(194 162 99 / 0.35); color: var(--text-primary
 /* filete interno em latão: moldura de papelaria fina */
 .tk-letter-edge { position: absolute; inset: 0.75rem; border: 1px solid rgb(194 162 99 / 0.55); pointer-events: none; }
 @media (min-width: 640px) { .tk-letter-edge { inset: 1.125rem; } }
-.tk-sign-line, .tk-sign-flourish { stroke-dasharray: 1; stroke-dashoffset: 0; }
+.tk-sign-pen, .tk-sign-flourish { stroke-dasharray: 1; stroke-dashoffset: 0; }
 @media (prefers-reduced-motion: no-preference) {
   .takeover-letter .tk-stone { animation: tk-curtain 900ms var(--ease-in-out) 1000ms both; }
 }
@@ -2442,9 +2442,9 @@ form ::selection { background: rgb(194 162 99 / 0.35); color: var(--text-primary
   .takeover-letter .tk-l1 { animation: rise 800ms var(--ease-out) 4500ms both; }
   .takeover-letter .tk-l2 { animation: rise 800ms var(--ease-out) 4700ms both; }
   .takeover-letter .tk-l3 { animation: rise 700ms var(--ease-out) 5000ms both; }
-  .takeover-letter .tk-sign-line { animation: tk-draw 2000ms var(--ease-in-out) 5200ms both, tk-fade-out 500ms var(--ease-out) 6900ms both; }
-  .takeover-letter .tk-sign-fill { animation: tk-fade 700ms var(--ease-out) 6600ms both; }
-  .takeover-letter .tk-sign-flourish { animation: tk-draw 700ms var(--ease-out) 6800ms both; }
+  .takeover-letter .tk-sign-pen { animation: tk-draw 2600ms cubic-bezier(0.4, 0.1, 0.5, 0.95) 5200ms both; }
+  .takeover-letter .tk-sign-solid { animation: tk-fade 600ms var(--ease-out) 7500ms both; }
+  .takeover-letter .tk-sign-flourish { animation: tk-draw 800ms cubic-bezier(0.3, 0.1, 0.2, 1) 7750ms both; }
   .takeover-letter .tk-actions { animation: rise 700ms var(--ease-out) 5800ms both; }
 }
 .tk-env > span { opacity: 0; }

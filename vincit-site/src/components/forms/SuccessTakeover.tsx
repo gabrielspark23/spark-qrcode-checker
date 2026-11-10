@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { MARK_PATH, MARK_VIEWBOX } from "@/lib/brand-geometry";
+import { SIGNATURE_FLOURISH, SIGNATURE_PATH, SIGNATURE_VIEWBOX } from "./signature";
 import { href, type Locale } from "@/lib/i18n";
 import type { Dict } from "@/content";
 
@@ -59,8 +60,19 @@ export function SuccessTakeover({
       <span className="tk-stone" aria-hidden />
 
       <div className="relative flex min-h-svh flex-col items-center justify-center px-4 pb-16 pt-28 sm:px-8 sm:pt-32">
-        {/* a carta */}
-        <article className="tk-letter relative w-full max-w-[52rem]">
+        {/* entrega: envelope chega, o selo rompe, a aba abre e a carta sobe */}
+        <div className="tk-deliver relative w-full max-w-[52rem]">
+        <div className="tk-env" aria-hidden>
+          <span className="tk-env-back" />
+          <span className="tk-env-pocket" />
+          <span className="tk-env-flap" />
+          <span className="tk-env-seal">
+            <svg viewBox={MARK_VIEWBOX} className="h-7 w-auto">
+              <path d={MARK_PATH} fill="#16181d" />
+            </svg>
+          </span>
+        </div>
+        <article className="tk-letter relative w-full">
           <span className="tk-letter-grain" aria-hidden />
           <span className="tk-letter-edge" aria-hidden />
           <div className="relative px-7 py-10 sm:px-16 sm:py-16 lg:px-20 lg:py-20">
@@ -83,18 +95,15 @@ export function SuccessTakeover({
             </p>
 
             <p className="tk-l3 mt-12 font-serif text-[1.25rem] italic text-[#3b3632]">{s.closing}</p>
-            <svg className="tk-sign mt-2 -ml-1 w-[16rem] sm:w-[19rem]" viewBox="0 0 300 90" fill="none" aria-hidden>
-              <path
-                pathLength={1}
-                d="M8 62 C30 20 46 18 44 44 C42 64 30 70 40 56 C56 30 70 30 66 52 C64 66 78 60 90 44 C100 30 104 50 112 54 C126 60 132 30 146 34 C160 38 150 62 168 58 C186 54 196 26 214 30 C232 34 220 64 246 58 C262 54 272 44 292 40"
-                stroke="#a68545"
-                strokeWidth="2.2"
-                strokeLinecap="round"
-              />
+            <svg className="tk-sign mt-2 h-24 w-auto sm:h-32" viewBox={SIGNATURE_VIEWBOX} aria-hidden>
+              <path className="tk-sign-line" d={SIGNATURE_PATH} pathLength={1} fill="none" stroke="#a68545" strokeWidth="6" />
+              <path className="tk-sign-fill" d={SIGNATURE_PATH} fill="#a68545" />
+              <path className="tk-sign-flourish" d={SIGNATURE_FLOURISH} pathLength={1} fill="none" stroke="#a68545" strokeWidth="18" strokeLinecap="round" />
             </svg>
             <p className="tk-l3 mt-1 text-[0.75rem] font-semibold uppercase tracking-[0.22em] text-ink-3">{s.signature}</p>
           </div>
         </article>
+        </div>
 
         {/* ações, fora da carta */}
         <div className="tk-actions mt-12 flex flex-wrap items-center justify-center gap-x-10 gap-y-4">

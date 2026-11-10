@@ -2395,23 +2395,74 @@ form ::selection { background: rgb(194 162 99 / 0.35); color: var(--text-primary
 /* filete interno em latão: moldura de papelaria fina */
 .tk-letter-edge { position: absolute; inset: 0.75rem; border: 1px solid rgb(194 162 99 / 0.55); pointer-events: none; }
 @media (min-width: 640px) { .tk-letter-edge { inset: 1.125rem; } }
-.tk-sign path { stroke-dasharray: 1; stroke-dashoffset: 0; }
+.tk-sign-line, .tk-sign-flourish { stroke-dasharray: 1; stroke-dashoffset: 0; }
 @media (prefers-reduced-motion: no-preference) {
   .takeover-letter .tk-stone { animation: tk-curtain 900ms var(--ease-in-out) 1000ms both; }
-  .takeover-letter .tk-letter { animation: tk-paper 1500ms cubic-bezier(0.22, 0.8, 0.24, 1) 1500ms both; }
-  .takeover-letter .tk-letter-edge { animation: tk-fade 800ms var(--ease-out) 2300ms both; }
-  .takeover-letter .tk-l1 { animation: rise 800ms var(--ease-out) 2200ms both; }
-  .takeover-letter .tk-l2 { animation: rise 800ms var(--ease-out) 2450ms both; }
-  .takeover-letter .tk-l3 { animation: rise 700ms var(--ease-out) 2800ms both; }
-  .takeover-letter .tk-sign path { animation: tk-draw 1600ms var(--ease-in-out) 3000ms both; }
-  .takeover-letter .tk-actions { animation: rise 700ms var(--ease-out) 3600ms both; }
 }
-@keyframes tk-paper {
-  0% { opacity: 0; translate: 6% 70vh; rotate: 9deg; scale: 0.94; box-shadow: 0 0 0 rgb(22 24 29 / 0); }
-  12% { opacity: 1; }
-  70% { translate: 0 -0.6rem; rotate: -1.6deg; scale: 1.005; }
-  100% { opacity: 1; translate: 0 0; rotate: -0.8deg; scale: 1; }
-}
+
 @keyframes tk-curtain { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
 @keyframes tk-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes tk-fade-out { from { opacity: 1; } to { opacity: 0; } }
 @keyframes tk-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+
+/* ---- Entrega da carta: envelope com selo, aba que abre, carta que sobe ---- */
+.tk-deliver { perspective: 1600px; isolation: isolate; }
+.tk-env { position: absolute; left: -2%; right: -2%; bottom: -1.5rem; height: 60%; pointer-events: none; }
+.tk-env > span { position: absolute; }
+.tk-env-back { inset: 0; background: #ddd3c1; border-radius: 4px; z-index: 0; box-shadow: 0 40px 70px -40px rgb(22 24 29 / 0.5); }
+.tk-env-pocket {
+  inset: 0; z-index: 3; background: #e6ddcc;
+  clip-path: polygon(0 0, 50% 48%, 100% 0, 100% 100%, 0 100%);
+  border-radius: 4px;
+}
+.tk-env-flap {
+  left: 0; right: 0; top: 0; height: 58%; z-index: 4;
+  background: #d6cbb7;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: top center;
+}
+.tk-env-seal {
+  left: calc(50% - 2rem); top: calc(58% - 2rem); z-index: 5;
+  width: 4rem; height: 4rem; border-radius: 9999px;
+  display: grid; place-items: center;
+  background: var(--color-gold);
+  box-shadow: inset 0 0 0 3px rgb(22 24 29 / 0.12), 0 6px 14px -6px rgb(22 24 29 / 0.5);
+}
+.tk-letter { z-index: 2; }
+@media (prefers-reduced-motion: no-preference) {
+  .takeover-letter .tk-env > span { animation: tk-env-in 900ms cubic-bezier(0.22, 0.8, 0.24, 1) 1400ms both, tk-env-out 700ms var(--ease-in-out) 4100ms forwards; }
+  .takeover-letter .tk-env > .tk-env-seal { animation: tk-env-in 900ms cubic-bezier(0.22, 0.8, 0.24, 1) 1400ms both, tk-seal 420ms var(--ease-out) 2500ms forwards; }
+  .takeover-letter .tk-env > .tk-env-flap { animation: tk-env-in 900ms cubic-bezier(0.22, 0.8, 0.24, 1) 1400ms both, tk-flap 650ms var(--ease-in-out) 2700ms forwards, tk-env-out 700ms var(--ease-in-out) 4100ms forwards; }
+  .takeover-letter .tk-letter {
+    animation:
+      tk-rise 1200ms cubic-bezier(0.22, 0.8, 0.24, 1) 3150ms both,
+      tk-settle 900ms var(--ease-out) 4200ms both;
+  }
+  .takeover-letter .tk-letter-edge { animation: tk-fade 800ms var(--ease-out) 4300ms both; }
+  .takeover-letter .tk-l1 { animation: rise 800ms var(--ease-out) 4500ms both; }
+  .takeover-letter .tk-l2 { animation: rise 800ms var(--ease-out) 4700ms both; }
+  .takeover-letter .tk-l3 { animation: rise 700ms var(--ease-out) 5000ms both; }
+  .takeover-letter .tk-sign-line { animation: tk-draw 2000ms var(--ease-in-out) 5200ms both, tk-fade-out 500ms var(--ease-out) 6900ms both; }
+  .takeover-letter .tk-sign-fill { animation: tk-fade 700ms var(--ease-out) 6600ms both; }
+  .takeover-letter .tk-sign-flourish { animation: tk-draw 700ms var(--ease-out) 6800ms both; }
+  .takeover-letter .tk-actions { animation: rise 700ms var(--ease-out) 5800ms both; }
+}
+.tk-env > span { opacity: 0; }
+@media (prefers-reduced-motion: reduce) { .tk-env { display: none; } }
+@keyframes tk-env-in { from { opacity: 1; translate: 0 70vh; rotate: 3deg; } to { opacity: 1; translate: 0 0; rotate: 0deg; } }
+@keyframes tk-env-out { from { opacity: 1; translate: 0 0; } to { opacity: 0; translate: 0 45vh; } }
+@keyframes tk-seal { 0% { scale: 1; opacity: 1; } 40% { scale: 1.12; } 100% { scale: 0.4; opacity: 0; } }
+@keyframes tk-flap {
+  0% { transform: rotateX(0deg); z-index: 4; }
+  49% { z-index: 4; }
+  50% { z-index: 1; }
+  100% { transform: rotateX(180deg); z-index: 1; }
+}
+/* a carta começa dentro do envelope (recortada na base) e sobe */
+@keyframes tk-rise {
+  0% { opacity: 0; translate: 0 55%; scale: 0.9; clip-path: inset(0 0 55% 0); }
+  2% { opacity: 1; }
+  70% { translate: 0 -3%; scale: 1; clip-path: inset(0 0 0 0); }
+  100% { opacity: 1; translate: 0 0; scale: 1; clip-path: inset(0 0 0 0); }
+}
+@keyframes tk-settle { from { rotate: 0deg; } to { rotate: -0.8deg; } }

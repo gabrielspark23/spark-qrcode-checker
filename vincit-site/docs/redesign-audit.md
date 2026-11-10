@@ -112,3 +112,14 @@ Editorial Luxury + Geometric Brand Language + Scroll-Driven Storytelling".
   descartada a pedido do cliente.
 - Ordem da Home mantida (o círculo leva ao globo, como aprovado). A ordem do briefing (Quem somos → Expertise →
   Quem atendemos → C-Reveal → Globo → Processo) fica como proposta.
+
+## 10. Política de Privacidade
+
+- Página nova em `/privacy` e `/pt/privacidade` (`src/content/privacy.ts`, `src/views/PrivacyView.tsx`), escrita a partir
+  do que o site faz de fato: formulário repassado ao sistema de clientes, nenhum cookie próprio, nenhum pixel, vídeo
+  do YouTube só no clique, hospedagem na Vercel. Inclui LGPD (bases legais, direitos, ANPD) e Califórnia.
+- **Depende de revisão de compliance/jurídico (Ana) antes de valer como texto definitivo**, em especial: menção ao aviso
+  de privacidade de clientes, prazos de retenção e canal de contato (hoje a página de contato; falta e-mail — D8).
+- Foto: "Minimalist Modern Architecture Against Blue Sky", Matthew Jesús (pexels.com/@matthew-jesus-468170389),
+  Licença Pexels; dessaturada e aquecida para a paleta → `public/images/privacy-architecture.webp`.
+- Métricas: o texto antigo dizia que havia analytics; não há nenhum instalado. A política diz "se medirmos, sem cookies".

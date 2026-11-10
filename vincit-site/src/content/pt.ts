@@ -469,11 +469,7 @@ export const pt: Dict = {
     },
     success: {
       title: "Obrigado. Recebemos a sua mensagem.",
-      dear: "{name},",
-      dearNoName: "Olá,",
-      letter: "É um privilégio fazer parte dos seus planos. Sua mensagem chegou até nós, e alguém da nossa equipe responderá pessoalmente em até um dia útil.",
       closing: "Com estima,",
-      receivedOn: "Mensagem recebida",
       thanks: "Obrigado.",
       thanksName: "Obrigado, {name}.",
       received: "Recebemos a sua mensagem.",

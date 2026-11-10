@@ -472,11 +472,7 @@ export const en = {
     },
     success: {
       title: "Thank you. We received your message.",
-      dear: "Dear {name},",
-      dearNoName: "Dear friend,",
-      letter: "It is a privilege to be part of your plans. Your message has reached us, and a member of our team will reply to you personally within one business day.",
       closing: "With our regards,",
-      receivedOn: "Message received",
       thanks: "Thank you.",
       thanksName: "Thank you, {name}.",
       received: "We received your message.",

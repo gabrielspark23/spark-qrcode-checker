@@ -120,6 +120,5 @@ Editorial Luxury + Geometric Brand Language + Scroll-Driven Storytelling".
   do YouTube só no clique, hospedagem na Vercel. Inclui LGPD (bases legais, direitos, ANPD) e Califórnia.
 - **Depende de revisão de compliance/jurídico (Ana) antes de valer como texto definitivo**, em especial: menção ao aviso
   de privacidade de clientes, prazos de retenção e canal de contato (hoje a página de contato; falta e-mail — D8).
-- Foto: "Minimalist Modern Architecture Against Blue Sky", Matthew Jesús (pexels.com/@matthew-jesus-468170389),
-  Licença Pexels; dessaturada e aquecida para a paleta → `public/images/privacy-architecture.webp`.
+- Formato linear (coluna única, sem foto), a pedido do cliente.
 - Métricas: o texto antigo dizia que havia analytics; não há nenhum instalado. A política diz "se medirmos, sem cookies".

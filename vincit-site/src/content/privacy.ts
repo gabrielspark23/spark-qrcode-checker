@@ -20,7 +20,6 @@ export type PolicyContent = {
   tocLabel: string;
   sections: PolicySection[];
   contactCta: string;
-  photoAlt: string;
 };
 
 export const privacyEn: PolicyContent = {
@@ -223,7 +222,6 @@ export const privacyEn: PolicyContent = {
     },
   ],
   contactCta: "Contact us about privacy",
-  photoAlt: "Detail of a contemporary building against the sky.",
 };
 
 export const privacyPt: PolicyContent = {
@@ -426,5 +424,4 @@ export const privacyPt: PolicyContent = {
     },
   ],
   contactCta: "Fale conosco sobre privacidade",
-  photoAlt: "Detalhe de um edifício contemporâneo contra o céu.",
 };

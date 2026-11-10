@@ -2445,22 +2445,11 @@ form ::selection { background: rgb(194 162 99 / 0.35); color: var(--text-primary
   background-image: linear-gradient(90deg, var(--text-primary) var(--cut), var(--text-on-dark) var(--cut));
 }
 
-/* ---- Política de Privacidade ---- */
-.policy-photo { border-radius: 4rem 0.75rem 4rem 0.75rem; }
-.policy-photo-rule {
-  position: absolute; inset: 0; translate: -1.25rem 1.25rem;
-  border: 1px solid rgb(194 162 99 / 0.6);
-  border-radius: 4rem 0.75rem 4rem 0.75rem;
+/* ---- Política de Privacidade (linear) ---- */
+.policy-progress {
+  position: fixed; left: 0; right: 0; top: 4.5rem; z-index: 40; height: 2px;
+  background: var(--color-gold); transform-origin: left; transform: scaleX(0);
   pointer-events: none;
 }
-.policy-toc { transition: color 240ms var(--ease-out), translate 300ms var(--ease-out); }
-.policy-toc:hover, .policy-toc:focus-visible { color: var(--text-primary); translate: 0.25rem 0; }
-.policy-toc[aria-current] { translate: 0.25rem 0; }
-.policy-glance { transition: background-color 400ms var(--ease-out); }
-.policy-glance:hover { background: var(--color-navy-soft, #23262e); }
-@media (prefers-reduced-motion: no-preference) {
-  .policy-photo { animation: policy-photo-in 1200ms var(--ease-in-out) 200ms both; }
-  .policy-photo img { animation: hero-settle 1600ms var(--ease-out) 200ms both; }
-  .policy-photo-rule { animation: tk-fade 900ms var(--ease-out) 900ms both; }
-}
-@keyframes policy-photo-in { from { clip-path: inset(100% 0 0 0 round 4rem 0.75rem 4rem 0.75rem); } to { clip-path: inset(0 0 0 0 round 4rem 0.75rem 4rem 0.75rem); } }
+.policy-toc { transition: color 240ms var(--ease-out); }
+.policy-toc:hover, .policy-toc:focus-visible { color: var(--text-primary); }

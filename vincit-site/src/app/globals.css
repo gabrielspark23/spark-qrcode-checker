@@ -2455,3 +2455,6 @@ form ::selection { background: rgb(194 162 99 / 0.35); color: var(--text-primary
 .policy-chip:hover, .policy-chip:focus-visible { background: var(--color-navy); border-color: var(--color-navy); color: var(--text-on-dark); }
 .policy-glance { transition: background-color 400ms var(--ease-out), translate 400ms var(--ease-out); }
 .policy-glance:hover { background: #ece7de; translate: 0 -2px; }
+
+/* agradecimento: cabe numa tela de monitor (abaixo do header e dentro da moldura) */
+.takeover-gold .tk-fit { padding-top: calc(6.25rem + clamp(1.25rem, 4vh, 3rem)); padding-bottom: clamp(2.25rem, 5vh, 3.5rem); }

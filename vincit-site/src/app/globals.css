@@ -1057,28 +1057,32 @@ details[open] .faq-icon {
 .footer-social {
   position: relative;
   isolation: isolate;
-  overflow: hidden;
   transition-property: color, border-color;
   transition-duration: var(--dur-base);
   transition-timing-function: var(--ease-out);
 }
+/* o preenchimento cobre também a borda (inset -1px): um círculo único, sem anel serrilhado entre os dois */
 .footer-social::before {
   content: "";
   position: absolute;
-  inset: 0;
+  inset: -1px;
   z-index: -1;
   border-radius: 9999px;
   background: var(--color-gold);
   transform: scale(0);
-  transition: transform var(--dur-base) var(--ease-out);
+  transition: transform 260ms var(--ease-out);
+  will-change: transform;
 }
+.footer-social:hover,
+.footer-social:focus-visible { border-color: transparent; }
 .footer-social:hover {
   color: var(--color-navy);
-  border-color: var(--color-gold);
 }
-.footer-social:hover::before {
+.footer-social:hover::before,
+.footer-social:focus-visible::before {
   transform: scale(1);
 }
+.footer-social:focus-visible { color: var(--color-navy); outline: 2px solid var(--color-gold); outline-offset: 3px; }
 
 /* Globo: o canvas entra por cima do SVG estático */
 .globe-canvas {

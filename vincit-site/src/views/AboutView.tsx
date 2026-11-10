@@ -1,6 +1,5 @@
 import { EditorialHero } from "@/components/sections/EditorialHero";
 import { OrbitArt } from "@/components/sections/PageHero";
-import { ProcessSteps } from "@/components/sections/ProcessSteps";
 import { ValuesList } from "@/components/sections/ValuesList";
 import { StoryTimeline } from "@/components/sections/StoryTimeline";
 import { ManifestoVideo } from "@/components/sections/ManifestoVideo";
@@ -72,12 +71,6 @@ export function AboutView({ locale }: { locale: Locale }) {
         </Container>
       </section>
 
-      <section className="border-t border-line bg-surface py-20 sm:py-28" aria-labelledby="process-full-title">
-        <Container>
-          <h2 id="process-full-title" className="h1 mb-14 max-w-[18ch]">{a.processTitle}</h2>
-          <ProcessSteps t={t} full keyActionsLabel={a.keyActions} />
-        </Container>
-      </section>
 
       <section className="where-map relative overflow-hidden border-t border-line bg-surface-muted py-20 sm:py-24" aria-labelledby="where-title">
         {/* mapa pontilhado das Américas (mesmos dados do globo), no tom do fundo, com as três praças em latão */}

@@ -2370,14 +2370,14 @@ form ::selection { background: rgb(194 162 99 / 0.35); color: var(--text-primary
 }
 
 /* ---- Aberturas editoriais (páginas internas): o título entra por máscara ---- */
-.ed-hero .ed-line { overflow: hidden; }
 @media (prefers-reduced-motion: no-preference) {
-  .ed-hero .ed-line { animation: ed-in 900ms var(--ease-out) 120ms both; }
+  .ed-hero .ed-line { animation: ed-in 900ms var(--ease-out) 120ms backwards; }
   .ed-hero .ed-line-2 { animation-delay: 300ms; }
 }
+/* o recorte tem folga para acentos, pingos e descendentes (i, j, y, g) e some ao fim da animação */
 @keyframes ed-in {
-  from { clip-path: inset(0 0 100% 0); translate: 0 0.35em; }
-  to { clip-path: inset(0 0 0 0); translate: 0 0; }
+  from { clip-path: inset(-0.35em -0.1em 100% -0.1em); translate: 0 0.35em; }
+  to { clip-path: inset(-0.35em -0.1em -0.35em -0.1em); translate: 0 0; }
 }
 .ed-index { color: var(--text-primary); transition: color 240ms var(--ease-out), padding 300ms var(--ease-out); }
 .ed-index:hover, .ed-index:focus-visible { color: var(--color-gold); padding-left: 0.5rem; }
@@ -2397,7 +2397,7 @@ form ::selection { background: rgb(194 162 99 / 0.35); color: var(--text-primary
   pointer-events: none;
 }
 @media (min-width: 640px) { .takeover-gold .tk-frame { inset: 6.25rem 1.75rem 1.75rem; border-radius: 2rem; } }
-.takeover-gold .tk-title .tk-line { overflow: hidden; }
+
 .takeover-gold .tk-mark-line { stroke-dasharray: 1; stroke-dashoffset: 0; }
 .tk-btn {
   display: inline-flex; align-items: center; min-height: 3rem; padding: 0 1.5rem;
@@ -2413,7 +2413,7 @@ form ::selection { background: rgb(194 162 99 / 0.35); color: var(--text-primary
   .takeover-gold .tk-mark { opacity: 1; animation: none; }
   .takeover-gold .tk-mark-line { animation: tk-draw 900ms var(--ease-in-out) 1300ms both; }
   .takeover-gold .tk-mark-fill { animation: tk-fade 600ms var(--ease-out) 2100ms both; }
-  .takeover-gold .tk-title .tk-line { animation: ed-in 1000ms var(--ease-out) 1600ms both; }
+  .takeover-gold .tk-title .tk-line { animation: ed-in 1000ms var(--ease-out) 1600ms backwards; }
   .takeover-gold .tk-title .tk-line-2 { animation-delay: 1800ms; }
   .takeover-gold .tk-1 { animation-delay: 1500ms; }
   .takeover-gold .tk-2 { animation-delay: 2100ms; }

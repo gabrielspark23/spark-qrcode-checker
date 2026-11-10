@@ -2451,5 +2451,7 @@ form ::selection { background: rgb(194 162 99 / 0.35); color: var(--text-primary
   background: var(--color-gold); transform-origin: left; transform: scaleX(0);
   pointer-events: none;
 }
-.policy-toc { transition: color 240ms var(--ease-out); }
-.policy-toc:hover, .policy-toc:focus-visible { color: var(--text-primary); }
+.policy-chip { transition: background-color 260ms var(--ease-out), color 260ms var(--ease-out), border-color 260ms var(--ease-out); }
+.policy-chip:hover, .policy-chip:focus-visible { background: var(--color-navy); border-color: var(--color-navy); color: var(--text-on-dark); }
+.policy-glance { transition: background-color 400ms var(--ease-out), translate 400ms var(--ease-out); }
+.policy-glance:hover { background: #ece7de; translate: 0 -2px; }

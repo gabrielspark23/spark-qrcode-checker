@@ -2269,7 +2269,7 @@ form ::selection { background: rgb(194 162 99 / 0.35); color: var(--text-primary
 }
 .sc-chapter[data-tone="dark"] {
   --t-bg: var(--color-navy);
-  --t-bg-active: #1d2027;
+  --t-bg-active: var(--color-navy); /* grafite ativo = grafite da marca: emenda sem costura com o rodapé */
   --t-main: #f5f5f4;
   --t-sub: rgb(245 245 244 / 0.74);
   --t-muted: rgb(245 245 244 / 0.55);

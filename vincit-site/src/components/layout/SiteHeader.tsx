@@ -51,6 +51,29 @@ export function SiteHeader({ locale, nav, whatsappText }: { locale: Locale; nav:
             .elementsFromPoint(r.left + r.width / 2, y)
             .find((el) => !header.contains(el) && !el.closest(".route-loader"));
           tone = under?.closest(".on-dark, [data-tone='dark']") ? "dark" : "light";
+          // item atravessando a divisa entre fundos (telas divididas): o texto troca de cor exatamente na divisa
+          const leftDark = !!document
+            .elementsFromPoint(r.left + 2, y)
+            .find((el) => !header.contains(el) && !el.closest(".route-loader"))
+            ?.closest(".on-dark, [data-tone='dark']");
+          const rightDark = !!document
+            .elementsFromPoint(r.right - 2, y)
+            .find((el) => !header.contains(el) && !el.closest(".route-loader"))
+            ?.closest(".on-dark, [data-tone='dark']");
+          if (r.width > 4 && leftDark !== rightDark) {
+            // procura a coluna exata da divisa
+            let lo = r.left, hi = r.right;
+            for (let k = 0; k < 10; k++) {
+              const mid = (lo + hi) / 2;
+              const d = !!document
+                .elementsFromPoint(mid, y)
+                .find((el) => !header.contains(el) && !el.closest(".route-loader"))
+                ?.closest(".on-dark, [data-tone='dark']");
+              if (d === leftDark) lo = mid; else hi = mid;
+            }
+            item.style.setProperty("--cut", `${((lo + hi) / 2 - r.left).toFixed(1)}px`);
+            tone = leftDark ? "split" : "split-rev";
+          }
         }
         item.dataset.tone = tone;
       });

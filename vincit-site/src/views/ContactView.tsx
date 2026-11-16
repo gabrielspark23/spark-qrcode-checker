@@ -11,7 +11,7 @@ import type { Locale } from "@/lib/i18n";
 export function ContactView({ locale }: { locale: Locale }) {
   const t = getDict(locale);
   const c = t.contact;
-  const wa = whatsappHref(t.common.talkWhatsApp);
+  const wa = whatsappHref(t.common.whatsappMessage);
   return (
     <section data-contact-stage className="relative grid min-h-svh lg:grid-cols-2" aria-labelledby="page-title">
       <div className="on-dark relative flex flex-col overflow-hidden bg-navy px-5 pb-16 pt-32 text-on-dark sm:px-12 sm:pt-40 lg:sticky lg:top-0 lg:h-svh">

@@ -7,11 +7,11 @@ export const site = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://vincitcapital.com", // D5
   osLoginUrl: process.env.NEXT_PUBLIC_OS_LOGIN_URL ?? "https://vincit-os.vercel.app/login",
   scheduleUrl: process.env.NEXT_PUBLIC_SCHEDULE_URL ?? "", // D9 — link de horários do GHL
-  whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "", // D10 — E.164 sem "+", ex.: 16195550100
-  phone: "", // D8
-  phoneDisplay: "", // D8
-  email: "", // D5/D6
-  address: { line1: "", city: "San Diego", region: "CA", postal: "", country: "US" }, // D8
+  whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "16197630843", // publicado em vincitfinancial.com
+  phone: "+16197630843", // publicado em vincitfinancial.com
+  phoneDisplay: "+1 (619) 763-0843",
+  email: "contato@vincitcapital.com.br", // publicado em vincitfinancial.com — confirmar e-mail com domínio americano
+  address: { line1: "2535 Kettner Blvd", city: "San Diego", region: "CA", postal: "92101", country: "US" }, // publicado em vincitfinancial.com
   instagram: "https://www.instagram.com/vincit.capital",
   linkedin: "https://www.linkedin.com/company/vincit-financial",
 } as const;

@@ -43,7 +43,7 @@ export const privacyEn: PolicyContent = {
       title: "Who we are and what this policy covers",
       summary: "This policy applies to this website and to the information you share through it.",
       blocks: [
-        "Vincit Capital (“Vincit”, “we”, “us”) provides financial planning and related services to individuals, families and business owners with ties to Brazil and the United States. We are based in San Diego, California.",
+        "Vincit Capital (“Vincit”, “we”, “us”) provides wealth planning and related services to entrepreneurs, families and international clients. We are headquartered at 2535 Kettner Blvd, San Diego, California 92101. Investment advisory services are provided through our affiliate Brazen Capital, LLC, an SEC-registered investment adviser.",
         "This policy covers the information collected through this website, including the contact form. It does not cover the client portal (Vincit OS) or the services we provide to clients, which are governed by the agreements and privacy notices you receive when you become a client.",
       ],
     },
@@ -217,7 +217,7 @@ export const privacyEn: PolicyContent = {
       title: "Contact us",
       summary: "Questions or requests about your information.",
       blocks: [
-        "If you have questions about this policy or want to exercise your rights, please reach us through our contact page. Vincit Capital, San Diego, California.",
+        "If you have questions about this policy or want to exercise your rights, please reach us through our contact page or by phone at +1 (619) 763-0843. Vincit Capital, 2535 Kettner Blvd, San Diego, California 92101.",
       ],
     },
   ],
@@ -245,7 +245,7 @@ export const privacyPt: PolicyContent = {
       title: "Quem somos e o que esta política cobre",
       summary: "Esta política vale para este site e para as informações que você compartilha por ele.",
       blocks: [
-        "A Vincit Capital (“Vincit”, “nós”) oferece planejamento financeiro e serviços relacionados a pessoas, famílias e empresários com vínculos entre o Brasil e os Estados Unidos. Estamos em San Diego, Califórnia.",
+        "A Vincit Capital (“Vincit”, “nós”) oferece planejamento patrimonial e serviços relacionados a empreendedores, famílias e clientes internacionais. Nossa sede fica na 2535 Kettner Blvd, San Diego, Califórnia 92101. Os serviços de aconselhamento de investimentos são prestados pela nossa afiliada Brazen Capital, LLC, consultora de investimentos registrada na SEC.",
         "Esta política cobre as informações coletadas por este site, incluindo o formulário de contato. Ela não cobre o portal de clientes (Vincit OS) nem os serviços prestados a clientes, que seguem os contratos e os avisos de privacidade entregues quando você se torna cliente.",
       ],
     },
@@ -419,7 +419,7 @@ export const privacyPt: PolicyContent = {
       title: "Fale conosco",
       summary: "Dúvidas ou pedidos sobre as suas informações.",
       blocks: [
-        "Se tiver dúvidas sobre esta política ou quiser exercer seus direitos, fale conosco pela página de contato. Vincit Capital, San Diego, Califórnia.",
+        "Se tiver dúvidas sobre esta política ou quiser exercer seus direitos, fale conosco pela página de contato ou pelo telefone +1 (619) 763-0843. Vincit Capital, 2535 Kettner Blvd, San Diego, Califórnia 92101.",
       ],
     },
   ],

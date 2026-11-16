@@ -16,7 +16,7 @@ export function Shell({ locale, children }: { locale: Locale; children: ReactNod
     <html lang={htmlLang[locale]} className={`${serif.variable} ${sans.variable}`}>
       <body className="min-h-dvh">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd()).replace(/</g, "\\u003c") }} />
-        <SiteHeader locale={locale} nav={t.nav} whatsappText={t.common.talkWhatsApp} />
+        <SiteHeader locale={locale} nav={t.nav} whatsappText={t.common.whatsappMessage} />
         <main id="main" tabIndex={-1} className="outline-none">
           {children}
         </main>

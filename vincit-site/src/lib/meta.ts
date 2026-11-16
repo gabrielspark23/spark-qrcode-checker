@@ -4,12 +4,12 @@ import { site } from "./site";
 import { getDict } from "@/content";
 
 const titles: Record<RouteKey, Record<Locale, string>> = {
-  home: { en: "Financial planning between Brazil and the U.S.", pt: "Planejamento financeiro entre o Brasil e os EUA" },
-  services: { en: "Our Services", pt: "Nossos serviços" },
+  home: { en: "Wealth Planning & Financial Advisory", pt: "Planejamento patrimonial e assessoria financeira" },
+  services: { en: "Services", pt: "Serviços" },
   whoWeServe: { en: "Who We Serve", pt: "Para quem" },
   team: { en: "Our Team", pt: "Nossa equipe" },
-  about: { en: "About", pt: "Sobre" },
-  contact: { en: "Contact & Schedule", pt: "Contato e agendamento" },
+  about: { en: "Who We Are", pt: "Quem somos" },
+  contact: { en: "Schedule a Consultation", pt: "Agende uma consulta" },
   disclosures: { en: "Disclosures", pt: "Informações regulatórias" },
   privacy: { en: "Privacy Policy", pt: "Política de Privacidade" },
 };

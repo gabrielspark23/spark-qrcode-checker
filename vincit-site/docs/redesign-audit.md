@@ -122,3 +122,21 @@ Editorial Luxury + Geometric Brand Language + Scroll-Driven Storytelling".
   de privacidade de clientes, prazos de retenção e canal de contato (hoje a página de contato; falta e-mail — D8).
 - Formato linear (coluna única, sem foto), a pedido do cliente.
 - Métricas: o texto antigo dizia que havia analytics; não há nenhum instalado. A política diz "se medirmos, sem cookies".
+
+## 11. Editorial v2 — mercado americano
+
+- Todo o texto (EN e PT) foi reescrito em tom de wealth management americano, a partir de:
+  vincitfinancial.com (site atual da firma nos EUA — fatos, marcas de serviço, processo, equipe, disclosures)
+  e da WestPac Wealth Partners como referência de tom (o site deles bloqueia leitura automática; usamos o
+  posicionamento público: firma independente de San Diego que integra planejamento, seguros e investimentos).
+- Posicionamento: "Your wealth, curated without compromise." (tagline já usada pela Vincit) · financial curation ·
+  entrepreneurs, families and international clients · North & South America · coordenação em um só plano.
+- Compliance: a Vincit não se apresenta como "fiduciary"; aconselhamento de investimentos atribuído à
+  Brazen Capital, LLC (SEC RIA, CRD# 300746), como no site atual. Disclosures reescritas com: Brazen, CVM
+  (Vincit Capital Gestão de Recursos Ltda.), custódia, seguros, risco. **Revisão da Ana obrigatória.**
+- Não usados de propósito: depoimentos (sem verificação/consentimento), "15+ / 20+ anos" (números conflitantes
+  no site atual), "certifications", "secure", promessas de resultado, mínimo de US$ 500 mil.
+- Contato (publicado no site atual): 2535 Kettner Blvd, San Diego, CA 92101 · +1 (619) 763-0843 (telefone e WhatsApp)
+  · contato@vincitcapital.com.br — **confirmar e-mail com domínio americano.**
+- Confirmar: nome comercial no site americano (Vincit Capital vs. Vincit Financial), LinkedIn da Luty
+  (slug "luciana-panko-c-lessa"), handle do Instagram (@vincit.capital vs. @vincitfinancial).

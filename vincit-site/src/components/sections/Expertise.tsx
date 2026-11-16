@@ -31,19 +31,19 @@ export function Expertise({ locale, t }: { locale: Locale; t: Dict }) {
         <div className="mb-14 grid gap-6 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-7">
             <Eyebrow>{e.eyebrow}</Eyebrow>
-            <h2 id="expertise-title" className="h1 mt-6 max-w-[18ch]">{e.title}</h2>
+            <h2 id="expertise-title" className="h1 mt-6 max-w-[18ch] hyphens-auto break-words">{e.title}</h2>
           </div>
         </div>
 
         {/* linhas estruturais = o gap de 1 px sobre a cor da régua */}
-        <div className="grid gap-px border border-line-soft bg-line-soft sm:grid-cols-2 lg:grid-cols-12">
+        <div className="grid grid-cols-1 gap-px border border-line-soft bg-line-soft sm:grid-cols-2 lg:grid-cols-12">
           {/* Módulo-âncora */}
           <article className={cn("svc-trigger relative flex flex-col bg-surface p-8 sm:col-span-2 sm:p-12", AREA.planning)} aria-labelledby="mod-planning">
             <div className="flex items-start justify-between">
               <p className="eyebrow text-ink-3">{e.core} · {core.brand}</p>
               <ServiceIcon id={core.id} className="-m-2.5" />
             </div>
-            <h3 id="mod-planning" className="h1 mt-16 max-w-[12ch]">{core.title}</h3>
+            <h3 id="mod-planning" className="h1 mt-16 max-w-[12ch] hyphens-auto break-words">{core.title}</h3>
             <p className="lead mt-6 max-w-[46ch] text-ink-2">{core.short}</p>
             <div className="mt-auto flex flex-wrap items-center gap-6 pt-12">
               <ModuleButton href={href("services", locale, core.id)} tone="ink">{e.explore}</ModuleButton>

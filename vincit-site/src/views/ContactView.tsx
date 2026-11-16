@@ -13,12 +13,12 @@ export function ContactView({ locale }: { locale: Locale }) {
   const c = t.contact;
   const wa = whatsappHref(t.common.whatsappMessage);
   return (
-    <section data-contact-stage className="relative grid min-h-svh lg:grid-cols-2" aria-labelledby="page-title">
+    <section data-contact-stage className="relative grid min-h-svh grid-cols-1 lg:grid-cols-2" aria-labelledby="page-title">
       <div className="on-dark relative flex flex-col overflow-hidden bg-navy px-5 pb-16 pt-32 text-on-dark sm:px-12 sm:pt-40 lg:sticky lg:top-0 lg:h-svh">
         <GlobeAmbient className="absolute -bottom-80 -right-36 w-[28rem] opacity-40 sm:-bottom-56 sm:-right-48 sm:w-[52rem] sm:opacity-100" />
         <div className="relative">
           <Eyebrow onDark>{c.eyebrow}</Eyebrow>
-          <h1 id="page-title" className="h1 mt-6 max-w-[14ch]">{c.title}</h1>
+          <h1 id="page-title" className="h1 mt-6 max-w-[14ch] break-words">{c.title}</h1>
           <p className="lead mt-6 max-w-[40ch] text-on-dark-2">{c.intro}</p>
           <div className="mt-12 border-t border-navy-line pt-6 sm:max-w-sm">
             <p className="eyebrow text-on-dark-3">{c.followTitle}</p>

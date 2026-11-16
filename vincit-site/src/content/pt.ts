@@ -69,7 +69,7 @@ export const pt: Dict = {
     },
     who: {
       eyebrow: "Quem somos",
-      body: "A Vincit Capital é uma **firma de planejamento patrimonial sediada em San Diego**. Atendemos **empreendedores, famílias e clientes internacionais** que querem **um plano coordenado** para tudo o que construíram.",
+      body: "Somos uma **empresa global**, fundada por profissionais com **mais de 20 anos de experiência** no mercado financeiro, presente nas **Américas do Norte e do Sul**.",
     },
     services: {
       eyebrow: "O que fazemos",
@@ -365,9 +365,10 @@ export const pt: Dict = {
     eyebrow: "Quem somos",
     title: "Uma firma de planejamento patrimonial feita em torno de cada cliente.",
     story: [
-      "A Vincit Capital nasceu de uma ideia simples: cada cliente é diferente, então o seu patrimônio deve ser planejado assim. Chamamos a nossa abordagem de curadoria financeira — um planejamento cuidadoso e personalizado de investimentos, impostos, proteção e sucessão, em vez de soluções prontas.",
-      "Nossa liderança traz experiência de instituições financeiras consolidadas nos Estados Unidos, no Brasil e no exterior. Essa bagagem define como trabalhamos: processo estruturado, pesquisa rigorosa e relações próximas e de longo prazo.",
-      "Hoje temos sede em San Diego, na Califórnia, e escritórios no Brasil. Atendemos empreendedores, famílias e clientes internacionais nas Américas do Norte e do Sul, em inglês e em português.",
+      "Somos uma empresa global, fundada por profissionais com mais de 20 anos de experiência no mercado financeiro.",
+      "Oferecemos serviços de assessoria alinhados à cultura e à regulamentação locais, unindo conhecimento técnico a uma relação próxima com o cliente.",
+      "Nossa equipe traz experiência de instituições centenárias e reconhecidas internacionalmente, grande parte dela construída no centro da economia mundial.",
+      "Estamos presentes nas Américas do Norte e do Sul, ampliando nosso alcance e fortalecendo as conexões entre os dois continentes.",
     ],
     missionLabel: "Missão",
     mission: "Construir cada plano em torno da vida do cliente, protegendo o que é duradouro e fazendo-o crescer ao longo do tempo.",

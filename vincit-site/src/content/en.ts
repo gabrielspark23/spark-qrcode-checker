@@ -71,7 +71,7 @@ export const en = {
     },
     who: {
       eyebrow: "Who we are",
-      body: "Vincit Capital is a **wealth planning firm headquartered in San Diego**. We work with **entrepreneurs, families and international clients** who want **one coordinated plan** for everything they have built.",
+      body: "We are a **global company** founded by professionals with **over 20 years of experience** in the financial market, present in **North and South America**.",
     },
     services: {
       eyebrow: "What we do",
@@ -367,9 +367,10 @@ export const en = {
     eyebrow: "Who we are",
     title: "A wealth planning firm built around each client.",
     story: [
-      "Vincit Capital was founded on a simple idea: every client is different, so their wealth should be planned that way. We call our approach financial curation — careful, personalized planning across investments, taxes, protection and legacy, instead of off-the-shelf solutions.",
-      "Our leadership brings experience from established financial institutions in the United States, Brazil and internationally. That background shapes how we work: a structured process, rigorous research and close, long-term relationships.",
-      "Today we are headquartered in San Diego, California, with offices in Brazil. We serve entrepreneurs, families and international clients across North and South America, in English and Portuguese.",
+      "We are a global company founded by professionals with over 20 years of experience in the financial market.",
+      "We offer advisory services aligned with local culture and regulations, combining expertise with close client relationships.",
+      "Our team brings experience from internationally renowned, century-old institutions, much of it gained at the heart of the world's economy.",
+      "We are present in both North and South America, expanding our reach and strengthening connections across both continents.",
     ],
     missionLabel: "Mission",
     mission: "To build each plan around the client's life, protecting what lasts and growing it over time.",

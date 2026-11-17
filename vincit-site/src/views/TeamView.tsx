@@ -21,7 +21,7 @@ export function TeamView({ locale }: { locale: Locale }) {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personLd).replace(/</g, "\\u003c") }} />
-      {/* Topo: grafite, tela dividida com a foto da equipe (publicada em vincitcapital.com.br) */}
+      {/* Topo: grafite, tela dividida com a foto do escritório (a mesma de vincitfinancial.com) */}
       <section className="on-dark relative grid overflow-hidden bg-navy text-on-dark lg:min-h-[44rem] lg:grid-cols-2" aria-labelledby="page-title">
         <Container className="ed-hero relative flex flex-col items-end justify-between gap-16 pb-16 pt-36 text-right sm:pt-44 lg:order-2 lg:ml-0 lg:max-w-none lg:pl-16 lg:pr-[max(2rem,calc((100vw-80rem)/2+2rem))]">
           <Eyebrow onDark className="enter flex-row-reverse">{tm.eyebrow}</Eyebrow>
@@ -32,13 +32,15 @@ export function TeamView({ locale }: { locale: Locale }) {
         </Container>
         <div className="relative aspect-[4/3] lg:order-1 lg:aspect-auto">
           <Image
-            src="/images/team-vincit.webp"
-            alt={locale === "pt" ? "Equipe da Vincit Capital no escritório" : "The Vincit Capital team at the office"}
+            src="/images/team-office.webp"
+            alt={locale === "pt" ? "Recepção do escritório da Vincit Capital" : "Vincit Capital office reception"}
             fill
             priority
             sizes="(min-width: 1024px) 50vw, 100vw"
-            className="object-cover object-[30%_center]"
+            className="object-cover object-[35%_center]"
           />
+          {/* véu no topo: mantém o menu legível sobre a foto clara */}
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-44 bg-linear-to-b from-navy/90 to-transparent" aria-hidden />
         </div>
       </section>
 

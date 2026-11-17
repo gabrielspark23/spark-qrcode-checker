@@ -80,7 +80,7 @@ Editorial Luxury + Geometric Brand Language + Scroll-Driven Storytelling".
 
 ## 7. Rodada de ajustes (header, globo, estilhaços, equipe)
 
-- Foto da equipe: `concept-partners.webp`, publicada em vincitcapital.com.br → `public/images/team-vincit.webp`.
+- Foto do topo da página Team: `team-header.webp` de vincitfinancial.com (recepção do escritório, sem pessoas) → `public/images/team-office.webp`. A foto de grupo do site brasileiro foi removida por mostrar pessoas que não fazem parte do hub dos EUA.
   Alt sem nomes (o site não identifica quem é quem). **Confirmar com o Ricardo o uso no site americano.**
 - Marca em estilhaços: escudo, V e círculo separados do `escudo-vincit.svg` oficial (`MARK_PARTS`).
 - Header muda de tom conforme a seção por baixo (clara/grafite).

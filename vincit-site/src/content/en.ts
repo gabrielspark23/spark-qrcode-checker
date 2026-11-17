@@ -9,7 +9,7 @@
 export const en = {
   meta: {
     siteDescription:
-      "Vincit Capital is an international wealth advisory firm serving high-net-worth individuals, entrepreneurs, and families across North and South America. Institutional expertise. Fully personalized approach.",
+      "Vincit Financial is an international wealth advisory firm serving high-net-worth individuals, entrepreneurs, and families across North and South America. Institutional expertise. Fully personalized approach.",
   },
   nav: {
     services: "Services",
@@ -29,7 +29,7 @@ export const en = {
   common: {
     howWeHelp: "How we help",
     talkWhatsApp: "Message us on WhatsApp",
-    whatsappMessage: "Hello, I would like to learn more about Vincit Capital.",
+    whatsappMessage: "Hello, I would like to learn more about Vincit Financial.",
     talkToTeam: "Speak with an advisor",
     learnMore: "Learn more",
     aboutUs: "Who we are",
@@ -58,7 +58,7 @@ export const en = {
       titleA: "Your Wealth.",
       titleB: "Curated Without Compromise.",
       subtitle:
-        "From offshore portfolio management to advanced tax strategies — Vincit Capital delivers institutional-grade wealth planning, built entirely around your life.",
+        "From offshore portfolio management to advanced tax strategies — Vincit Financial delivers institutional-grade wealth planning, built entirely around your life.",
       photoAlt: "Three generations of a family sitting on the beach, watching the sunset over the ocean.",
       index: ["Financial Planning", "Protection", "Portfolio Management", "Tax Strategy", "Offshore Advisory", "Estate Planning"],
       indexLabel: "One plan, six disciplines",
@@ -128,7 +128,7 @@ export const en = {
     custody: {
       eyebrow: "Custody",
       title: "Your assets stay in your name, at qualified custodians.",
-      body: "Vincit Capital is not a custodian of client assets. Investment accounts are held at qualified third-party custodians, and you keep direct ownership and access at all times.",
+      body: "Vincit Financial is not a custodian of client assets. Investment accounts are held at qualified third-party custodians, and you keep direct ownership and access at all times.",
       note: "Partner logos only with written authorization.",
     },
     tech: {
@@ -379,7 +379,7 @@ export const en = {
       eyebrow: "Our manifesto",
       lines: ["More than overcoming obstacles.", "Far beyond outdoing someone."],
       closing: "At Vincit, winning means something else.",
-      title: "Our manifesto — Vincit Capital",
+      title: "Our manifesto — Vincit Financial",
       play: "Watch the manifesto",
       duration: "0:53",
       note: "In Portuguese",
@@ -472,7 +472,7 @@ export const en = {
       thanksName: "Thank you, {name}.",
       received: "Request received.",
       note: "Our team will contact you within one business day. Prepare for a confidential conversation about your investment goals.",
-      signature: "— The Vincit Capital team",
+      signature: "— The Vincit Financial team",
       body: "What happens next",
       again: "Send another request",
       home: "Back to home",

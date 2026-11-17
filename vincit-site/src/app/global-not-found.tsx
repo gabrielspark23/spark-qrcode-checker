@@ -6,7 +6,7 @@ import { en } from "@/content/en";
 import { pt } from "@/content/pt";
 import { sans, serif } from "@/lib/fonts";
 
-export const metadata: Metadata = { title: "404 · Vincit Capital", robots: { index: false } };
+export const metadata: Metadata = { title: "404 · Vincit Financial", robots: { index: false } };
 
 /** 404 bilíngue (PRD §5.8). */
 export default function GlobalNotFound() {

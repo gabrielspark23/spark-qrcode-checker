@@ -7,7 +7,7 @@ import type { Dict } from "./en";
 export const pt: Dict = {
   meta: {
     siteDescription:
-      "A Vincit Capital é uma firma internacional de gestão patrimonial que atende investidores de alto patrimônio, empreendedores e famílias nas Américas do Norte e do Sul. Expertise institucional. Abordagem totalmente personalizada.",
+      "A Vincit Financial é uma firma internacional de gestão patrimonial que atende investidores de alto patrimônio, empreendedores e famílias nas Américas do Norte e do Sul. Expertise institucional. Abordagem totalmente personalizada.",
   },
   nav: {
     services: "Serviços",
@@ -27,7 +27,7 @@ export const pt: Dict = {
   common: {
     howWeHelp: "Como ajudamos",
     talkWhatsApp: "Fale conosco no WhatsApp",
-    whatsappMessage: "Olá, gostaria de saber mais sobre a Vincit Capital.",
+    whatsappMessage: "Olá, gostaria de saber mais sobre a Vincit Financial.",
     talkToTeam: "Fale com um consultor",
     learnMore: "Saiba mais",
     aboutUs: "Quem somos",
@@ -56,7 +56,7 @@ export const pt: Dict = {
       titleA: "Seu patrimônio.",
       titleB: "Com curadoria, sem concessões.",
       subtitle:
-        "Da gestão de carteiras offshore a estratégias tributárias avançadas, a Vincit Capital entrega planejamento patrimonial de nível institucional, construído inteiramente em torno da sua vida.",
+        "Da gestão de carteiras offshore a estratégias tributárias avançadas, a Vincit Financial entrega planejamento patrimonial de nível institucional, construído inteiramente em torno da sua vida.",
       photoAlt: "Três gerações de uma família sentadas na praia, olhando o pôr do sol sobre o mar.",
       index: ["Planejamento financeiro", "Proteção", "Gestão de carteiras", "Estratégia tributária", "Assessoria offshore", "Planejamento sucessório"],
       indexLabel: "Um plano, seis frentes",
@@ -126,7 +126,7 @@ export const pt: Dict = {
     custody: {
       eyebrow: "Custódia",
       title: "Seu patrimônio fica em seu nome, em custodiantes qualificados.",
-      body: "A Vincit Capital não é custodiante dos ativos dos clientes. As contas de investimento ficam em custodiantes terceiros qualificados, e você mantém a titularidade e o acesso direto o tempo todo.",
+      body: "A Vincit Financial não é custodiante dos ativos dos clientes. As contas de investimento ficam em custodiantes terceiros qualificados, e você mantém a titularidade e o acesso direto o tempo todo.",
       note: "Logos de parceiros só com autorização por escrito.",
     },
     tech: {
@@ -377,12 +377,12 @@ export const pt: Dict = {
       eyebrow: "Nosso manifesto",
       lines: ["Mais do que superar obstáculos.", "Muito além do que superar alguém."],
       closing: "Para a Vincit, vencer tem outro significado.",
-      title: "Nosso manifesto — Vincit Capital",
+      title: "Nosso manifesto — Vincit Financial",
       play: "Assista ao manifesto",
       duration: "0:53",
       note: "",
     },
-    quote: "A Vincit Capital é uma curadoria financeira que sabe que cada pessoa é única. A forma de investir também deve ser.",
+    quote: "A Vincit Financial é uma curadoria financeira que sabe que cada pessoa é única. A forma de investir também deve ser.",
   },
   serve: {
     eyebrow: "Para quem",
@@ -470,7 +470,7 @@ export const pt: Dict = {
       thanksName: "Obrigado, {name}.",
       received: "Solicitação recebida.",
       note: "Nossa equipe entrará em contato em até um dia útil. Prepare-se para uma conversa confidencial sobre os seus objetivos de investimento.",
-      signature: "— Equipe Vincit Capital",
+      signature: "— Equipe Vincit Financial",
       body: "Próximos passos",
       again: "Enviar outra solicitação",
       home: "Voltar ao início",

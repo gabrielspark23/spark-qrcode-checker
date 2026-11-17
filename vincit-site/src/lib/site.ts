@@ -3,7 +3,7 @@
  * Enquanto vazios, os CTAs caem na página de contato em vez de um link quebrado.
  */
 export const site = {
-  name: "Vincit Capital", // D6 — nome único, igual ao wordmark
+  name: "Vincit Financial", // D6 — nome único, igual ao wordmark
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://vincitcapital.com", // D5
   osLoginUrl: process.env.NEXT_PUBLIC_OS_LOGIN_URL ?? "https://vincit-os.vercel.app/login",
   scheduleUrl: process.env.NEXT_PUBLIC_SCHEDULE_URL ?? "", // D9 — link de horários do GHL

@@ -1,5 +1,5 @@
 /**
- * Geometria oficial da marca Vincit Capital.
+ * Geometria oficial da marca Vincit Financial.
  *
  * FONTES OFICIAIS (vincitcapital.com.br):
  * - Marca: `escudo-vincit.svg` (wp-content/uploads/2024/01) — paths usados sem alteração.

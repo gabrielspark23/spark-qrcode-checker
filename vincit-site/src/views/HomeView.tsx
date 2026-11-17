@@ -13,9 +13,9 @@ import type { Locale } from "@/lib/i18n";
 
 /**
  * Home como narrativa:
- * 1. O que fazemos (herói claro) → 2. como pensamos (reveal circular para grafite) →
- * 3. onde atuamos (globo BR–EUA, ainda em grafite) → 4. o que oferecemos (módulos) →
- * 5. para quem (painéis) → 6. como trabalhamos (linha) → 7. plataforma e pessoas → 8. manifesto (vídeo), sobre o fundo claro.
+ * 1. O que fazemos (herói claro) → 2. o que oferecemos (módulos) → 3. para quem (painéis) →
+ * 4. como trabalhamos (linha) → 5. plataforma e pessoas → 6. manifesto (vídeo) →
+ * 7. curadoria financeira e 8. onde atuamos (globo), no fim por serem de contexto.
  */
 export function HomeView({ locale }: { locale: Locale }) {
   const t = getDict(locale);
@@ -23,13 +23,13 @@ export function HomeView({ locale }: { locale: Locale }) {
     <>
       <ChapterRail chapters={t.home.chapters} label={t.home.chaptersLabel} />
       <Hero locale={locale} t={t} />
-      <Perspective t={t} />
-      <GlobeSection t={t} staticGlobe={<GlobeStatic label={t.home.globe.label} />} />
       <Expertise locale={locale} t={t} />
       <WhoWeServeTabs locale={locale} t={t} />
       <PlanningLine t={t} />
       <PlatformPeople locale={locale} t={t} />
       <HomeManifesto locale={locale} t={t} />
+      <Perspective t={t} />
+      <GlobeSection t={t} staticGlobe={<GlobeStatic label={t.home.globe.label} />} />
     </>
   );
 }

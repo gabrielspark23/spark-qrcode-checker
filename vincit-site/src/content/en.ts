@@ -45,13 +45,13 @@ export const en = {
   home: {
     parts: { shield: "Shield · protection", v: "V · convergence", circle: "Circle · continuity", all: "The complete mark · structure" },
     chapters: [
-      { id: "perspective-title", label: "Our approach" },
-      { id: "globe-title", label: "Across borders" },
       { id: "expertise-title", label: "Services" },
       { id: "serve-title", label: "Who we serve" },
       { id: "process-title", label: "Our process" },
       { id: "platform-title", label: "Our team" },
       { id: "manifesto-home-title", label: "Manifesto" },
+      { id: "perspective-title", label: "Financial curation" },
+      { id: "globe-title", label: "Where we are" },
     ],
     chaptersLabel: "Sections",
     hero: {

@@ -43,13 +43,13 @@ export const pt: Dict = {
   home: {
     parts: { shield: "Escudo · proteção", v: "V · convergência", circle: "Círculo · continuidade", all: "A marca completa · estrutura" },
     chapters: [
-      { id: "perspective-title", label: "Nossa abordagem" },
-      { id: "globe-title", label: "Entre fronteiras" },
       { id: "expertise-title", label: "Serviços" },
       { id: "serve-title", label: "Para quem" },
       { id: "process-title", label: "Nosso processo" },
       { id: "platform-title", label: "Nossa equipe" },
       { id: "manifesto-home-title", label: "Manifesto" },
+      { id: "perspective-title", label: "Curadoria financeira" },
+      { id: "globe-title", label: "Onde estamos" },
     ],
     chaptersLabel: "Seções",
     hero: {

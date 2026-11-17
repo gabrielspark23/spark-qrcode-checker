@@ -27,8 +27,8 @@ function InstagramIcon() {
   );
 }
 
-/** Páginas internas que terminam com a chamada em grafite: o rodapé fica claro (inversão). */
-const LIGHT_FOOTER = new Set(["services", "whoWeServe", "team", "about"]);
+/** Páginas que terminam em grafite (inclui a Home, que fecha no globo): o rodapé fica claro (inversão). */
+const LIGHT_FOOTER = new Set(["home", "services", "whoWeServe", "team", "about"]);
 
 /**
  * Rodapé: cartão grafite recuado sobre pedra (ou claro nas páginas internas com chamada grafite). Logo e redes à esquerda, filete vertical de latão,

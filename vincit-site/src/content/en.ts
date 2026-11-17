@@ -49,7 +49,6 @@ export const en = {
       { id: "serve-title", label: "Who we serve" },
       { id: "process-title", label: "Our process" },
       { id: "platform-title", label: "Our team" },
-      { id: "manifesto-home-title", label: "Manifesto" },
       { id: "perspective-title", label: "Financial curation" },
       { id: "globe-title", label: "Where we are" },
     ],

@@ -47,7 +47,6 @@ export const pt: Dict = {
       { id: "serve-title", label: "Para quem" },
       { id: "process-title", label: "Nosso processo" },
       { id: "platform-title", label: "Nossa equipe" },
-      { id: "manifesto-home-title", label: "Manifesto" },
       { id: "perspective-title", label: "Curadoria financeira" },
       { id: "globe-title", label: "Onde estamos" },
     ],

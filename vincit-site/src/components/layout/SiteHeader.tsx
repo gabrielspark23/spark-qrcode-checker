@@ -164,7 +164,7 @@ export function SiteHeader({ locale, nav, whatsappText }: { locale: Locale; nav:
         {nav.skip}
       </a>
       <div className="mx-auto flex h-[4.5rem] max-w-7xl items-center gap-6 px-5 sm:px-8">
-        <Link href={href("home", locale)} data-tone-item className="tone-item rounded-[2px]" aria-label="Vincit Capital — Home">
+        <Link href={href("home", locale)} data-tone-item className="tone-item rounded-[2px]" aria-label="Vincit Financial — Home">
           <Logo />
         </Link>
 

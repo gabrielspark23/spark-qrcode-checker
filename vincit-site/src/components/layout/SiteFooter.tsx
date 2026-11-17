@@ -60,7 +60,7 @@ export function SiteFooter({ locale, t }: { locale: Locale; t: Dict }) {
           <div className="grid gap-12 lg:grid-cols-[1fr_1px_1fr] lg:gap-16">
             <div className="flex flex-col justify-between gap-12">
               <div>
-                <Link href={href("home", locale)} className="inline-block rounded-[2px]" aria-label="Vincit Capital — Home">
+                <Link href={href("home", locale)} className="inline-block rounded-[2px]" aria-label="Vincit Financial — Home">
                   <Logo onDark={!light} />
                 </Link>
               </div>

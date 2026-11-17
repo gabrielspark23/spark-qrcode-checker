@@ -10,7 +10,7 @@ export function LegalView({ locale, kind }: { locale: Locale; kind: "disclosures
   const title = kind === "disclosures" ? l.disclosuresTitle : l.privacyTitle;
   return (
     <>
-      <EditorialHero eyebrow="Vincit Capital" title={title} variant="compact" />
+      <EditorialHero eyebrow="Vincit Financial" title={title} variant="compact" />
       <section className="bg-app py-16 sm:py-24">
         <Container narrow>
           <div className="space-y-10">

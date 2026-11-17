@@ -19,7 +19,7 @@ export function PrivacyView({ locale }: { locale: Locale }) {
           <div className="order-2 lg:order-none lg:col-span-4 lg:pb-3">
             <p className="eyebrow enter flex items-center gap-3 text-ink-3">
               <span className="draw h-px w-8 bg-brass" aria-hidden />
-              Vincit Capital
+              Vincit Financial
             </p>
             <p className="enter enter-2 mt-5 inline-flex items-center gap-3 rounded-full border border-line-soft px-4 py-2 text-sm text-ink-3">
               {p.updatedLabel}

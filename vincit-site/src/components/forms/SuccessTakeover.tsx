@@ -76,7 +76,7 @@ export function SuccessTakeover({
                 </svg>
                 <p className="tk-in tk-1 eyebrow flex items-center gap-3 text-[#16181d]/70">
                   <span className="h-px w-8 bg-[#16181d]/60" aria-hidden />
-                  Vincit Capital
+                  Vincit Financial
                 </p>
               </div>
               <h2 ref={titleRef} tabIndex={-1} className="tk-title display mt-[clamp(1rem,3vh,2rem)] text-[min(clamp(2.75rem,1.6rem+4vw,5.5rem),9.5vh)] leading-[1] outline-none">

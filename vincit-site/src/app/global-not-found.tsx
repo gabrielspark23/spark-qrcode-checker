@@ -20,7 +20,7 @@ export default function GlobalNotFound() {
       <body className="on-dark min-h-dvh bg-navy text-on-dark">
         <div className="texture-lines fixed inset-0" aria-hidden />
         <main className="relative mx-auto flex min-h-dvh max-w-5xl flex-col px-5 py-10 sm:px-8">
-          <Link href="/" aria-label="Vincit Capital"><Logo onDark /></Link>
+          <Link href="/" aria-label="Vincit Financial"><Logo onDark /></Link>
           <div className="my-auto grid gap-14 py-20 md:grid-cols-2">
             {(["en", "pt"] as const).map((l, i) => (
               <section key={l} lang={l === "pt" ? "pt-BR" : "en"}>

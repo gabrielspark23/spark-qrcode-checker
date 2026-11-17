@@ -1,4 +1,4 @@
-import { MARK_PATH, MARK_VIEWBOX, WORD_PATH, WORD_VIEWBOX } from "@/lib/brand-geometry";
+import { MARK_PATH, MARK_VIEWBOX, WORD_FINANCIAL_PATH, WORD_VINCIT_PATH, WORD_VIEWBOX } from "@/lib/brand-geometry";
 import { cn } from "@/lib/cn";
 
 /** Marca oficial (escudo-vincit.svg). Latão chapado da paleta do site, sem degradê. */
@@ -17,13 +17,14 @@ export function LogoMark({ className, tone = "brass", title }: { className?: str
   );
 }
 
-/** Lockup oficial: escudo + "VINCIT CAPITAL" em duas linhas. `onDark` = wordmark claro. */
+/** Lockup oficial Vincit Financial: escudo + "VINCIT" sobre "FINANCIAL" (latão). `onDark` = "VINCIT" claro. */
 export function Logo({ onDark, className }: { onDark?: boolean; className?: string }) {
   return (
     <span className={cn("inline-flex items-center gap-2", className)}>
       <LogoMark className="h-10 w-auto" />
       <svg viewBox={WORD_VIEWBOX} className="h-[1.85rem] w-auto" aria-hidden>
-        <path d={WORD_PATH} fill={onDark === undefined ? "currentColor" : onDark ? "var(--text-on-dark)" : "var(--text-primary)"} fillRule="evenodd" />
+        <path d={WORD_VINCIT_PATH} fill={onDark === undefined ? "currentColor" : onDark ? "var(--text-on-dark)" : "var(--text-primary)"} fillRule="evenodd" />
+        <path d={WORD_FINANCIAL_PATH} fill="var(--color-gold)" fillRule="evenodd" />
       </svg>
     </span>
   );

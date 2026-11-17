@@ -1,33 +1,56 @@
-import { ServicesChapters } from "@/components/sections/ServicesChapters";
-import { EditorialHero } from "@/components/sections/EditorialHero";
+import { ArrowRight, Check } from "lucide-react";
+import Link from "next/link";
+import { CtaBand } from "@/components/sections/CtaBand";
+import { SimpleHeader } from "@/components/sections/SimpleHeader";
+import { Button } from "@/components/ui/Button";
+import { Container } from "@/components/ui/Layout";
 import { getDict } from "@/content";
 import { href, type Locale } from "@/lib/i18n";
 
 /**
- * Serviços — página tipográfica: abertura editorial clara, faixa grafite com os seis capítulos e os capítulos
- * em grade com filetes. Nenhuma foto por serviço; o impacto vem da tipografia, das proporções e do ritmo.
+ * Serviços em formato direto: cabeçalho simples e os seis serviços numa única grade de cartões
+ * (descrição + três pontos de "como ajudamos"). Fecha com a faixa de chamada.
  */
 export function ServicesView({ locale }: { locale: Locale }) {
   const t = getDict(locale);
   const p = t.servicesPage;
+  const contact = href("contact", locale);
   return (
     <>
-      <EditorialHero eyebrow={p.eyebrow} title={p.title} intro={p.intro} />
-
-      <ServicesChapters
-        services={t.services.map(({ id, brand, title, short, body, situations, whatWeDo }) => ({ id, brand, title, short, body, situations, whatWeDo }))}
-        labels={{
-          service: p.serviceLabel,
-          overview: p.overviewLabel,
-          situations: t.common.typicalSituations,
-          whatWeDo: t.common.whatWeDo,
-          expand: p.expand,
-          collapse: p.collapse,
-          talk: t.common.talkToTeam,
-          index: p.indexLabel,
-          contactHref: href("contact", locale),
-        }}
+      <SimpleHeader
+        eyebrow={p.eyebrow}
+        title={p.title}
+        intro={p.intro}
+        actions={<Button href={contact} event="cta_schedule_click">{t.nav.schedule}</Button>}
       />
+
+      <section className="bg-app py-16 sm:py-20" aria-label={p.indexLabel}>
+        <Container>
+          <div className="grid gap-6 md:grid-cols-2">
+            {t.services.map((s) => (
+              <article key={s.id} id={s.id} aria-labelledby={`${s.id}-title`} className="flex scroll-mt-24 flex-col border border-line bg-surface p-8 sm:p-10">
+                <span className="block h-px w-8 bg-brass" aria-hidden />
+                <h2 id={`${s.id}-title`} className="mt-5 font-serif text-[1.75rem] leading-tight">{s.title}</h2>
+                <p className="mt-4 text-[0.9375rem] leading-relaxed text-ink-2">{s.body}</p>
+                <ul className="mt-6 space-y-2.5 border-t border-line-soft pt-6">
+                  {s.whatWeDo.slice(0, 3).map((x) => (
+                    <li key={x} className="flex gap-3 text-[0.9375rem]">
+                      <Check className="mt-1 h-4 w-4 shrink-0 text-brass" strokeWidth={2} aria-hidden />
+                      {x}
+                    </li>
+                  ))}
+                </ul>
+                <Link href={contact} className="link-arrow mt-auto self-start pt-8 text-sm font-semibold" data-event="cta_schedule_click" aria-label={`${t.common.talkToTeam}: ${s.title}`}>
+                  <span>{t.common.talkToTeam}</span>
+                  <ArrowRight className="h-4 w-4" strokeWidth={1.75} aria-hidden />
+                </Link>
+              </article>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      <CtaBand locale={locale} t={t} />
     </>
   );
 }

@@ -354,6 +354,7 @@ export const pt: Dict = {
   about: {
     eyebrow: "Quem somos",
     title: "Uma empresa global, construída sobre a curadoria financeira.",
+    storyTitle: "Nossa história",
     story: [
       "Somos uma empresa global, fundada por profissionais com mais de 20 anos de experiência no mercado financeiro.",
       "Oferecemos serviços de assessoria alinhados à cultura e à regulamentação locais, unindo conhecimento técnico a uma relação próxima com o cliente.",

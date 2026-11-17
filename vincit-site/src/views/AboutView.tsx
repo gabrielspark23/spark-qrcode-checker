@@ -1,72 +1,60 @@
-import { EditorialHero } from "@/components/sections/EditorialHero";
-import { OrbitArt } from "@/components/sections/PageHero";
-import { ValuesList } from "@/components/sections/ValuesList";
-import { StoryTimeline } from "@/components/sections/StoryTimeline";
-import { LogoMark } from "@/components/brand/Logo";
+import { CtaBand } from "@/components/sections/CtaBand";
+import { SimpleHeader } from "@/components/sections/SimpleHeader";
 import { Container } from "@/components/ui/Layout";
 import { getDict } from "@/content";
 import type { Locale } from "@/lib/i18n";
 
-/** Sobre como manifesto: título grande, história em linha do tempo com entalhes em V, valores em tipografia. */
+/** Quem somos, em leitura direta: história (com o que valorizamos/acreditamos) e valores. Onde estamos fica no globo da Home. */
 export function AboutView({ locale }: { locale: Locale }) {
   const t = getDict(locale);
   const a = t.about;
   return (
     <>
-      <EditorialHero eyebrow={a.eyebrow} title={a.title} variant="stagger" art={<OrbitArt />} />
+      <SimpleHeader eyebrow={a.eyebrow} title={a.title} />
 
-      {/* História: linha do tempo */}
-      <section className="bg-app py-20 sm:py-28" aria-label={a.eyebrow}>
+      {/* História + o que valorizamos / no que acreditamos */}
+      <section className="bg-app py-16 sm:py-24" aria-labelledby="story-title">
         <Container>
-          <StoryTimeline items={a.story} />
-        </Container>
-      </section>
-
-      {/* O que valorizamos e no que acreditamos (o manifesto em vídeo volta quando houver versão em inglês) */}
-      <section className="on-dark bg-navy py-20 text-on-dark sm:py-28" aria-label={a.missionLabel}>
-        <Container>
-          <div className="grid gap-14 lg:grid-cols-12">
-            <div className="flex lg:col-span-2">
-              <LogoMark className="h-16 w-auto" />
+          <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
+            <h2 id="story-title" className="font-serif text-[clamp(1.875rem,1.5rem+1.2vw,2.5rem)] leading-tight lg:col-span-4">{a.storyTitle}</h2>
+            <div className="lg:col-span-8">
+              <div className="space-y-5">
+                {a.story.map((p, i) => (
+                  <p key={p} className={i === 0 ? "font-serif text-[1.5rem] leading-snug" : "text-[1.0625rem] leading-relaxed text-ink-2"}>{p}</p>
+                ))}
+              </div>
+              <dl className="mt-12 grid gap-8 border-t border-line pt-10 sm:grid-cols-2">
+                {[
+                  [a.missionLabel, a.mission],
+                  [a.visionLabel, a.vision],
+                ].map(([k, v]) => (
+                  <div key={k}>
+                    <dt className="eyebrow text-ink-3">{k}</dt>
+                    <dd className="mt-3 text-[1.0625rem] leading-relaxed">{v}</dd>
+                  </div>
+                ))}
+              </dl>
             </div>
-            <dl className="grid gap-12 sm:grid-cols-2 lg:col-span-9 lg:col-start-4">
-              <div>
-                <dt className="eyebrow text-brass">{a.missionLabel}</dt>
-                <dd className="mt-4 font-serif text-[1.75rem] leading-snug">{a.mission}</dd>
-              </div>
-              <div>
-                <dt className="eyebrow text-brass">{a.visionLabel}</dt>
-                <dd className="mt-4 font-serif text-[1.75rem] leading-snug">{a.vision}</dd>
-              </div>
-            </dl>
           </div>
         </Container>
       </section>
 
-      {/* Valores em tipografia grande */}
-      <section className="bg-app py-20 sm:py-28" aria-labelledby="values-title">
+      {/* Valores */}
+      <section className="border-t border-line bg-surface py-16 sm:py-24" aria-labelledby="values-title">
         <Container>
-          <h2 id="values-title" className="eyebrow text-ink-3">{a.valuesTitle}</h2>
-          <ValuesList values={t.values} />
-        </Container>
-      </section>
-
-
-      <section className="where-map relative overflow-hidden border-t border-line bg-surface-muted py-20 sm:py-24" aria-labelledby="where-title">
-        {/* mapa pontilhado das Américas (mesmos dados do globo), no tom do fundo, com as três praças em latão */}
-        <span className="where-map-bg" aria-hidden />
-        <Container className="relative">
-          <h2 id="where-title" className="h2">{a.whereTitle}</h2>
-          <ul className="mt-10 grid gap-8 md:grid-cols-3">
-            {t.home.globe.locations.map((l) => (
-              <li key={l.id} className="border-t-2 border-brass pt-6">
-                <h3 className="font-serif text-2xl">{l.name}</h3>
-                <p className="mt-2 text-ink-2">{l.role}</p>
+          <h2 id="values-title" className="font-serif text-[clamp(1.875rem,1.5rem+1.2vw,2.5rem)] leading-tight">{a.valuesTitle}</h2>
+          <ul className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {t.values.map((v) => (
+              <li key={v.title} className="border-t-2 border-brass pt-6">
+                <h3 className="font-serif text-[1.5rem]">{v.title}</h3>
+                <p className="mt-3 text-[0.9375rem] leading-relaxed text-ink-2">{v.body}</p>
               </li>
             ))}
           </ul>
         </Container>
       </section>
+
+      <CtaBand locale={locale} t={t} />
     </>
   );
 }

@@ -356,6 +356,7 @@ export const en = {
   about: {
     eyebrow: "Who we are",
     title: "A global company built on financial curation.",
+    storyTitle: "Our story",
     story: [
       "We are a global company founded by professionals with over 20 years of experience in the financial market.",
       "We offer advisory services aligned with local culture and regulations, combining expertise with close client relationships.",

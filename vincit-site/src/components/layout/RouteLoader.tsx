@@ -34,7 +34,7 @@ export function RouteLoader() {
       timer.current = window.setTimeout(() => {
         delete document.documentElement.dataset.loader;
         setPhase("idle");
-      }, 320);
+      }, 440);
     }, wait);
     return () => window.clearTimeout(timer.current);
   }, [phase]);

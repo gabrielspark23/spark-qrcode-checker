@@ -20,7 +20,18 @@ export function ContactView({ locale }: { locale: Locale }) {
           <Eyebrow onDark>{c.eyebrow}</Eyebrow>
           <h1 id="page-title" className="h1 mt-6 max-w-[14ch] break-words">{c.title}</h1>
           <p className="lead mt-6 max-w-[40ch] text-on-dark-2">{c.intro}</p>
-          <div className="mt-12 border-t border-navy-line pt-6 sm:max-w-sm">
+          {wa ? (
+            <div id="whatsapp" className="mt-12 scroll-mt-28 border-t border-navy-line pt-6 sm:max-w-sm">
+              <p className="eyebrow flex items-center gap-2 text-on-dark-3">
+                <MessageCircle className="h-4 w-4" strokeWidth={1.5} aria-hidden />
+                {c.whatsappTitle}
+              </p>
+              <div className="mt-4">
+                <ModuleButton href={wa} event="cta_whatsapp_click">{t.common.talkWhatsApp}</ModuleButton>
+              </div>
+            </div>
+          ) : null}
+          <div className={wa ? "mt-10 border-t border-navy-line pt-6 sm:max-w-sm" : "mt-12 border-t border-navy-line pt-6 sm:max-w-sm"}>
             <p className="eyebrow text-on-dark-3">{c.followTitle}</p>
             <ul className="mt-4 space-y-3">
               <li>
@@ -44,26 +55,13 @@ export function ContactView({ locale }: { locale: Locale }) {
       <div className="bg-app px-5 pb-20 pt-12 sm:px-12 lg:pt-40">
         <h2 className="h3 mb-6">{c.formTitle}</h2>
         <LeadForm locale={locale} t={t} />
-        {site.scheduleUrl || wa ? (
-          <div className="mt-8 grid gap-4 sm:grid-cols-2">
-            {site.scheduleUrl ? (
-              <div className="border border-line bg-surface p-6">
-                <CalendarDays className="h-5 w-5" strokeWidth={1.25} aria-hidden />
-                <p className="mt-4 font-serif text-xl">{c.scheduleTitle}</p>
-                <div className="mt-5">
-                  <Button href={site.scheduleUrl} external icon="external" notch="soft" event="cta_schedule_click">{c.pickTime}</Button>
-                </div>
-              </div>
-            ) : null}
-            {wa ? (
-              <div id="whatsapp" className="scroll-mt-28 border border-line bg-surface p-6">
-                <MessageCircle className="h-5 w-5" strokeWidth={1.25} aria-hidden />
-                <p className="mt-4 font-serif text-xl">{c.whatsappTitle}</p>
-                <div className="mt-5">
-                  <ModuleButton href={wa} event="cta_whatsapp_click">{t.common.talkWhatsApp}</ModuleButton>
-                </div>
-              </div>
-            ) : null}
+        {site.scheduleUrl ? (
+          <div className="mt-8 border border-line bg-surface p-6 sm:max-w-sm">
+            <CalendarDays className="h-5 w-5" strokeWidth={1.25} aria-hidden />
+            <p className="mt-4 font-serif text-xl">{c.scheduleTitle}</p>
+            <div className="mt-5">
+              <Button href={site.scheduleUrl} external icon="external" notch="soft" event="cta_schedule_click">{c.pickTime}</Button>
+            </div>
           </div>
         ) : null}
       </div>

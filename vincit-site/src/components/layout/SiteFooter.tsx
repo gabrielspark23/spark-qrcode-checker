@@ -3,7 +3,6 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { Logo } from "@/components/brand/Logo";
-import { Button } from "@/components/ui/Button";
 import { href, routeKeyFromPath, type Locale } from "@/lib/i18n";
 import { cn } from "@/lib/cn";
 import { site } from "@/lib/site";
@@ -88,11 +87,6 @@ export function SiteFooter({ locale, t }: { locale: Locale; t: Dict }) {
               <p className={cn("max-w-[24ch] font-serif text-[clamp(1.5rem,1.2rem+1vw,2rem)] leading-snug", c.text)}>
                 {f.statement}
               </p>
-              <div className="mt-8">
-                <Button href={href("contact", locale)} variant={light ? "shield" : "brass-invert"} event="cta_schedule_click" className="btn-pill rounded-full">
-                  {t.nav.schedule}
-                </Button>
-              </div>
               <address className={cn("mt-8 space-y-1 text-sm not-italic", c.text2)}>
                 <p>
                   {site.address.line1 ? <>{site.address.line1}, </> : null}

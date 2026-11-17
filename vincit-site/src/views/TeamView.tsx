@@ -77,25 +77,6 @@ export function TeamView({ locale }: { locale: Locale }) {
         </Container>
       </section>
 
-      <section className="border-t border-line bg-surface-muted py-20 sm:py-24" aria-labelledby="network-title">
-        <Container>
-          <div className="grid gap-10 lg:grid-cols-12">
-            <div className="lg:col-span-4">
-              <h2 id="network-title" className="h2">{tm.network}</h2>
-              <p className="mt-4 text-ink-2">{tm.networkIntro}</p>
-            </div>
-            <ul className="grid gap-px border border-line-soft bg-line-soft sm:grid-cols-2 lg:col-span-8">
-              {tm.partners.map((p) => (
-                <li key={p.name} className="net-card bg-surface p-8">
-                  <h3 className="nc-name font-serif text-xl">{p.name}</h3>
-                  <span className="nc-rule" aria-hidden />
-                  <p className="nc-body mt-3 text-[0.9375rem] leading-relaxed text-ink-2">{p.body}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </Container>
-      </section>
     </>
   );
 }

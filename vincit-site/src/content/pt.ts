@@ -128,7 +128,6 @@ export const pt: Dict = {
       eyebrow: "Custódia",
       title: "Seu patrimônio fica em seu nome, em custodiantes qualificados.",
       body: "A Vincit Capital não é custodiante dos ativos dos clientes. As contas de investimento ficam em custodiantes terceiros qualificados, e você mantém a titularidade e o acesso direto o tempo todo.",
-      partners: ["Charles Schwab", "Interactive Brokers"],
       note: "Logos de parceiros só com autorização por escrito.",
     },
     tech: {
@@ -326,8 +325,6 @@ export const pt: Dict = {
     leadership: "Liderança",
     advisory: "Consultores e atendimento",
     advisoryNote: "Os consultores aparecem aqui após a D7: nome, título licenciado e idiomas. Títulos só com licença.",
-    network: "Nossa rede",
-    networkIntro: "Trabalhamos com instituições consolidadas. As contas de investimento dos clientes ficam em custodiantes terceiros qualificados.",
     people: [
       {
         name: "Ricardo Matte",
@@ -353,12 +350,6 @@ export const pt: Dict = {
         bio: "Luty Lessa possui quase 20 anos de experiência em multinacionais globais, atuando na liderança de equipes e no relacionamento estratégico com clientes e investidores. Em 2024, tornou-se sócia da Vincit, passando a integrar o board de diretores. Sua atuação está direcionada à expansão da organização no mercado doméstico americano.",
         linkedin: "https://www.linkedin.com/in/luciana-panko-c-lessa-a74b91355",
       },
-    ],
-    partners: [
-      { name: "Charles Schwab", body: "Custodiante qualificado das contas de investimento dos clientes." },
-      { name: "Interactive Brokers", body: "Custodiante qualificado e corretora das contas de investimento dos clientes." },
-      { name: "Pinney Insurance", body: "Acesso a seguradoras licenciadas de vida e de renda." },
-      { name: "Morningstar", body: "Pesquisa independente e relatórios de carteira." },
     ],
   },
   about: {
